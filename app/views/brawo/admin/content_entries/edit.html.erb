@@ -1,0 +1,8 @@
+<div class="header">
+  <h2>Edit <%= @content_type_config.name %></h2>
+  <%= link_to "← Back to List", brawo.admin_content_entries_path(@content_type_slug), style: "color: #3498db; text-decoration: none; margin-top: 10px; display: inline-block;" %>
+</div>
+
+<div class="content-box">
+  <%= render 'form' %>
+</div>

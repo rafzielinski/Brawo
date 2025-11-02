@@ -1,0 +1,62 @@
+<%= form_with(model: @entry, url: @entry.persisted? ? brawo.admin_content_entry_path(@content_type_slug, @entry.id) : brawo.admin_content_entries_path(@content_type_slug), method: @entry.persisted? ? :patch : :post, local: true) do |form| %>
+  <% if @entry.errors.any? %>
+    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+      <h4><%= pluralize(@entry.errors.count, "error") %> prohibited this entry from being saved:</h4>
+      <ul style="margin: 10px 0 0 20px;">
+        <% @entry.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+    <div>
+      <% @field_definitions.each do |field_def| %>
+        <div class="form-group">
+          <%= render partial: 'brawo/content_entries/field', locals: { form: form, field_def: field_def, entry: @entry } %>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <div class="content-box" style="position: sticky; top: 20px;">
+        <h3 style="margin-bottom: 20px;">Publishing</h3>
+        
+        <div class="form-group">
+          <%= form.label :status, style: "display: block; margin-bottom: 5px; font-weight: 600;" %>
+          <%= form.select :status, 
+                [['Draft', 'draft'], ['Published', 'published']], 
+                {}, 
+                class: "form-control",
+                style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :published_at, "Publish Date", style: "display: block; margin-bottom: 5px; font-weight: 600;" %>
+          <%= form.datetime_local_field :published_at, 
+                value: @entry.published_at&.strftime("%Y-%m-%dT%H:%M"),
+                style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+          <small style="color: #7f8c8d;">Leave empty for immediate publish</small>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :slug, style: "display: block; margin-bottom: 5px; font-weight: 600;" %>
+          <%= form.text_field :slug, 
+                placeholder: "auto-generated-from-title",
+                style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+          <small style="color: #7f8c8d;">Leave empty to auto-generate</small>
+        </div>
+
+        <div style="margin-top: 30px;">
+          <%= form.submit @entry.persisted? ? "Update #{@content_type_config.name}" : "Create #{@content_type_config.name}", 
+                class: "btn", 
+                style: "width: 100%;" %>
+          <%= link_to "Cancel", brawo.admin_content_entries_path(@content_type_slug), 
+                class: "btn btn-secondary", 
+                style: "width: 100%; text-align: center; margin-top: 10px;" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

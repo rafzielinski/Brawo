@@ -1,0 +1,140 @@
+<% case field_def.type %>
+<% when :string %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_field field_def.name, 
+        required: field_def.required?,
+        placeholder: field_def.options[:placeholder],
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :text %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_area field_def.name, 
+        required: field_def.required?,
+        placeholder: field_def.options[:placeholder],
+        rows: field_def.options[:rows] || 5,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :rich_text %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_area field_def.name, 
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-height: 200px;" %>
+  <small style="color: #7f8c8d;">Rich text editor (uses ActionText)</small>
+
+<% when :integer %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.number_field field_def.name, 
+        required: field_def.required?,
+        step: 1,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :decimal %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.number_field field_def.name, 
+        required: field_def.required?,
+        step: 0.01,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :boolean %>
+  <div style="display: flex; align-items: center;">
+    <%= form.check_box field_def.name, style: "margin-right: 10px; width: 20px; height: 20px;" %>
+    <%= form.label field_def.name, field_def.name.to_s.humanize, style: "margin: 0;" %>
+  </div>
+
+<% when :date %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.date_field field_def.name, 
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :datetime %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.datetime_local_field field_def.name, 
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :select %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.select field_def.name, 
+        field_def.choices || [],
+        { prompt: "Select #{field_def.name.to_s.humanize}" },
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :array %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_field field_def.name, 
+        value: (entry.send(field_def.name) || []).join(', '),
+        required: field_def.required?,
+        placeholder: "Comma-separated values",
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+  <small style="color: #7f8c8d;">Enter values separated by commas</small>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const input = document.querySelector('input[name*="[<%= field_def.name %>]"]');
+      if (input && input.form) {
+        input.form.addEventListener('submit', function(e) {
+          const value = input.value;
+          input.value = JSON.stringify(value.split(',').map(v => v.trim()).filter(v => v));
+        });
+      }
+    });
+  </script>
+
+<% when :image %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.file_field field_def.name, 
+        accept: 'image/*',
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+  <% if entry.persisted? && entry.send(field_def.name).attached? %>
+    <div style="margin-top: 10px;">
+      <%= image_tag entry.send(field_def.name), style: "max-width: 200px; border-radius: 4px;" %>
+    </div>
+  <% end %>
+
+<% when :images %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.file_field field_def.name, 
+        multiple: true,
+        accept: 'image/*',
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+  <% if entry.persisted? && entry.send(field_def.name).attached? %>
+    <div style="margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">
+      <% entry.send(field_def.name).each do |image| %>
+        <%= image_tag image, style: "width: 100%; border-radius: 4px;" %>
+      <% end %>
+    </div>
+  <% end %>
+
+<% when :belongs_to %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <% 
+    relation_class = field_def.options[:class_name]&.constantize rescue nil
+    options = relation_class ? relation_class.all.map { |r| [r.try(:name) || r.try(:title) || r.id, r.id] } : []
+  %>
+  <%= form.select "#{field_def.name}_id", 
+        options,
+        { prompt: "Select #{field_def.name.to_s.humanize}" },
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+
+<% when :json %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_area field_def.name, 
+        value: entry.send(field_def.name)&.to_json,
+        required: field_def.required?,
+        placeholder: '{"key": "value"}',
+        rows: 5,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;" %>
+  <small style="color: #7f8c8d;">Enter valid JSON</small>
+
+<% else %>
+  <%= form.label field_def.name, field_def.name.to_s.humanize %>
+  <%= form.text_field field_def.name, 
+        required: field_def.required?,
+        style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+<% end %>
+
+<% if field_def.options[:help_text] %>
+  <small style="color: #7f8c8d; display: block; margin-top: 5px;"><%= field_def.options[:help_text] %></small>
+<% end %>

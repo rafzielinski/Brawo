@@ -1,0 +1,63 @@
+<div class="header">
+  <h2>Dashboard</h2>
+  <p style="color: #7f8c8d; margin-top: 10px;">Welcome to Brawo CMS</p>
+</div>
+
+<div class="stats">
+  <% @content_types.each do |content_type_class| %>
+    <% config = content_type_class.config %>
+    <div class="stat-box">
+      <h4><%= content_type_class.count %></h4>
+      <p><%= config.icon %> <%= config.name.pluralize %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="content-box" style="margin-top: 30px;">
+  <h3 style="margin-bottom: 20px;">Content Types</h3>
+  <div class="grid">
+    <% @content_types.each do |content_type_class| %>
+      <% config = content_type_class.config %>
+      <div class="card">
+        <h3><%= config.icon %> <%= config.name %></h3>
+        <p style="color: #7f8c8d; margin: 10px 0;"><%= config.description %></p>
+        <div style="margin-top: 15px;">
+          <%= link_to "View All", brawo.admin_content_entries_path(config.slug), class: "btn" %>
+          <%= link_to "Add New", brawo.new_admin_content_entry_path(config.slug), class: "btn btn-secondary", style: "margin-left: 10px;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @recent_entries.any? %>
+  <div class="content-box" style="margin-top: 30px;">
+    <h3 style="margin-bottom: 20px;">Recent Activity</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Title/Name</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_entries.each do |item| %>
+          <% entry = item[:entry] %>
+          <% config = item[:content_type] %>
+          <tr>
+            <td><%= config.icon %> <%= config.name %></td>
+            <td><%= entry.respond_to?(:title) ? entry.title : entry.respond_to?(:name) ? entry.name : entry.slug %></td>
+            <td><span style="padding: 4px 8px; background: <%= entry.status == 'published' ? '#d4edda' : '#fff3cd' %>; border-radius: 4px; font-size: 12px;"><%= entry.status %></span></td>
+            <td><%= entry.created_at.strftime("%B %d, %Y") %></td>
+            <td>
+              <%= link_to "Edit", brawo.edit_admin_content_entry_path(config.slug, entry.id), style: "color: #3498db; text-decoration: none;" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

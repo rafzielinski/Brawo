@@ -1,0 +1,52 @@
+<div class="header">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <h2><%= @content_type_config.icon %> <%= @content_type_config.name.pluralize %></h2>
+      <p style="color: #7f8c8d; margin-top: 10px;"><%= @content_type_config.description %></p>
+    </div>
+    <%= link_to "➕ Add New", brawo.new_admin_content_entry_path(@content_type_slug), class: "btn" %>
+  </div>
+</div>
+
+<div class="content-box">
+  <% if @entries.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title/Name</th>
+          <th>Status</th>
+          <th>Published</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @entries.each do |entry| %>
+          <tr>
+            <td><strong><%= entry.respond_to?(:title) ? entry.title : entry.respond_to?(:name) ? entry.name : entry.slug %></strong></td>
+            <td>
+              <span style="padding: 4px 8px; background: <%= entry.status == 'published' ? '#d4edda' : entry.status == 'draft' ? '#fff3cd' : '#f8d7da' %>; border-radius: 4px; font-size: 12px;">
+                <%= entry.status %>
+              </span>
+            </td>
+            <td><%= entry.published_at ? entry.published_at.strftime("%B %d, %Y") : "-" %></td>
+            <td><%= entry.created_at.strftime("%B %d, %Y") %></td>
+            <td>
+              <%= link_to "Edit", brawo.edit_admin_content_entry_path(@content_type_slug, entry.id), style: "color: #3498db; text-decoration: none; margin-right: 15px;" %>
+              <%= button_to "Delete", brawo.admin_content_entry_path(@content_type_slug, entry.id), 
+                    method: :delete, 
+                    data: { confirm: "Are you sure?" }, 
+                    style: "display: inline; background: none; border: none; color: #e74c3c; cursor: pointer; padding: 0;" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div style="text-align: center; padding: 60px 20px; color: #7f8c8d;">
+      <h3>No entries yet</h3>
+      <p style="margin: 20px 0;">Get started by creating your first <%= @content_type_config.name.downcase %></p>
+      <%= link_to "➕ Add New #{@content_type_config.name}", brawo.new_admin_content_entry_path(@content_type_slug), class: "btn" %>
+    </div>
+  <% end %>
+</div>
