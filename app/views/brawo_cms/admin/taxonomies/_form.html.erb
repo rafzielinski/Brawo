@@ -1,0 +1,52 @@
+<%= form_with(model: taxonomy, 
+              url: taxonomy.persisted? ? admin_taxonomy_path(taxonomy, taxonomy_type: @taxonomy_type) : admin_taxonomies_path(taxonomy_type: @taxonomy_type), 
+              scope: :taxonomy,
+              local: true) do |form| %>
+  <% if taxonomy.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(taxonomy.errors.count, "error") %> prohibited this taxonomy from being saved:</h4>
+      <ul>
+        <% taxonomy.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :slug, class: "form-label" %>
+    <%= form.text_field :slug, class: "form-control" %>
+    <small class="form-text text-muted">Leave blank to auto-generate from name</small>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <% if @taxonomy_type_config[:fields].present? %>
+    <hr class="my-4">
+    <h5 class="mb-3">Custom Fields</h5>
+
+    <% @taxonomy_type_config[:fields].each do |field| %>
+      <div class="mb-3">
+        <%= form.label field[:name], field[:label] || field[:name].to_s.titleize, class: "form-label" %>
+        <%= render_field_input(form, field, taxonomy) %>
+        <% if field[:help_text] %>
+          <small class="form-text text-muted"><%= field[:help_text] %></small>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="d-flex justify-content-between mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", admin_taxonomies_path(taxonomy_type: @taxonomy_type), class: "btn btn-secondary" %>
+  </div>
+<% end %>
+

@@ -1,0 +1,10 @@
+class <%= class_name %> < BrawoCms::Content
+  include BrawoCms::ContentTypeable
+
+  content_type :<%= file_name %>,
+    label: '<%= class_name %>',
+    fields: [
+<%= field_definitions %>
+    ]
+end
+

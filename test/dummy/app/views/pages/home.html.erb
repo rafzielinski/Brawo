@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="jumbotron bg-light p-5 rounded">
+      <h1 class="display-4">Welcome to BrawoCMS</h1>
+      <p class="lead">A flexible, developer-friendly CMS engine for Rails applications</p>
+      <hr class="my-4">
+      <p>This is a demo application showcasing the BrawoCMS engine capabilities.</p>
+      <p>
+        <%= link_to "View Articles", articles_path, class: "btn btn-primary btn-lg" %>
+        <%= link_to "View Products", products_path, class: "btn btn-success btn-lg" %>
+        <%= link_to "Admin Panel", brawo_cms.admin_root_path, class: "btn btn-warning btn-lg" %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">📝 Articles</h5>
+        <p class="card-text">Manage blog posts, news articles, and editorial content with custom fields.</p>
+        <%= link_to "Browse Articles", articles_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">🛍️ Products</h5>
+        <p class="card-text">Create and manage product catalogs with pricing, inventory, and descriptions.</p>
+        <%= link_to "Browse Products", products_path, class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">⚙️ Admin Panel</h5>
+        <p class="card-text">Access the CMS admin interface to create and manage all content types.</p>
+        <%= link_to "Go to Admin", brawo_cms.admin_root_path, class: "btn btn-warning" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-lg-12">
+    <h3>How to Use BrawoCMS in Your App</h3>
+    <p>Creating a new content type is easy. Here's how the Article model in this demo was created:</p>
+    
+    <pre class="bg-dark text-light p-3 rounded"><code>class Article < BrawoCms::Content
+  include BrawoCms::ContentTypeable
+
+  content_type :article,
+    label: 'Article',
+    fields: [
+      { name: :author, type: :string, label: 'Author' },
+      { name: :body, type: :textarea, label: 'Article Body' },
+      { name: :published_date, type: :date, label: 'Publish Date' },
+      { name: :featured, type: :boolean, label: 'Featured Article' },
+      { name: :category, type: :select, label: 'Category', 
+        choices: [['Technology', 'tech'], ['Business', 'business']] }
+    ]
+end</code></pre>
+
+    <p class="mt-3">Or use the generator:</p>
+    <pre class="bg-dark text-light p-3 rounded"><code>rails generate brawo_cms:content_type Article author:string body:textarea published_date:date</code></pre>
+  </div>
+</div>
+

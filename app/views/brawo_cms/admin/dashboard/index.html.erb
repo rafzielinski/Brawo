@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="alert alert-info">
+      <h4>Welcome to BrawoCMS Admin!</h4>
+      <p>Select a content type from the sidebar to get started.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <% @content_types.each do |name, config| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= config[:label].pluralize %></h5>
+          <p class="card-text">Manage your <%= config[:label].downcase %> content</p>
+          <%= link_to "View All", admin_contents_path(content_type: name), class: "btn btn-primary" %>
+          <%= link_to "Create New", new_admin_content_path(content_type: name), class: "btn btn-success" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @content_types.empty? %>
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="alert alert-warning">
+        <h5>No Content Types Found</h5>
+        <p>You haven't defined any content types yet. Create a model that inherits from <code>BrawoCms::Content</code> and includes <code>BrawoCms::ContentTypeable</code>.</p>
+        <p>Example:</p>
+        <pre>class Article < BrawoCms::Content
+  include BrawoCms::ContentTypeable
+  
+  content_type :article,
+    label: 'Article',
+    fields: [
+      { name: :author, type: :string, label: 'Author' }
+    ]
+end</pre>
+      </div>
+    </div>
+  </div>
+<% end %>
+

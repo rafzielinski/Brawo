@@ -1,0 +1,18 @@
+===============================================================================
+
+Your <%= class_name %> content type has been created!
+
+Next steps:
+
+1. Run migrations:
+   $ rails db:migrate
+
+2. Mount the BrawoCMS engine in your routes.rb:
+   mount BrawoCms::Engine => '/admin'
+
+3. Visit http://localhost:3000/admin to access the CMS admin panel
+
+4. Your <%= class_name %> content type will appear in the sidebar navigation
+
+===============================================================================
+

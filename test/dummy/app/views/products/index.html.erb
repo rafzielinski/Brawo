@@ -1,0 +1,38 @@
+<h1 class="mb-4">Products</h1>
+
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= product.title %></h5>
+          <% if product.price %>
+            <p class="text-success h4">$<%= number_with_precision(product.price, precision: 2) %></p>
+          <% end %>
+          <p class="card-text"><%= product.description %></p>
+          <% if product.sku %>
+            <p class="text-muted small">SKU: <%= product.sku %></p>
+          <% end %>
+          <% if product.availability %>
+            <span class="badge bg-<%= product.availability == 'in_stock' ? 'success' : 'danger' %>">
+              <%= product.availability.titleize %>
+            </span>
+          <% end %>
+          <% if product.featured_product %>
+            <span class="badge bg-warning">Featured</span>
+          <% end %>
+          <div class="mt-3">
+            <%= link_to "View Details", product_path(product), class: "btn btn-success" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @products.empty? %>
+  <div class="alert alert-info">
+    No products found. <%= link_to "Create one in the admin panel", brawo_cms.admin_contents_path(content_type: :product) %>
+  </div>
+<% end %>
+

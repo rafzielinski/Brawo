@@ -1,0 +1,58 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+    <li class="breadcrumb-item active"><%= @product.title %></li>
+  </ol>
+</nav>
+
+<div class="row mb-5">
+  <div class="col-md-8">
+    <h1 class="mb-3"><%= @product.title %></h1>
+    
+    <% if @product.price %>
+      <p class="text-success display-5">$<%= number_with_precision(@product.price, precision: 2) %></p>
+    <% end %>
+
+    <div class="mb-4">
+      <% if @product.availability %>
+        <span class="badge bg-<%= @product.availability == 'in_stock' ? 'success' : 'danger' %>">
+          <%= @product.availability.titleize %>
+        </span>
+      <% end %>
+      <% if @product.featured_product %>
+        <span class="badge bg-warning">Featured</span>
+      <% end %>
+    </div>
+
+    <% if @product.product_description.present? %>
+      <div class="mb-4">
+        <h5>Description</h5>
+        <%= simple_format(@product.product_description) %>
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <%= link_to "← Back to Products", products_path, class: "btn btn-secondary" %>
+      <%= link_to "Edit in Admin", brawo_cms.edit_admin_content_path(@product, content_type: :product), class: "btn btn-warning" %>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Product Details</h5>
+        <% if @product.sku %>
+          <p><strong>SKU:</strong> <%= @product.sku %></p>
+        <% end %>
+        <% if @product.stock_quantity %>
+          <p><strong>Stock:</strong> <%= @product.stock_quantity %> units</p>
+        <% end %>
+        <p class="text-muted small">
+          Created: <%= @product.created_at.strftime("%B %d, %Y") %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+

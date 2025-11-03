@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2"><%= @content.title %></h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <%= link_to "Edit", edit_admin_content_path(@content, content_type: @content_type), class: "btn btn-warning" %>
+    <%= link_to "Back to List", admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <strong>Status:</strong>
+        <span class="badge <%= status_badge_class(@content.status) %>">
+          <%= @content.status.titleize %>
+        </span>
+      </div>
+      <div class="col-md-6">
+        <strong>Slug:</strong> <%= @content.slug %>
+      </div>
+    </div>
+
+    <% if @content.description.present? %>
+      <div class="row mb-3">
+        <div class="col-12">
+          <strong>Description:</strong>
+          <p><%= @content.description %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <h5 class="mt-4 mb-3">Custom Fields</h5>
+    
+    <% @content_type_config[:fields].each do |field| %>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <strong><%= field[:label] || field[:name].to_s.titleize %>:</strong>
+        </div>
+        <div class="col-md-9">
+          <%= display_field_value(@content, field) %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <small class="text-muted">Created: <%= @content.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+      </div>
+      <div class="col-md-6 text-end">
+        <small class="text-muted">Updated: <%= @content.updated_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+      </div>
+    </div>
+  </div>
+</div>
+

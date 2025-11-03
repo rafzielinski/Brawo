@@ -1,0 +1,55 @@
+<%= form_with(model: content, 
+              url: content.persisted? ? admin_content_path(content, content_type: @content_type) : admin_contents_path(content_type: @content_type), 
+              scope: :content,
+              local: true) do |form| %>
+  <% if content.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(content.errors.count, "error") %> prohibited this content from being saved:</h4>
+      <ul>
+        <% content.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :slug, class: "form-label" %>
+    <%= form.text_field :slug, class: "form-control" %>
+    <small class="form-text text-muted">Leave blank to auto-generate from title</small>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, [['Draft', 'draft'], ['Published', 'published'], ['Archived', 'archived']], {}, class: "form-select" %>
+  </div>
+
+  <hr class="my-4">
+  <h5 class="mb-3">Custom Fields</h5>
+
+  <% @content_type_config[:fields].each do |field| %>
+    <div class="mb-3">
+      <%= form.label field[:name], field[:label] || field[:name].to_s.titleize, class: "form-label" %>
+      <%= render_field_input(form, field, content) %>
+      <% if field[:help_text] %>
+        <small class="form-text text-muted"><%= field[:help_text] %></small>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="d-flex justify-content-between mt-4">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
+  </div>
+<% end %>
+

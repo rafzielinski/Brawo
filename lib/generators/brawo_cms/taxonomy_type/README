@@ -1,0 +1,17 @@
+===============================================================================
+
+  A new taxonomy type <%= class_name %> has been created!
+
+  Next steps:
+
+  1. Run the migration (if not skipped):
+     $ rails db:migrate
+
+  2. The taxonomy is automatically registered and will appear in the admin panel
+
+  3. Use it in your application:
+     <%= class_name %>.create(name: "My <%= class_name %>")
+     <%= class_name %>.all
+
+===============================================================================
+

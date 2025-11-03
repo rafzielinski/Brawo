@@ -1,0 +1,9 @@
+# Note: This migration is not needed when using STI with brawo_cms_contents table
+# The migration is already created by the engine
+class Create<%= table_name.camelize %> < ActiveRecord::Migration[7.1]
+  def change
+    # Content types use the shared brawo_cms_contents table
+    # No migration needed - all fields are stored in the JSON 'fields' column
+  end
+end
+
