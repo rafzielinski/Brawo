@@ -12,7 +12,8 @@ module BrawoCms
       checkbox: Fields::BooleanField,
       select: Fields::SelectField,
       taxonomy: Fields::TaxonomyField,
-      reference: Fields::ReferenceField
+      reference: Fields::ReferenceField,
+      repeater: Fields::RepeaterField
     }.freeze
 
     def self.build(definition)

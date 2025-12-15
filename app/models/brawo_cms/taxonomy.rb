@@ -38,6 +38,26 @@ module BrawoCms
           define_method("#{field_name}=") do |value|
             set_field(field_name, Array(value).compact)
           end
+        elsif field_type == :repeater
+          # Repeater fields return arrays of hashes
+          define_method(field_name) do
+            value = get_field(field_name)
+            if value.is_a?(Array)
+              value.map { |item| item.is_a?(Hash) ? item.with_indifferent_access : item }
+            elsif value.present?
+              [value].map { |item| item.is_a?(Hash) ? item.with_indifferent_access : item }
+            else
+              []
+            end
+          end
+
+          define_method("#{field_name}=") do |value|
+            if value.is_a?(Array)
+              set_field(field_name, value.map { |item| item.is_a?(Hash) ? item.stringify_keys : item })
+            else
+              set_field(field_name, value)
+            end
+          end
         else
           define_method(field_name) do
             get_field(field_name)

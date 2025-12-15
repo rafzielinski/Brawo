@@ -18,8 +18,9 @@ module BrawoCms
 
         current_value = Array(object.get_field(@name)).compact.map(&:to_i)
         select_options = { selected: current_value }
+        # Use @name directly - Rails will automatically add [] for multiple selects
         form.select(
-          "#{@name}[]",
+          @name,
           choices,
           select_options,
           options.merge(multiple: true, class: 'form-select', size: [choices.length, 10].min)
