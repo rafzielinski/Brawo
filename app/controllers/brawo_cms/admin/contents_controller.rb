@@ -65,16 +65,22 @@ module BrawoCms
 
       def content_params
         permitted_fields = [:title, :slug, :description, :status, :published_at]
+        array_fields = {}
         
         # Add custom fields from field definitions
         if @content_type_config && @content_type_config[:fields].present?
           @content_type_config[:fields].each do |field|
-            permitted_fields << field[:name].to_sym
+            if field[:type] == :reference
+              # For reference fields, permit as array
+              array_fields[field[:name]] = []
+            else
+              permitted_fields << field[:name].to_sym
+            end
           end
         end
 
         # Permit the params and extract custom fields into the fields hash
-        base_params = params.require(:content).permit(*permitted_fields)
+        base_params = params.require(:content).permit(*permitted_fields, array_fields)
         
         # Separate base attributes from custom field attributes
         base_attrs = base_params.slice(:title, :slug, :description, :status, :published_at)

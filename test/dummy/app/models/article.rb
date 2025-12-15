@@ -4,11 +4,42 @@ class Article < BrawoCms::Content
   content_type :article,
     label: 'Article',
     fields: [
-      { name: :author, type: :string, label: 'Author', help_text: 'The name of the article author' },
-      { name: :body, type: :textarea, label: 'Article Body', help_text: 'The main content of the article' },
-      { name: :published_date, type: :date, label: 'Publish Date' },
-      { name: :featured, type: :boolean, label: 'Featured Article' },
-      { name: :category_id, type: :taxonomy, taxonomy_type: :category, label: 'Category', help_text: 'Select a category for this article' }
+      { 
+        name: :author, 
+        type: :string, 
+        label: 'Author', 
+        help_text: 'The name of the article author' 
+      },
+      { 
+        name: :body, 
+        type: :textarea, 
+        label: 'Article Body', 
+        help_text: 'The main content of the article' 
+      },
+      { 
+        name: :published_date, 
+        type: :date, 
+        label: 'Publish Date' 
+      },
+      { 
+        name: :featured, 
+        type: :boolean, 
+        label: 'Featured Article' 
+      },
+      { 
+        name: :category_id, 
+        type: :taxonomy, 
+        taxonomy_type: :category, 
+        label: 'Category', 
+        help_text: 'Select a category for this article' 
+      },
+      { 
+        name: :related_products, 
+        type: :reference, 
+        model_class: 'Product', 
+        label: 'Related Products', 
+        help_text: 'Select related products for this article' 
+      }
     ]
 
   # Helper method to get the category taxonomy
@@ -19,6 +50,12 @@ class Article < BrawoCms::Content
   # Helper method to get category name
   def category_name
     category&.name
+  end
+
+  # Helper method to get related products
+  def related_products_list
+    return [] if related_products.blank?
+    Product.where(id: related_products)
   end
 end
 

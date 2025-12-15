@@ -28,6 +28,8 @@ module BrawoCms
           simple_format(value)
         when :taxonomy
           display_taxonomy_value(value, field)
+        when :reference
+          display_reference_value(value, field)
         else
           value.present? ? value : '-'
         end
@@ -46,6 +48,21 @@ module BrawoCms
         taxonomy_item ? taxonomy_item.name : '-'
       rescue
         value
+      end
+
+      def display_reference_value(value, field)
+        return '-' unless value.present? && field[:model_class]
+        
+        model_class = resolve_model_class(field[:model_class])
+        return '-' unless model_class
+        
+        ids = Array(value).compact
+        return '-' if ids.empty?
+        
+        items = model_class.where(id: ids)
+        items.map { |item| item.respond_to?(:title) ? item.title : item.respond_to?(:name) ? item.name : item.id }.join(', ')
+      rescue
+        value.is_a?(Array) ? value.join(', ') : value.to_s
       end
 
       def render_field_input(form, field, content)
@@ -70,6 +87,8 @@ module BrawoCms
           form.select(field_name, field[:choices] || [], {}, class: 'form-select', **field_options)
         when :taxonomy
           render_taxonomy_select(form, field_name, field, field_options)
+        when :reference
+          render_reference_select(form, field_name, field, field_options)
         else
           form.text_field(field_name, class: 'form-control', **field_options)
         end
@@ -99,6 +118,47 @@ module BrawoCms
           class: 'form-select',
           **field_options
         )
+      end
+
+      def render_reference_select(form, field_name, field, field_options)
+        model_class = resolve_model_class(field[:model_class])
+        
+        unless model_class
+          return form.text_field(field_name, class: 'form-control', **field_options)
+        end
+        
+        # Get all records from the model
+        records = model_class.all.order(model_class.column_names.include?('title') ? :title : :name)
+        
+        # Build choices array
+        choices = records.map do |record|
+          label = record.respond_to?(:title) ? record.title : record.respond_to?(:name) ? record.name : record.id.to_s
+          [label, record.id]
+        end
+        
+        # Get current value (should be an array)
+        current_value = Array(form.object.get_field(field_name)).compact.map(&:to_i)
+        
+        # Render multi-select
+        form.select(
+          "#{field_name}[]",
+          choices,
+          { selected: current_value },
+          { multiple: true, class: 'form-select', size: [choices.length, 10].min, **field_options }
+        )
+      end
+
+      def resolve_model_class(model_class_or_name)
+        case model_class_or_name
+        when Class
+          model_class_or_name
+        when String, Symbol
+          model_class_or_name.to_s.classify.constantize
+        else
+          nil
+        end
+      rescue NameError
+        nil
       end
     end
   end

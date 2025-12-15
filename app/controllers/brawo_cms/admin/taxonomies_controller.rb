@@ -65,16 +65,22 @@ module BrawoCms
 
       def taxonomy_params
         permitted_fields = [:name, :slug, :description]
+        array_fields = {}
         
         # Add custom fields from field definitions
         if @taxonomy_type_config && @taxonomy_type_config[:fields].present?
           @taxonomy_type_config[:fields].each do |field|
-            permitted_fields << field[:name].to_sym
+            if field[:type] == :reference
+              # For reference fields, permit as array
+              array_fields[field[:name]] = []
+            else
+              permitted_fields << field[:name].to_sym
+            end
           end
         end
 
         # Permit the params and extract custom fields into the fields hash
-        base_params = params.require(:taxonomy).permit(*permitted_fields)
+        base_params = params.require(:taxonomy).permit(*permitted_fields, array_fields)
         
         # Separate base attributes from custom field attributes
         base_attrs = base_params.slice(:name, :slug, :description)

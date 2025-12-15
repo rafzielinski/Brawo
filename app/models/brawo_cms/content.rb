@@ -32,13 +32,26 @@ module BrawoCms
     def self.define_field_accessors(field_definitions)
       field_definitions.each do |field_def|
         field_name = field_def[:name]
+        field_type = field_def[:type]
         
-        define_method(field_name) do
-          get_field(field_name)
-        end
+        if field_type == :reference
+          # Reference fields always return arrays
+          define_method(field_name) do
+            value = get_field(field_name)
+            Array(value).compact
+          end
 
-        define_method("#{field_name}=") do |value|
-          set_field(field_name, value)
+          define_method("#{field_name}=") do |value|
+            set_field(field_name, Array(value).compact)
+          end
+        else
+          define_method(field_name) do
+            get_field(field_name)
+          end
+
+          define_method("#{field_name}=") do |value|
+            set_field(field_name, value)
+          end
         end
       end
     end
