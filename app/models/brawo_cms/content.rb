@@ -44,6 +44,24 @@ module BrawoCms
           define_method("#{field_name}=") do |value|
             set_field(field_name, Array(value).compact)
           end
+        elsif field_type == :repeater
+          # Repeater fields return arrays of hashes
+          define_method(field_name) do
+            value = get_field(field_name)
+            Array(value).compact
+          end
+
+          define_method("#{field_name}=") do |value|
+            # Ensure value is an array of hashes
+            normalized_value = if value.is_a?(Array)
+              value.map { |item| item.is_a?(Hash) ? item : {} }
+            elsif value.is_a?(Hash)
+              [value]
+            else
+              []
+            end
+            set_field(field_name, normalized_value)
+          end
         else
           define_method(field_name) do
             get_field(field_name)

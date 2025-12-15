@@ -39,6 +39,138 @@
         </main>
       </div>
     </div>
+    
+    <script>
+      // Inline repeater JavaScript for Rails engines
+      (function() {
+        'use strict';
+        
+        function updateRowIndexes(rowElement, fieldName, index) {
+          const inputs = rowElement.querySelectorAll('input, select, textarea, label');
+          
+          inputs.forEach(function(element) {
+            if (element.name) {
+              element.name = element.name.replace(/\[__INDEX__\]/g, '[' + index + ']');
+            }
+            
+            if (element.id) {
+              element.id = element.id.replace(/__INDEX__/g, index);
+            }
+            
+            if (element.hasAttribute('for')) {
+              element.setAttribute('for', element.getAttribute('for').replace(/__INDEX__/g, index));
+            }
+          });
+        }
+
+        function reindexRepeaterRows(repeaterField) {
+          const rows = repeaterField.querySelectorAll('.repeater-row:not(.repeater-empty-row)');
+          const fieldName = repeaterField.dataset.fieldName;
+          
+          rows.forEach(function(row, index) {
+            row.dataset.index = index;
+            
+            const rowHeader = row.querySelector('h6');
+            if (rowHeader) {
+              rowHeader.textContent = 'Row ' + (index + 1);
+            }
+            
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(function(element) {
+              if (element.name) {
+                // Match pattern: content[field_name][old_index][sub_field] or content[field_name][old_index][sub_field][]
+                const match = element.name.match(new RegExp('content\\[' + fieldName + '\\]\\[(\\d+|__INDEX__)\\]\\[(.+?)\\](\\[\\])?'));
+                if (match && match[2]) {
+                  const subFieldName = match[2];
+                  const arraySuffix = match[3] || '';
+                  element.name = 'content[' + fieldName + '][' + index + '][' + subFieldName + ']' + arraySuffix;
+                }
+              }
+              
+              if (element.id) {
+                // Update ID pattern: content_field_name_old_index_sub_field
+                const idMatch = element.id.match(new RegExp('content_' + fieldName + '_(\\d+|__INDEX__)_(.+)'));
+                if (idMatch && idMatch[2]) {
+                  const subField = idMatch[2];
+                  element.id = 'content_' + fieldName + '_' + index + '_' + subField;
+                }
+              }
+            });
+            
+            const labels = row.querySelectorAll('label');
+            labels.forEach(function(label) {
+              if (label.hasAttribute('for')) {
+                const forAttr = label.getAttribute('for');
+                const forMatch = forAttr.match(new RegExp('content_' + fieldName + '_(\\d+|__INDEX__)_(.+)'));
+                if (forMatch && forMatch[2]) {
+                  const subField = forMatch[2];
+                  label.setAttribute('for', 'content_' + fieldName + '_' + index + '_' + subField);
+                }
+              }
+            });
+          });
+        }
+
+        function initRepeaterFields() {
+          console.log('Initializing repeater fields');
+          
+          // Use event delegation on document body for dynamic content
+          document.body.addEventListener('click', function(e) {
+            if (e.target.classList.contains('repeater-add-row')) {
+              e.preventDefault();
+              const button = e.target;
+              const repeaterField = button.closest('.repeater-field');
+              if (!repeaterField) return;
+              
+              const fieldName = repeaterField.dataset.fieldName;
+              const rowsContainer = repeaterField.querySelector('.repeater-rows');
+              const emptyRow = repeaterField.querySelector('.repeater-empty-row');
+              
+              if (!emptyRow) {
+                console.warn('Empty row template not found');
+                return;
+              }
+              
+              const newRow = emptyRow.cloneNode(true);
+              newRow.style.display = '';
+              newRow.classList.remove('repeater-empty-row');
+              
+              const existingRows = rowsContainer.querySelectorAll('.repeater-row:not(.repeater-empty-row)');
+              const nextIndex = existingRows.length;
+              newRow.dataset.index = nextIndex;
+              
+              updateRowIndexes(newRow, fieldName, nextIndex);
+              
+              const rowHeader = newRow.querySelector('h6');
+              if (rowHeader) {
+                rowHeader.textContent = 'Row ' + (nextIndex + 1);
+              }
+              
+              rowsContainer.insertBefore(newRow, emptyRow);
+              console.log('Added new row at index', nextIndex);
+            }
+            
+            if (e.target.classList.contains('repeater-remove-row')) {
+              e.preventDefault();
+              const button = e.target;
+              const row = button.closest('.repeater-row');
+              
+              if (row && !row.classList.contains('repeater-empty-row')) {
+                const repeaterField = button.closest('.repeater-field');
+                row.remove();
+                if (repeaterField) {
+                  reindexRepeaterRows(repeaterField);
+                  console.log('Removed row and reindexed');
+                }
+              }
+            }
+          });
+        }
+
+        // Initialize immediately since script is at end of body
+        initRepeaterFields();
+      })();
+    </script>
   </body>
 </html>
 

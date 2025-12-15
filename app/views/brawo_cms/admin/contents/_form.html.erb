@@ -38,6 +38,7 @@
   <h5 class="mb-3">Custom Fields</h5>
 
   <% @content_type_config[:fields].each do |field| %>
+    <% Rails.logger.debug "=== Rendering field in view: #{field.inspect}" %>
     <div class="mb-3">
       <%= form.label field[:name], field[:label] || field[:name].to_s.titleize, class: "form-label" %>
       <%= render_field_input(form, field, content) %>

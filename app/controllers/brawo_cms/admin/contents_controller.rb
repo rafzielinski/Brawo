@@ -66,6 +66,7 @@ module BrawoCms
       def content_params
         permitted_fields = [:title, :slug, :description, :status, :published_at]
         array_fields = {}
+        repeater_fields = {}
         
         # Add custom fields from field definitions
         if @content_type_config && @content_type_config[:fields].present?
@@ -73,6 +74,20 @@ module BrawoCms
             if field[:type] == :reference
               # For reference fields, permit as array
               array_fields[field[:name]] = []
+            elsif field[:type] == :repeater
+              # For repeater fields, build nested structure for sub_fields
+              repeater_structure = {}
+              sub_fields = field[:sub_fields] || field[:fields] || []
+              if sub_fields.present?
+                sub_fields.each do |sub_field|
+                  if sub_field[:type] == :reference
+                    repeater_structure[sub_field[:name]] = []
+                  else
+                    repeater_structure[sub_field[:name]] = nil
+                  end
+                end
+              end
+              repeater_fields[field[:name]] = repeater_structure
             else
               permitted_fields << field[:name].to_sym
             end
@@ -80,14 +95,53 @@ module BrawoCms
         end
 
         # Permit the params and extract custom fields into the fields hash
-        base_params = params.require(:content).permit(*permitted_fields, array_fields)
+        base_params = params.require(:content).permit(*permitted_fields, array_fields, repeater_fields)
         
         # Separate base attributes from custom field attributes
         base_attrs = base_params.slice(:title, :slug, :description, :status, :published_at)
         field_attrs = base_params.except(:title, :slug, :description, :status, :published_at)
         
+        # Process repeater fields - convert from hash with numeric keys to array
+        processed_field_attrs = {}
+        field_attrs.each do |key, value|
+          if repeater_fields.key?(key.to_sym)
+            # Convert hash like { "0" => {...}, "1" => {...} } to array
+            if value.is_a?(Hash)
+              processed_rows = []
+              value.keys.sort.each do |row_index|
+                row_data = value[row_index]
+                next if row_data.blank?
+                
+                # Process each row - handle reference fields (arrays) and other fields
+                processed_row = {}
+                row_data.each do |sub_field_name, sub_field_value|
+                  # Check if this sub_field is a reference type (should be array)
+                  field_def = @content_type_config[:fields].find { |f| f[:name].to_s == key.to_s }
+                  if field_def && field_def[:type] == :repeater && field_def[:sub_fields]
+                    sub_field_def = field_def[:sub_fields].find { |sf| sf[:name].to_s == sub_field_name.to_s }
+                    if sub_field_def && sub_field_def[:type] == :reference
+                      # Reference fields should be arrays
+                      processed_row[sub_field_name] = Array(sub_field_value).compact
+                    else
+                      processed_row[sub_field_name] = sub_field_value
+                    end
+                  else
+                    processed_row[sub_field_name] = sub_field_value
+                  end
+                end
+                processed_rows << processed_row unless processed_row.values.all?(&:blank?)
+              end
+              processed_field_attrs[key] = processed_rows
+            else
+              processed_field_attrs[key] = []
+            end
+          else
+            processed_field_attrs[key] = value
+          end
+        end
+        
         # Build the fields hash from custom field attributes
-        base_attrs[:fields] = field_attrs.to_h if field_attrs.present?
+        base_attrs[:fields] = processed_field_attrs if processed_field_attrs.present?
         
         base_attrs
       end

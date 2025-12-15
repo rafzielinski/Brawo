@@ -39,6 +39,26 @@ class Article < BrawoCms::Content
         model_class: 'Product', 
         label: 'Related Products', 
         help_text: 'Select related products for this article' 
+      },
+      { 
+        name: :test, 
+        type: :repeater, 
+        label: 'FAQ Items', 
+        help_text: 'TESST Add frequently asked questions',
+        sub_fields: [
+          {
+            name: :question,
+            type: :string,
+            label: 'Question',
+            help_text: 'The FAQ question'
+          },
+          {
+            name: :answer,
+            type: :textarea,
+            label: 'Answer',
+            help_text: 'The FAQ answer'
+          }
+        ]
       }
     ]
 
