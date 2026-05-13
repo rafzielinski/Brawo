@@ -1,308 +1,88 @@
 # BrawoCMS
 
-A flexible, developer-friendly CMS engine for Rails applications. BrawoCMS allows you to create custom content types and taxonomies with dynamic fields using a simple Ruby DSL.
+Rails mountable engine: content types + taxonomies, JSONB custom fields, auto-generated admin (Bootstrap). One shared table for all content (STI), one for taxonomies. **PostgreSQL required** (JSONB). Targets **Rails ≥ 7.1**, **Ruby 3.3** in Docker image.
 
-## Features
+## What you get
 
-- 🚀 **Easy Setup**: Mount as a Rails engine and start creating content types immediately
-- 📝 **Dynamic Fields**: JSON-based field storage with support for text, textarea, number, date, boolean, and select fields
-- 🏷️ **Taxonomy Support**: Built-in support for categories, tags, and other organizational structures
-- 🎨 **Auto-generated Admin UI**: Beautiful Bootstrap-based admin interface with automatic form generation
-- 🔧 **Generators**: Scaffold new content types and taxonomies with a single command
-- 📦 **STI-based Architecture**: All content types and taxonomies share tables using Single Table Inheritance
-- 🐳 **Docker Ready**: Includes Docker configuration for development
+- DSL on your models: `content_type` / `taxonomy_type` with `fields: [...]`
+- Admin at mount path (`/admin` in docs below): CRUD for contents + taxonomies, drafts / published / archived, slug from title
+- Generators: `brawo_cms:content_type`, `brawo_cms:taxonomy_type`
+- Demo app: `test/dummy` (Articles, Products, Categories, references + repeaters on Article)
 
-## Installation
+## Field types (engine)
 
-Add this line to your application's Gemfile:
+| Type | Notes |
+|------|--------|
+| `:string` / `:text` | Single line |
+| `:textarea` | Multiline |
+| `:number` / `:integer` | Numeric |
+| `:date`, `:datetime` | Date / time |
+| `:boolean` / `:checkbox` | Toggle |
+| `:select` | `choices: [[label, value], ...]` |
+| `:taxonomy` | `taxonomy_type: :your_type` — stores id |
+| `:reference` | `model_class: 'ModelName'` — array of ids |
+| `:repeater` | Nested `sub_fields:` (can nest repeaters) |
 
-```ruby
-gem 'brawo_cms'
-```
+## Try the demo (Docker)
 
-And then execute:
-```bash
-$ bundle install
-```
-
-## Quick Start with Docker
-
-1. Clone the repository and build the Docker containers:
+Fast path:
 
 ```bash
-docker-compose build
-docker-compose up
+chmod +x setup.sh && ./setup.sh
 ```
 
-2. In a new terminal, run the database migrations:
+Or: `docker-compose build && docker-compose up -d`, then copy engine migrations into the dummy app and migrate (see `setup.sh` for the exact pattern).
 
-```bash
-docker-compose exec web bash
-cd test/dummy
-rails db:create db:migrate
-```
+- Site: http://localhost:3000  
+- Admin: http://localhost:3000/admin  
+- Postgres published on host **5433** → container 5432 (avoids clashing with local Postgres)
 
-3. Visit http://localhost:3000 to see the demo app
-4. Visit http://localhost:3000/admin to access the CMS admin panel
+Details: [QUICKSTART.md](QUICKSTART.md), [DOCKER_SETUP.md](DOCKER_SETUP.md)
 
-## Usage
+## Use in your own Rails app
 
-### 1. Mount the Engine
+1. Gemfile: `gem "brawo_cms"` (or `path:` / `git:` while developing).
+2. `bundle install`
+3. Copy engine migrations, then migrate:
 
-Add to your `config/routes.rb`:
+   ```bash
+   bin/rails railties:install:migrations
+   bin/rails db:migrate
+   ```
 
-```ruby
-Rails.application.routes.draw do
-  mount BrawoCms::Engine => "/admin"
-  # your other routes...
-end
-```
+4. Mount engine in `config/routes.rb`:
 
-### 2. Create a Content Type
+   ```ruby
+   mount BrawoCms::Engine => "/admin"
+   ```
 
-#### Option A: Using the Generator
+5. **Eager-load content/taxonomy models** so they register (example from dummy):
 
-```bash
-rails generate brawo_cms:content_type Article author:string body:textarea published_date:date
-```
+   ```ruby
+   # config/initializers/brawo_cms.rb
+   Rails.application.config.to_prepare do
+     Dir[Rails.root.join("app/models/**/*.rb")].each { |f| require_dependency f }
+   end
+   ```
 
-#### Option B: Manual Creation
+6. Define models inheriting `BrawoCms::Content` / `BrawoCms::Taxonomy` with `include BrawoCms::ContentTypeable` / `TaxonomyTypeable`. See [QUICKSTART.md](QUICKSTART.md) and generator READMEs under `lib/generators/brawo_cms/`.
 
-Create a model that inherits from `BrawoCms::Content`:
+## Repo layout
 
-```ruby
-# app/models/article.rb
-class Article < BrawoCms::Content
-  include BrawoCms::ContentTypeable
+- `app/` — engine admin UI, models, fields, assets (`brawo_cms/admin.css`, `brawo_cms/repeater_field.js`)
+- `config/routes.rb` — engine routes (`admin/contents`, `admin/taxonomies`)
+- `db/migrate/` — engine migrations (contents + taxonomies tables)
+- `lib/brawo_cms/` — engine + version **0.1.0**
+- `test/dummy/` — runnable demo Rails app
+- `spec/` — RSpec (dummy app in `spec/dummy` for tests)
 
-  content_type :article,
-    label: 'Article',
-    fields: [
-      { name: :author, type: :string, label: 'Author', help_text: 'Article author name' },
-      { name: :body, type: :textarea, label: 'Article Body' },
-      { name: :published_date, type: :date, label: 'Publish Date' },
-      { name: :featured, type: :boolean, label: 'Featured Article' },
-      { name: :category, type: :select, label: 'Category', 
-        choices: [['Technology', 'tech'], ['Business', 'business'], ['Lifestyle', 'lifestyle']] }
-    ]
-end
-```
+## More docs
 
-### 3. Available Field Types
-
-- `:string` - Single line text input
-- `:textarea` - Multi-line text input
-- `:number` / `:integer` - Numeric input
-- `:date` - Date picker
-- `:datetime` - Date and time picker
-- `:boolean` / `:checkbox` - Checkbox
-- `:select` - Dropdown with predefined choices
-- `:taxonomy` - Reference to taxonomy entries (see below)
-
-### 4. Accessing Content in Your App
-
-```ruby
-# In your controller
-class ArticlesController < ApplicationController
-  def index
-    @articles = Article.published.order(created_at: :desc)
-  end
-
-  def show
-    @article = Article.find(params[:id])
-  end
-end
-```
-
-```erb
-<!-- In your view -->
-<h1><%= @article.title %></h1>
-<p>By <%= @article.author %></p>
-<div><%= @article.body %></div>
-```
-
-### 5. Content Scopes
-
-Built-in scopes:
-- `published` - Only published content
-- `draft` - Only draft content
-- `archived` - Only archived content
-
-### 6. Admin Interface
-
-Once mounted, the admin interface is available at `/admin` (or your custom mount point).
-
-Features:
-- List all content types in the sidebar
-- Create, edit, delete content
-- Dynamic form generation based on field definitions
-- Status management (draft, published, archived)
-- Automatic slug generation from titles
-
-## Example Content Types
-
-## Taxonomies
-
-BrawoCMS includes built-in support for taxonomies (categories, tags, authors, etc.) that are managed separately from content types in the admin interface.
-
-### Creating a Taxonomy Type
-
-#### Using the Generator
-
-```bash
-rails generate brawo_cms:taxonomy_type Category color:string icon:string order:number
-```
-
-#### Manual Creation
-
-```ruby
-# app/models/category.rb
-class Category < BrawoCms::Taxonomy
-  include BrawoCms::TaxonomyTypeable
-
-  taxonomy_type :category,
-    label: 'Category',
-    fields: [
-      { name: :color, type: :string, label: 'Color', help_text: 'Hex color code' },
-      { name: :icon, type: :string, label: 'Icon Class' },
-      { name: :order, type: :number, label: 'Sort Order' }
-    ]
-end
-```
-
-### Using Taxonomies
-
-```ruby
-# Create a taxonomy
-category = Category.create(
-  name: "Technology",
-  slug: "tech",
-  description: "Technology-related content",
-  color: "#3b82f6"
-)
-
-# Query taxonomies
-Category.all
-Category.find_by(slug: "tech")
-
-# Access custom fields
-category.color # => "#3b82f6"
-```
-
-### Referencing Taxonomies in Content
-
-Use the `:taxonomy` field type to create references to taxonomy entries:
-
-```ruby
-class Article < BrawoCms::Content
-  include BrawoCms::ContentTypeable
-
-  content_type :article,
-    label: 'Article',
-    fields: [
-      { name: :category_id, type: :taxonomy, taxonomy_type: :category, label: 'Category' }
-    ]
-end
-```
-
-The admin will automatically show a dropdown with all available taxonomy entries. See [TAXONOMY_REFERENCE_GUIDE.md](TAXONOMY_REFERENCE_GUIDE.md) for details.
-
-For more details, see [TAXONOMY_GUIDE.md](TAXONOMY_GUIDE.md).
-
-## Example Content Types
-
-### Blog Post
-
-```ruby
-class Post < BrawoCms::Content
-  include BrawoCms::ContentTypeable
-
-  content_type :post,
-    label: 'Blog Post',
-    fields: [
-      { name: :author, type: :string, label: 'Author' },
-      { name: :body, type: :textarea, label: 'Content' },
-      { name: :published_at, type: :datetime, label: 'Publish Date' },
-      { name: :featured_image_url, type: :string, label: 'Featured Image URL' }
-    ]
-end
-```
-
-### Product Catalog
-
-```ruby
-class Product < BrawoCms::Content
-  include BrawoCms::ContentTypeable
-
-  content_type :product,
-    label: 'Product',
-    fields: [
-      { name: :price, type: :number, label: 'Price' },
-      { name: :sku, type: :string, label: 'SKU' },
-      { name: :stock_quantity, type: :integer, label: 'Stock' },
-      { name: :description, type: :textarea, label: 'Description' },
-      { name: :availability, type: :select, label: 'Availability',
-        choices: [['In Stock', 'in_stock'], ['Out of Stock', 'out_of_stock']] }
-    ]
-end
-```
-
-## Architecture
-
-### Single Table Inheritance (STI)
-
-All content types inherit from `BrawoCms::Content` and share the `brawo_cms_contents` table:
-
-- `type` - Stores the class name (Article, Product, etc.)
-- `title` - Content title
-- `slug` - URL-friendly identifier (auto-generated)
-- `description` - Short description
-- `fields` - JSONB column storing custom field data
-- `status` - draft, published, or archived
-- `published_at` - Timestamp for publishing
-
-### Field Storage
-
-Custom fields are stored in a JSONB column, providing:
-- Flexibility to add/remove fields without migrations
-- Fast queries using GIN indexes
-- Type-safe accessors via field definitions
-
-## Development
-
-### Running Tests
-
-```bash
-docker-compose exec web bash
-cd test/dummy
-rails test
-```
-
-### Accessing the Dummy App
-
-The `test/dummy` directory contains a full Rails application demonstrating BrawoCMS usage with Article and Product content types.
-
-## Future Enhancements
-
-Planned features for future releases:
-
-- Media management and file uploads
-- Content versioning and revision history
-- Content relationships
-- User authentication and permissions
-- Custom validations for field types
-- API endpoints for headless CMS usage
-- Search and filtering
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub.
+- [QUICKSTART.md](QUICKSTART.md) — first run + sample data  
+- [DEVELOPMENT.md](DEVELOPMENT.md) — structure, customization  
+- [ENGINE_ROUTES_GUIDE.md](ENGINE_ROUTES_GUIDE.md) — routing  
+- Taxonomies: [TAXONOMY_GUIDE.md](TAXONOMY_GUIDE.md), [TAXONOMY_REFERENCE_GUIDE.md](TAXONOMY_REFERENCE_GUIDE.md)
 
 ## License
 
-The gem is available as open source under the terms of the MIT License.
-
-## Credits
-
-Built with ❤️ by the BrawoCMS team
-
+MIT — see [MIT-LICENSE](MIT-LICENSE).
