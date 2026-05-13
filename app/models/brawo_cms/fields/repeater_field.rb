@@ -38,12 +38,12 @@ module BrawoCms
         # Get the form object name (e.g., "content" or "taxonomy") to prefix field names
         form_object_name = form.object_name.to_s
         
-        helper.content_tag(:div, class: 'repeater-field', data: { field_name: @name }) do
-          helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items") do
+        helper.content_tag(:div, class: 'repeater-field', data: { controller: 'brawo-cms--repeater-field', field_name: @name }) do
+          helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items", data: { brawo_cms__repeater_field_target: 'items' }) do
             items_html = current_value.each_with_index.map do |item, index|
               render_repeater_row(form, item, index, helper, form_object_name)
             end
-            template_html = helper.content_tag(:div, class: 'repeater-template', style: 'display: none;') do
+            template_html = helper.content_tag(:div, class: 'repeater-template', style: 'display: none;', data: { brawo_cms__repeater_field_target: 'template' }) do
               render_repeater_row(form, {}, 'INDEX', helper, form_object_name)
             end
             helper.safe_join(items_html) + template_html

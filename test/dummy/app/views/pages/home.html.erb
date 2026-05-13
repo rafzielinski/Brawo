@@ -16,31 +16,31 @@
 
 <div class="row mt-5">
   <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">📝 Articles</h5>
-        <p class="card-text">Manage blog posts, news articles, and editorial content with custom fields.</p>
-        <%= link_to "Browse Articles", articles_path, class: "btn btn-primary" %>
-      </div>
-    </div>
+    <%= render FeatureCardComponent.new(
+          title: "📝 Articles",
+          body: "Manage blog posts, news articles, and editorial content with custom fields.",
+          link_text: "Browse Articles",
+          url: articles_path,
+          button_class: "btn-primary"
+        ) %>
   </div>
   <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">🛍️ Products</h5>
-        <p class="card-text">Create and manage product catalogs with pricing, inventory, and descriptions.</p>
-        <%= link_to "Browse Products", products_path, class: "btn btn-success" %>
-      </div>
-    </div>
+    <%= render FeatureCardComponent.new(
+          title: "🛍️ Products",
+          body: "Create and manage product catalogs with pricing, inventory, and descriptions.",
+          link_text: "Browse Products",
+          url: products_path,
+          button_class: "btn-success"
+        ) %>
   </div>
   <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">⚙️ Admin Panel</h5>
-        <p class="card-text">Access the CMS admin interface to create and manage all content types.</p>
-        <%= link_to "Go to Admin", brawo_cms.admin_root_path, class: "btn btn-warning" %>
-      </div>
-    </div>
+    <%= render FeatureCardComponent.new(
+          title: "⚙️ Admin Panel",
+          body: "Access the CMS admin interface to create and manage all content types.",
+          link_text: "Go to Admin",
+          url: brawo_cms.admin_root_path,
+          button_class: "btn-warning"
+        ) %>
   </div>
 </div>
 
@@ -48,7 +48,7 @@
   <div class="col-lg-12">
     <h3>How to Use BrawoCMS in Your App</h3>
     <p>Creating a new content type is easy. Here's how the Article model in this demo was created:</p>
-    
+
     <pre class="bg-dark text-light p-3 rounded"><code>class Article < BrawoCms::Content
   include BrawoCms::ContentTypeable
 
@@ -59,7 +59,7 @@
       { name: :body, type: :textarea, label: 'Article Body' },
       { name: :published_date, type: :date, label: 'Publish Date' },
       { name: :featured, type: :boolean, label: 'Featured Article' },
-      { name: :category, type: :select, label: 'Category', 
+      { name: :category, type: :select, label: 'Category',
         choices: [['Technology', 'tech'], ['Business', 'business']] }
     ]
 end</code></pre>
@@ -68,4 +68,3 @@ end</code></pre>
     <pre class="bg-dark text-light p-3 rounded"><code>rails generate brawo_cms:content_type Article author:string body:textarea published_date:date</code></pre>
   </div>
 </div>
-

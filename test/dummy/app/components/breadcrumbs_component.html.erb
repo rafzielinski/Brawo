@@ -1,0 +1,11 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <% crumbs.each do |(label, url)| %>
+      <% if url.present? %>
+        <li class="breadcrumb-item"><%= link_to label, url %></li>
+      <% else %>
+        <li class="breadcrumb-item active"><%= label %></li>
+      <% end %>
+    <% end %>
+  </ol>
+</nav>

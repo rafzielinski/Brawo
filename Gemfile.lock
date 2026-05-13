@@ -2,8 +2,12 @@ PATH
   remote: .
   specs:
     brawo_cms (0.1.0)
+      importmap-rails
       pg (~> 1.5)
       rails (>= 7.1.0)
+      stimulus-rails
+      turbo-rails
+      view_component
 
 GEM
   remote: https://rubygems.org/
@@ -214,6 +218,10 @@ GEM
       railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    view_component (4.10.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
+      concurrent-ruby (~> 1)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -232,6 +240,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   turbo-rails
+  view_component
 
 BUNDLED WITH
    2.7.2

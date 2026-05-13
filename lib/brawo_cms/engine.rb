@@ -10,7 +10,7 @@ module BrawoCms
     initializer "brawo_cms.assets" do |app|
       app.config.assets.paths << root.join("app/assets/stylesheets")
       app.config.assets.paths << root.join("app/assets/javascripts")
-      app.config.assets.precompile += %w[brawo_cms/admin.css brawo_cms/repeater_field.js]
+      app.config.assets.precompile += %w[brawo_cms/admin.css]
     end
   end
 end

@@ -1,22 +1,16 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
-    <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
-    <li class="breadcrumb-item active"><%= @product.title %></li>
-  </ol>
-</nav>
+<%= render BreadcrumbsComponent.new(crumbs: [["Home", root_path], ["Products", products_path], [@product.title, nil]]) %>
 
 <div class="row mb-5">
   <div class="col-md-8">
     <h1 class="mb-3"><%= @product.title %></h1>
-    
+
     <% if @product.price %>
       <p class="text-success display-5">$<%= number_with_precision(@product.price, precision: 2) %></p>
     <% end %>
 
     <div class="mb-4">
       <% if @product.availability %>
-        <span class="badge bg-<%= @product.availability == 'in_stock' ? 'success' : 'danger' %>">
+        <span class="badge bg-<%= @product.availability == "in_stock" ? "success" : "danger" %>">
           <%= @product.availability.titleize %>
         </span>
       <% end %>
@@ -55,4 +49,3 @@
     </div>
   </div>
 </div>
-

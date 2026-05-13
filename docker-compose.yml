@@ -11,7 +11,7 @@ services:
 
   web:
     build: .
-    command: bash -c "cd test/dummy && bundle exec rails server -b 0.0.0.0"
+    command: bash -c "cd /app && bundle install && cd test/dummy && bundle exec rails server -b 0.0.0.0"
     volumes:
       - .:/app
     ports:
