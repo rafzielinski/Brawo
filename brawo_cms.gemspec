@@ -14,10 +14,15 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/brawo/brawo_cms"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib,openapi}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.add_dependency "rails", ">= 7.1.0"
   spec.add_dependency "pg", "~> 1.5"
+
+  spec.add_development_dependency "rspec-rails", "~> 6.0"
+  spec.add_development_dependency "rswag-api", "~> 2.16"
+  spec.add_development_dependency "rswag-specs", "~> 2.16"
+  spec.add_development_dependency "rswag-ui", "~> 2.16"
 end
 

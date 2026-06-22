@@ -6,6 +6,8 @@ Rails mountable engine: content types + taxonomies, JSONB custom fields, auto-ge
 
 - DSL on your models: `content_type` / `taxonomy_type` with `fields: [...]`
 - Admin at mount path (`/admin` in docs below): CRUD for contents + taxonomies, drafts / published / archived, slug from title
+- JSON API at `/admin/api/v1` (relative to mount path): CRUD + type metadata; optional bearer token via `BrawoCms.api_token`
+- OpenAPI docs at `/admin/api/docs` (Swagger UI); spec in `openapi/v1/swagger.yaml`
 - Generators: `brawo_cms:content_type`, `brawo_cms:taxonomy_type`
 - Demo app: `test/dummy` (Articles, Products, Categories, references + repeaters on Article)
 
@@ -75,6 +77,21 @@ Details: [QUICKSTART.md](QUICKSTART.md), [DOCKER_SETUP.md](DOCKER_SETUP.md)
 - `lib/brawo_cms/` — engine + version **0.1.0**
 - `test/dummy/` — runnable demo Rails app
 - `spec/` — RSpec (dummy app in `spec/dummy` for tests)
+- `openapi/` — generated OpenAPI spec (`v1/swagger.yaml`)
+
+## API docs (OpenAPI / rswag)
+
+- **Swagger UI:** `http://localhost:3000/admin/api/docs` (dummy app / Docker demo)
+- **Raw spec:** `openapi/v1/swagger.yaml` in the gem
+- **Regenerate** after changing API request specs:
+
+  ```bash
+  bundle exec rake openapi:generate
+  ```
+
+  Run API specs: `bundle exec rspec spec/requests/brawo_cms/api/v1`
+
+Host apps need `rswag-api` and `rswag-ui` in the bundle for the interactive UI (included in this repo’s Gemfile). Mount paths assume default engine mount `/admin`.
 
 ## More docs
 

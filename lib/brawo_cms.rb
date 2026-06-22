@@ -8,6 +8,8 @@ module BrawoCms
   mattr_accessor :taxonomy_types
   self.taxonomy_types = {}
 
+  mattr_accessor :api_token
+
   class << self
     def configure
       yield self if block_given?

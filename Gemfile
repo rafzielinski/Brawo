@@ -11,3 +11,10 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 6.0'
+  gem 'rswag-api', '~> 2.16'
+  gem 'rswag-specs', '~> 2.16'
+  gem 'rswag-ui', '~> 2.16'
+end
+

@@ -7,3 +7,6 @@ load "rails/tasks/statistics.rake"
 
 require "bundler/gem_tasks"
 
+desc "Regenerate OpenAPI spec from rswag request specs"
+task "openapi:generate" => "app:rswag:specs:swaggerize"
+

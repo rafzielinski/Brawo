@@ -1,0 +1,466 @@
+---
+openapi: 3.0.1
+info:
+  title: BrawoCMS API
+  version: v1
+  description: |-
+    JSON API for content and taxonomy management.
+    Paths are relative to the engine mount point (default `/admin`).
+    Optional bearer token when `BrawoCms.api_token` is set in the host app.
+    Use `content_types` and `taxonomy_types` for field schema introspection.
+paths:
+  "/admin/api/v1/content_types":
+    get:
+      summary: List content types
+      tags:
+      - Content Types
+      responses:
+        '200':
+          description: content types found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/type_schema"
+  "/admin/api/v1/content_types/{type}":
+    parameters:
+    - name: type
+      in: path
+      description: Content type key (e.g. article)
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show content type schema
+      tags:
+      - Content Types
+      responses:
+        '200':
+          description: content type found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/type_schema"
+        '404':
+          description: content type not found
+  "/admin/api/v1/contents":
+    parameters:
+    - name: content_type
+      in: query
+      required: true
+      description: Registered content type (e.g. article)
+      schema:
+        type: string
+    get:
+      summary: List contents
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: contents found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/content"
+        '404':
+          description: unknown content type
+    post:
+      summary: Create content
+      tags:
+      - Contents
+      parameters: []
+      responses:
+        '201':
+          description: content created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/content"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - content_type
+              - content
+              properties:
+                content_type:
+                  type: string
+                content:
+                  "$ref": "#/components/schemas/content_input"
+  "/admin/api/v1/contents/{id}":
+    parameters:
+    - name: content_type
+      in: query
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show content
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: content found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/content"
+        '404':
+          description: content not found
+    patch:
+      summary: Update content
+      tags:
+      - Contents
+      parameters: []
+      responses:
+        '200':
+          description: content updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/content"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - content_type
+              - content
+              properties:
+                content_type:
+                  type: string
+                content:
+                  "$ref": "#/components/schemas/content_input"
+    delete:
+      summary: Delete content
+      tags:
+      - Contents
+      responses:
+        '204':
+          description: content deleted
+  "/admin/api/v1/taxonomies":
+    parameters:
+    - name: taxonomy_type
+      in: query
+      required: true
+      description: Registered taxonomy type (e.g. category)
+      schema:
+        type: string
+    get:
+      summary: List taxonomies
+      tags:
+      - Taxonomies
+      responses:
+        '200':
+          description: taxonomies found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/taxonomy"
+        '404':
+          description: unknown taxonomy type
+    post:
+      summary: Create taxonomy
+      tags:
+      - Taxonomies
+      parameters: []
+      responses:
+        '201':
+          description: taxonomy created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/taxonomy"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - taxonomy_type
+              - taxonomy
+              properties:
+                taxonomy_type:
+                  type: string
+                taxonomy:
+                  "$ref": "#/components/schemas/taxonomy_input"
+  "/admin/api/v1/taxonomies/{id}":
+    parameters:
+    - name: taxonomy_type
+      in: query
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show taxonomy
+      tags:
+      - Taxonomies
+      responses:
+        '200':
+          description: taxonomy found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/taxonomy"
+        '404':
+          description: taxonomy not found
+    patch:
+      summary: Update taxonomy
+      tags:
+      - Taxonomies
+      parameters: []
+      responses:
+        '200':
+          description: taxonomy updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/taxonomy"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - taxonomy_type
+              - taxonomy
+              properties:
+                taxonomy_type:
+                  type: string
+                taxonomy:
+                  "$ref": "#/components/schemas/taxonomy_input"
+    delete:
+      summary: Delete taxonomy
+      tags:
+      - Taxonomies
+      responses:
+        '204':
+          description: taxonomy deleted
+  "/admin/api/v1/taxonomy_types":
+    get:
+      summary: List taxonomy types
+      tags:
+      - Taxonomy Types
+      responses:
+        '200':
+          description: taxonomy types found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/type_schema"
+  "/admin/api/v1/taxonomy_types/{type}":
+    parameters:
+    - name: type
+      in: path
+      description: Taxonomy type key (e.g. category)
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show taxonomy type schema
+      tags:
+      - Taxonomy Types
+      responses:
+        '200':
+          description: taxonomy type found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/type_schema"
+        '404':
+          description: taxonomy type not found
+servers:
+- url: "/"
+  description: Host app root (paths include default /admin mount)
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      description: Required when BrawoCms.api_token is configured
+  schemas:
+    errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+      - errors
+    field_definition:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        label:
+          type: string
+        help_text:
+          type: string
+          nullable: true
+        taxonomy_type:
+          type: string
+          nullable: true
+        model_class:
+          type: string
+          nullable: true
+        choices:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+          nullable: true
+        sub_fields:
+          type: array
+          items:
+            "$ref": "#/components/schemas/field_definition"
+          nullable: true
+      required:
+      - name
+      - type
+      - label
+    type_schema:
+      type: object
+      properties:
+        type:
+          type: string
+        label:
+          type: string
+        fields:
+          type: array
+          items:
+            "$ref": "#/components/schemas/field_definition"
+      required:
+      - type
+      - label
+      - fields
+    content:
+      type: object
+      properties:
+        id:
+          type: integer
+        content_type:
+          type: string
+        title:
+          type: string
+          nullable: true
+        slug:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum:
+          - draft
+          - published
+          - archived
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        fields:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - content_type
+      - status
+      - fields
+      - created_at
+      - updated_at
+    content_input:
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - draft
+          - published
+          - archived
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        fields:
+          type: object
+          additionalProperties: true
+    taxonomy:
+      type: object
+      properties:
+        id:
+          type: integer
+        taxonomy_type:
+          type: string
+        name:
+          type: string
+          nullable: true
+        slug:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        fields:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - taxonomy_type
+      - fields
+      - created_at
+      - updated_at
+    taxonomy_input:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        fields:
+          type: object
+          additionalProperties: true
