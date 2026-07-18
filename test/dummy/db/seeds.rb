@@ -252,3 +252,36 @@ articles = [
 end
 
 puts "Seeded #{Category.count} categories, #{Product.count} products, #{Article.count} articles."
+
+# ---------------------------------------------------------------------------
+# Content types: Page (page builder)
+# ---------------------------------------------------------------------------
+
+Page.find_or_initialize_by(slug: "demo-page").tap do |page|
+  page.title = "Demo Page"
+  page.description = "A sample page built with the BrawoCMS page builder."
+  page.status = "published"
+  page.blocks = [
+    {
+      "type" => "heading",
+      "data" => { "text" => "Welcome to BrawoCMS", "level" => 1 }
+    },
+    {
+      "type" => "text",
+      "data" => { "body" => "This page is composed of blocks. Edit it in the admin page builder to add, remove, and reorder content." }
+    },
+    {
+      "type" => "faq",
+      "data" => {
+        "section_title" => "Frequently Asked Questions",
+        "items" => [
+          { "question" => "Can I reorder blocks?", "answer" => "Yes — drag blocks by the handle in the page builder." },
+          { "question" => "What block types are available?", "answer" => "Heading, Text, and FAQ sections — more can be registered in Ruby." }
+        ]
+      }
+    }
+  ]
+  page.save!
+end
+
+puts "Seeded #{Page.count} pages."

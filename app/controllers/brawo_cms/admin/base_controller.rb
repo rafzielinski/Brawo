@@ -3,6 +3,8 @@ module BrawoCms
     class BaseController < ActionController::Base
       layout 'brawo_cms/admin/application'
 
+      helper BrawoCms::Admin::PageBuilderHelper
+
       before_action :set_content_types
       before_action :set_taxonomy_types
 

@@ -8,6 +8,9 @@ module BrawoCms
   mattr_accessor :taxonomy_types
   self.taxonomy_types = {}
 
+  mattr_accessor :block_types
+  self.block_types = {}
+
   mattr_accessor :api_token
 
   class << self
@@ -20,8 +23,21 @@ module BrawoCms
         class: klass,
         fields: options[:fields] || [],
         label: options[:label] || name.to_s.titleize,
-        pages: options[:pages]
+        pages: options[:pages],
+        page_builder: options[:page_builder] || false
       }
+    end
+
+    def register_block_type(name, options = {})
+      self.block_types[name.to_sym] = {
+        fields: options[:fields] || [],
+        label: options[:label] || name.to_s.titleize,
+        partial: options[:partial] || name.to_s
+      }
+    end
+
+    def block_type(name)
+      block_types[name.to_sym]
     end
 
     def register_taxonomy_type(name, klass, options = {})

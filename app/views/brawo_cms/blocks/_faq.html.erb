@@ -1,0 +1,13 @@
+<section class="mb-5">
+  <% if data[:section_title].present? %>
+    <h2 class="mb-3"><%= data[:section_title] %></h2>
+  <% end %>
+
+  <% Array(data[:items]).each do |item| %>
+    <% item = item.with_indifferent_access %>
+    <div class="mb-3">
+      <h5 class="mb-1"><%= item[:question] %></h5>
+      <p class="mb-0 text-muted"><%= item[:answer] %></p>
+    </div>
+  <% end %>
+</section>

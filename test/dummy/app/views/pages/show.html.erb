@@ -1,0 +1,10 @@
+<div class="container py-4">
+  <h1 class="mb-2"><%= @page.title %></h1>
+  <% if @page.description.present? %>
+    <p class="lead text-muted"><%= @page.description %></p>
+  <% end %>
+
+  <hr class="my-4">
+
+  <%= render_blocks(@page.blocks) %>
+</div>

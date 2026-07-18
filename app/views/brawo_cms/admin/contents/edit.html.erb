@@ -4,7 +4,11 @@
 
 <div class="card">
   <div class="card-body">
-    <%= render 'form', content: @content %>
+    <% if @content_type_config[:page_builder] %>
+      <%= render 'page_builder_form', content: @content %>
+    <% else %>
+      <%= render 'form', content: @content %>
+    <% end %>
   </div>
 </div>
 

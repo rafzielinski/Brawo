@@ -1,0 +1,2 @@
+<% level = (data[:level].to_s.presence || '2').to_i.clamp(1, 6) %>
+<%= content_tag("h#{level}", data[:text], class: 'mb-3') %>

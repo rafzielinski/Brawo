@@ -26,10 +26,11 @@ module BrawoCms
         return base_attrs_from(@raw_hash).merge(fields: @raw_hash[:fields].deep_stringify_keys)
       end
 
-      permitted_fields, array_fields, repeater_field_names = field_permits
+      permitted_fields, array_fields, repeater_field_names, blocks_field_names = field_permits
       repeater_data = extract_repeater_data(repeater_field_names)
+      blocks_data = extract_blocks_data(blocks_field_names)
       field_attrs = scalar_field_attrs(permitted_fields, array_fields)
-      all_field_attrs = field_attrs.merge(repeater_data)
+      all_field_attrs = field_attrs.merge(repeater_data).merge(blocks_data)
 
       base_attrs_from(@raw_hash).merge(fields: all_field_attrs.deep_stringify_keys)
     end
@@ -44,6 +45,7 @@ module BrawoCms
       permitted_fields = []
       array_fields = {}
       repeater_field_names = []
+      blocks_field_names = []
 
       (@type_config[:fields] || []).each do |field|
         case field[:type]
@@ -51,12 +53,14 @@ module BrawoCms
           array_fields[field[:name]] = []
         when :repeater
           repeater_field_names << field[:name].to_sym
+        when :blocks
+          blocks_field_names << field[:name].to_sym
         else
           permitted_fields << field[:name].to_sym
         end
       end
 
-      [permitted_fields, array_fields, repeater_field_names]
+      [permitted_fields, array_fields, repeater_field_names, blocks_field_names]
     end
 
     def extract_repeater_data(repeater_field_names)
@@ -86,10 +90,76 @@ module BrawoCms
       attrs
     end
 
-    def process_repeater_field(repeater_param, repeater_name, parent_field_def = nil)
+    def extract_blocks_data(blocks_field_names)
+      blocks_field_names.each_with_object({}) do |blocks_name, blocks_data|
+        blocks_param = @raw_hash[blocks_name] || @raw_hash[blocks_name.to_s]
+
+        blocks_data[blocks_name.to_s] =
+          if blocks_param.present? && blocks_param.is_a?(Hash)
+            process_blocks_field(blocks_param)
+          else
+            []
+          end
+      end
+    end
+
+    def process_blocks_field(blocks_param)
+      return [] unless blocks_param.is_a?(Hash)
+
+      numeric_keys = blocks_param.keys.select { |k| k.to_s.match?(/\A\d+\z/) }
+
+      numeric_keys.sort_by { |k| k.to_s.to_i }.filter_map do |index|
+        block_data = blocks_param[index]
+        next unless block_data.is_a?(Hash)
+
+        block_data = block_data.respond_to?(:to_unsafe_h) ? block_data.to_unsafe_h : block_data.to_h
+        block_type = block_data['type'] || block_data[:type]
+        next if block_type.blank?
+
+        type_config = BrawoCms.block_type(block_type)
+        next unless type_config
+
+        raw_data = block_data['data'] || block_data[:data] || {}
+        processed_data = process_fields_hash(type_config[:fields], raw_data)
+
+        { 'type' => block_type.to_s, 'data' => processed_data }
+      end
+    end
+
+    def process_fields_hash(field_definitions, raw_hash)
+      return {} unless raw_hash.is_a?(Hash)
+
+      raw_hash = raw_hash.respond_to?(:to_unsafe_h) ? raw_hash.to_unsafe_h : raw_hash.to_h
+      raw_hash = raw_hash.deep_symbolize_keys
+      result = {}
+
+      field_definitions.each do |field_def|
+        field_name = field_def[:name].to_s
+        field_type = field_def[:type]
+        value = raw_hash[field_name.to_sym] || raw_hash[field_name]
+
+        result[field_name] =
+          case field_type
+          when :repeater
+            if value.is_a?(Hash)
+              process_repeater_field(value, field_name, nil, field_def)
+            else
+              []
+            end
+          when :reference
+            Array(value).compact
+          else
+            value
+          end
+      end
+
+      result.stringify_keys
+    end
+
+    def process_repeater_field(repeater_param, repeater_name, parent_field_def = nil, field_def_override = nil)
       return [] unless repeater_param.is_a?(Hash)
 
-      field_def = if parent_field_def
+      field_def = field_def_override || if parent_field_def
         parent_field_def[:sub_fields]&.find { |f| f[:name].to_s == repeater_name.to_s }
       else
         @type_config[:fields].find { |f| f[:name].to_s == repeater_name.to_s }

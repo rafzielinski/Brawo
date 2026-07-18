@@ -13,7 +13,8 @@ module BrawoCms
       select: Fields::SelectField,
       taxonomy: Fields::TaxonomyField,
       reference: Fields::ReferenceField,
-      repeater: Fields::RepeaterField
+      repeater: Fields::RepeaterField,
+      blocks: Fields::BlocksField
     }.freeze
 
     def self.build(definition)
