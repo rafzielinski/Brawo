@@ -3,6 +3,8 @@
 
   function initRepeaterFields() {
     document.querySelectorAll('.repeater-field').forEach(function(repeaterField) {
+      if (repeaterField.dataset.controller && repeaterField.dataset.controller.includes('repeater')) return;
+
       const fieldName = repeaterField.dataset.fieldName;
       const itemsContainer = repeaterField.querySelector('.repeater-items');
       const template = repeaterField.querySelector('.repeater-template');

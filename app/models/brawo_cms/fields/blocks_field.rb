@@ -8,7 +8,7 @@ module BrawoCms
         helper = ActionController::Base.helpers
         helper.extend(BrawoCms::Admin::PageBuilderHelper)
         available_blocks = BrawoCms.blocks_for(object.content_type_name.to_sym)
-        helper.render_page_builder(form, @name, current_value, available_blocks: available_blocks)
+        helper.render_page_builder(form, @name, current_value, label: @label, available_blocks: available_blocks)
       end
 
       def format_value(value)

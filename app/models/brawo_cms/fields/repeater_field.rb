@@ -34,12 +34,20 @@ module BrawoCms
         end
         
         helper = ActionController::Base.helpers
+        helper.extend(BrawoCms::Admin::ReorderMenuHelper)
         
         # Get the form object name (e.g., "content" or "taxonomy") to prefix field names
         form_object_name = form.object_name.to_s
         
-        helper.content_tag(:div, class: 'repeater-field', data: { field_name: @name }) do
-          helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items") do
+        helper.content_tag(:div, class: 'repeater-field', data: {
+          controller: 'repeater',
+          repeater_field_name_value: @name,
+          action: 'sortable:sorted->repeater#reindex'
+        }) do
+          helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items", data: {
+            controller: 'sortable',
+            sortable_handle_value: '.repeater-drag-handle'
+          }) do
             items_html = current_value.each_with_index.map do |item, index|
               render_repeater_row(form, item, index, helper, form_object_name)
             end
@@ -48,9 +56,9 @@ module BrawoCms
             end
             helper.safe_join(items_html) + template_html
           end +
-          helper.content_tag(:button, '+ Add Row', type: 'button', 
-                            class: 'btn btn-sm btn-outline-primary repeater-add-btn', 
-                            data: { field_name: @name })
+          helper.content_tag(:button, '+ Add Row', type: 'button',
+                            class: 'btn btn-sm btn-outline-primary mt-2',
+                            data: { action: 'repeater#addRow' })
         end
       end
 
@@ -101,6 +109,15 @@ module BrawoCms
         
         helper.content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           helper.content_tag(:div, class: 'card-body') do
+            header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
+              helper.content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: 'Drag to reorder') +
+                helper.content_tag(:span, '', class: 'flex-grow-1') +
+                helper.render_item_actions_dropdown(
+                  move_action: 'repeater#moveRow',
+                  remove_action: 'repeater#removeRow'
+                )
+            end
+
             fields_html = @sub_fields.map do |sub_field_def|
               sub_field = BrawoCms::FieldFactory.build(sub_field_def)
               # Prepend form object name to field name (e.g., "content[faq_items][0][question]")
@@ -130,14 +147,10 @@ module BrawoCms
               end
             end
             
-            remove_btn = helper.content_tag(:div, class: 'text-end mt-2') do
-              helper.content_tag(:button, 'Remove', type: 'button', 
-                                class: 'btn btn-sm btn-outline-danger repeater-remove-btn')
-            end
-            
+            header +
             helper.content_tag(:div, class: 'row') do
               helper.safe_join(fields_html)
-            end + remove_btn
+            end
           end
         end
       end

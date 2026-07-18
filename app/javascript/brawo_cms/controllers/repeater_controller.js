@@ -20,12 +20,6 @@ export default class extends Controller {
     const nextIndex = existingRows.length
     this.updateRowIndex(newRow, "INDEX", nextIndex)
 
-    const removeBtn = newRow.querySelector("[data-action*='removeRow']")
-    if (removeBtn) {
-      removeBtn.disabled = false
-      removeBtn.addEventListener("click", (e) => this.removeRow(e))
-    }
-
     container.insertBefore(newRow, template)
     this.reindexRows(container)
   }
@@ -38,6 +32,49 @@ export default class extends Controller {
     const container = row.closest(".repeater-items")
     row.remove()
     if (container) this.reindexRows(container)
+  }
+
+  moveRow(event) {
+    event.preventDefault()
+    const row = event.currentTarget.closest(".repeater-row")
+    if (!row) return
+
+    const container = row.closest(".repeater-items")
+    if (!container) return
+
+    const rows = [...container.querySelectorAll(".repeater-row:not(.repeater-template)")]
+    const index = rows.indexOf(row)
+    if (index === -1) return
+
+    const targetIndex = this.targetIndex(index, rows.length, event.currentTarget.dataset.moveDirection)
+    if (targetIndex === null || targetIndex === index) return
+
+    const template = container.querySelector(".repeater-template")
+    row.remove()
+
+    const remaining = [...container.querySelectorAll(".repeater-row:not(.repeater-template)")]
+    if (targetIndex >= remaining.length) {
+      container.insertBefore(row, template)
+    } else {
+      container.insertBefore(row, remaining[targetIndex])
+    }
+
+    this.reindexRows(container)
+  }
+
+  targetIndex(index, count, direction) {
+    switch (direction) {
+      case "up":
+        return index > 0 ? index - 1 : null
+      case "down":
+        return index < count - 1 ? index + 1 : null
+      case "top":
+        return index > 0 ? 0 : null
+      case "bottom":
+        return index < count - 1 ? count - 1 : null
+      default:
+        return null
+    }
   }
 
   updateRowIndex(row, oldIndex, newIndex) {
@@ -72,6 +109,11 @@ export default class extends Controller {
         }
       }
     })
+  }
+
+  reindex() {
+    const container = this.element.querySelector(".repeater-items")
+    if (container) this.reindexRows(container)
   }
 
   reindexRows(container) {

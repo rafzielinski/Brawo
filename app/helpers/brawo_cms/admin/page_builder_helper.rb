@@ -1,11 +1,13 @@
 module BrawoCms
   module Admin
     module PageBuilderHelper
-      def render_page_builder(form, field_name, blocks, available_blocks: BrawoCms.block_types)
+      include ReorderMenuHelper
+
+      def render_page_builder(form, field_name, blocks, label: nil, available_blocks: BrawoCms.block_types)
         blocks = Array(blocks)
         @available_blocks = available_blocks
 
-        content_tag(:div, class: 'page-builder', data: {
+        content_tag(:div, class: 'page-builder outline-collapsed', data: {
           controller: 'page-builder',
           page_builder_field_name_value: field_name,
           page_builder_form_prefix_value: form.object_name,
@@ -13,7 +15,7 @@ module BrawoCms
         }) do
           safe_join([
             content_tag(:div, class: 'page-builder-layout') do
-              render_canvas_area(form, field_name, blocks) + render_outline_panel(blocks)
+              render_canvas_area(form, field_name, blocks, label: label) + render_outline_panel(blocks)
             end,
             render_block_picker,
             render_templates(form, field_name)
@@ -21,10 +23,10 @@ module BrawoCms
         end
       end
 
-      def render_canvas_area(form, field_name, blocks)
+      def render_canvas_area(form, field_name, blocks, label: nil)
         content_tag(:div, class: 'page-builder-workspace') do
           safe_join([
-            render_add_block_button('top', 0),
+            render_toolbar(label, 0),
             content_tag(:div, class: 'page-builder-canvas', data: {
               controller: 'sortable',
               sortable_handle_value: '.drag-handle',
@@ -46,6 +48,21 @@ module BrawoCms
           children << render_insert_zone(index + 1)
         end
         children
+      end
+
+      def render_toolbar(label, insert_at)
+        content_tag(:div, class: 'page-builder-toolbar') do
+          content_tag(:h5, label.presence || 'Content', class: 'page-builder-title mb-0') +
+            content_tag(:div, class: 'page-builder-toolbar-actions') do
+              button_tag('Structure', type: 'button',
+                class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
+                data: { action: 'page-builder#toggleOutline' }) +
+                button_tag(type: 'button', class: 'btn btn-outline-primary btn-sm',
+                  data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
+                  '+ Add block'
+                end
+            end
+        end
       end
 
       def render_add_block_button(position, insert_at)
@@ -85,7 +102,7 @@ module BrawoCms
       end
 
       def render_outline_panel(blocks)
-        content_tag(:aside, class: 'page-builder-outline', data: { page_builder_target: 'outlinePanel' }) do
+        content_tag(:aside, class: 'page-builder-outline is-collapsed', data: { page_builder_target: 'outlinePanel' }) do
           content_tag(:div, class: 'page-builder-outline-header') do
             content_tag(:h6, 'Structure', class: 'mb-0') +
               button_tag(type: 'button', class: 'btn btn-sm btn-link page-builder-outline-close',
@@ -99,10 +116,7 @@ module BrawoCms
                 render_outline_item(block, index)
               end)
             end
-        end +
-          button_tag(type: 'button', class: 'page-builder-outline-toggle',
-            data: { action: 'page-builder#toggleOutline' },
-            title: 'Toggle structure panel') { 'Structure' }
+        end
       end
 
       def render_outline_item(block, index)
@@ -187,28 +201,15 @@ module BrawoCms
         end
       end
 
-      def render_block_menu(index)
-        content_tag(:div, class: 'dropdown page-builder-block-menu') do
-          button_tag('⋯', type: 'button', class: 'btn btn-sm btn-light',
-            data: { bs_toggle: 'dropdown' }, aria: { expanded: 'false' }) +
-            content_tag(:ul, class: 'dropdown-menu dropdown-menu-end') do
-              safe_join([
-                content_tag(:li) do
-                  button_tag('Insert above', type: 'button', class: 'dropdown-item',
-                    data: { action: 'page-builder#openPickerRelative', insert_offset: 0 })
-                end,
-                content_tag(:li) do
-                  button_tag('Insert below', type: 'button', class: 'dropdown-item',
-                    data: { action: 'page-builder#openPickerRelative', insert_offset: 1 })
-                end,
-                content_tag(:li) { tag.hr(class: 'dropdown-divider') },
-                content_tag(:li) do
-                  button_tag('Remove', type: 'button', class: 'dropdown-item text-danger',
-                    data: { action: 'page-builder#removeBlock' })
-                end
-              ])
-            end
-        end
+      def render_block_menu(_index)
+        render_item_actions_dropdown(
+          move_action: 'page-builder#moveBlock',
+          remove_action: 'page-builder#removeBlock',
+          extra_before_remove: [
+            { label: 'Add block above', action: 'page-builder#openPickerRelative', data: { insert_offset: 0 } },
+            { label: 'Add block below', action: 'page-builder#openPickerRelative', data: { insert_offset: 1 } }
+          ]
+        )
       end
 
       def block_summary(block_type, data)
@@ -294,10 +295,14 @@ module BrawoCms
 
         content_tag(:div, class: 'repeater-field', data: {
           controller: 'repeater',
-          repeater_field_name_value: repeater_name
+          repeater_field_name_value: repeater_name,
+          action: 'sortable:sorted->repeater#reindex'
         }) do
           content_tag(:label, field_def[:label] || repeater_name.to_s.humanize, class: 'form-label') +
-            content_tag(:div, class: 'repeater-items') do
+            content_tag(:div, class: 'repeater-items', data: {
+              controller: 'sortable',
+              sortable_handle_value: '.repeater-drag-handle'
+            }) do
               rows = field_value.each_with_index.map do |item, idx|
                 render_block_repeater_row(field_def, base_name, item, idx, disabled: disabled)
               end
@@ -315,23 +320,28 @@ module BrawoCms
         item_data = item_data.with_indifferent_access if item_data.respond_to?(:with_indifferent_access)
         sub_fields = field_def[:sub_fields] || []
 
+        fields_html = sub_fields.map do |sub_field_def|
+          sub_field = BrawoCms::FieldFactory.build(sub_field_def)
+          sub_name = "#{base_name}[#{index}][#{sub_field.name}]"
+          sub_value = item_data[sub_field.name.to_s] || item_data[sub_field.name.to_sym]
+
+          content_tag(:div, class: 'col-md-6 mb-2') do
+            render_block_field_input(sub_field, sub_field_def, sub_name, sub_value, base_name, disabled: disabled)
+          end
+        end
+
         content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           content_tag(:div, class: 'card-body') do
-            fields_html = sub_fields.map do |sub_field_def|
-              sub_field = BrawoCms::FieldFactory.build(sub_field_def)
-              sub_name = "#{base_name}[#{index}][#{sub_field.name}]"
-              sub_value = item_data[sub_field.name.to_s] || item_data[sub_field.name.to_sym]
-
-              content_tag(:div, class: 'col-md-6 mb-2') do
-                render_block_field_input(sub_field, sub_field_def, sub_name, sub_value, base_name, disabled: disabled)
-              end
-            end
-
-            content_tag(:div, class: 'row') { safe_join(fields_html) } +
-              content_tag(:div, class: 'text-end mt-2') do
-                button_tag('Remove', type: 'button', class: 'btn btn-sm btn-outline-danger',
-                  disabled: disabled, data: { action: 'repeater#removeRow' })
-              end
+            content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
+              content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: 'Drag to reorder') +
+                content_tag(:span, '', class: 'flex-grow-1') +
+                render_item_actions_dropdown(
+                  move_action: 'repeater#moveRow',
+                  remove_action: 'repeater#removeRow',
+                  disabled: disabled
+                )
+            end +
+              content_tag(:div, class: 'row') { safe_join(fields_html) }
           end
         end
       end

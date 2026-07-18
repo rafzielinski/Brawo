@@ -13,7 +13,7 @@ export default class extends Controller {
     if (this.hasPickerTarget && window.bootstrap) {
       this.picker = new bootstrap.Offcanvas(this.pickerTarget)
     }
-    this.outlineOpen = true
+    this.outlineOpen = false
     this.updateEmptyState()
     this.refreshOutline()
   }
@@ -95,6 +95,37 @@ export default class extends Controller {
     this.rebuildCanvasStructure()
   }
 
+  moveBlock(event) {
+    event.preventDefault()
+    const block = event.currentTarget.closest(".page-builder-block")
+    if (!block || !this.hasCanvasTarget) return
+
+    const blocks = [...this.canvasTarget.querySelectorAll(":scope > .page-builder-block")]
+    const index = blocks.indexOf(block)
+    const targetIndex = this.targetIndex(index, blocks.length, event.currentTarget.dataset.moveDirection)
+    if (targetIndex === null || targetIndex === index) return
+
+    blocks.splice(index, 1)
+    blocks.splice(targetIndex, 0, block)
+    this.rebuildCanvasWithBlocks(blocks)
+    this.focusBlockElement(block)
+  }
+
+  targetIndex(index, count, direction) {
+    switch (direction) {
+      case "up":
+        return index > 0 ? index - 1 : null
+      case "down":
+        return index < count - 1 ? index + 1 : null
+      case "top":
+        return index > 0 ? 0 : null
+      case "bottom":
+        return index < count - 1 ? count - 1 : null
+      default:
+        return null
+    }
+  }
+
   reindex() {
     this.rebuildCanvasStructure()
   }
@@ -165,9 +196,7 @@ export default class extends Controller {
   }
 
   updateAddBarPositions(count) {
-    this.element.querySelectorAll("[data-insert-position].page-builder-add-bar button, .page-builder-add-bar [data-insert-position]").forEach(() => {})
-
-    const topBtn = this.element.querySelector(".page-builder-add-bar--top [data-insert-position]")
+    const topBtn = this.element.querySelector(".page-builder-toolbar [data-insert-position]")
     const bottomBtn = this.element.querySelector(".page-builder-add-bar--bottom [data-insert-position]")
     if (topBtn) topBtn.dataset.insertPosition = "0"
     if (bottomBtn) bottomBtn.dataset.insertPosition = String(count)
@@ -287,6 +316,9 @@ export default class extends Controller {
     this.outlineOpen = !this.outlineOpen
     this.outlinePanelTarget.classList.toggle("is-collapsed", !this.outlineOpen)
     this.element.classList.toggle("outline-collapsed", !this.outlineOpen)
+
+    const btn = this.element.querySelector(".page-builder-structure-btn")
+    if (btn) btn.classList.toggle("active", this.outlineOpen)
   }
 
   updateEmptyState() {
