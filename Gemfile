@@ -11,6 +11,10 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 
+group :development do
+  gem 'ruby-lsp', '~> 0.26', require: false
+end
+
 group :development, :test do
   gem 'rspec-rails', '~> 6.0'
   gem 'rswag-api', '~> 2.16'

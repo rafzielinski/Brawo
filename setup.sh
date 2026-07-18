@@ -27,7 +27,7 @@ sleep 10
 
 # Create and migrate database
 echo "🗄️  Creating and migrating database..."
-if ! docker-compose exec web bash -c "mkdir -p test/dummy/db/migrate && cp db/migrate/*.rb test/dummy/db/migrate/ 2>/dev/null; cd test/dummy && rails db:create db:migrate"; then
+if ! docker-compose exec web bash -c "mkdir -p test/dummy/db/migrate && cp db/migrate/*.rb test/dummy/db/migrate/ 2>/dev/null; cd test/dummy && rails db:create db:migrate db:seed"; then
     echo "❌ Failed to create/migrate database"
     echo "💡 Try running: docker-compose logs web"
     exit 1
@@ -47,9 +47,7 @@ echo "   - View logs: docker-compose logs -f web"
 echo "   - Access console: docker-compose exec web bash"
 echo "   - Stop services: docker-compose down"
 echo ""
-echo "📝 To seed sample data, run:"
-echo "   docker-compose exec web bash"
-echo "   cd test/dummy && rails console"
-echo "   # Then paste the seed data from DOCKER_SETUP.md"
+echo "📝 To re-seed sample data, run:"
+echo "   docker-compose exec web bash -c 'cd test/dummy && rails db:seed'"
 echo ""
 

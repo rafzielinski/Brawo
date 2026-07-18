@@ -1,11 +1,45 @@
+# Bundler
 .bundle/
-log/*.log
+vendor/bundle/
+
+# Gem build artifacts
+*.gem
 pkg/
+
+# Engine logs (dummy app: see test/dummy/.gitignore)
+log/
+
+# Dummy app SQLite (Postgres is primary; keep for local sqlite use)
 test/dummy/db/*.sqlite3
 test/dummy/db/*.sqlite3-*
-test/dummy/log/*.log
-test/dummy/storage/
-test/dummy/tmp/
-*.gem
-.DS_Store
 
+# Spec dummy app (when expanded)
+spec/dummy/log/
+spec/dummy/tmp/
+spec/dummy/storage/
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-*
+
+# Secrets
+.env
+.env.*
+!.env.example
+**/config/master.key
+**/config/credentials/*.key
+
+# Debug / test artifacts
+.byebug_history
+coverage/
+
+# Compiled assets
+**/public/assets
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / editor
+.cursor/
+.idea/
+*~
+*.swp
