@@ -21,7 +21,7 @@ RSpec.describe "BrawoCms API v1 - Taxonomies", type: :request do
 
         schema type: :array, items: { "$ref" => "#/components/schemas/taxonomy" }
 
-        before { Category.create!(name: "News", slug: "news") }
+        before { Category.create!(name: "API Test News", slug: ApiTestData.slug("news")) }
 
         run_test!
       end
@@ -52,8 +52,8 @@ RSpec.describe "BrawoCms API v1 - Taxonomies", type: :request do
           {
             taxonomy_type: "category",
             taxonomy: {
-              name: "Guides",
-              slug: "guides",
+              name: "API Test Guides",
+              slug: ApiTestData.slug("guides"),
               fields: { color: "#336699" }
             }
           }
@@ -63,7 +63,7 @@ RSpec.describe "BrawoCms API v1 - Taxonomies", type: :request do
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data["name"]).to eq("Guides")
+          expect(data["name"]).to eq("API Test Guides")
           expect(data["fields"]["color"]).to eq("#336699")
         end
       end
@@ -74,7 +74,7 @@ RSpec.describe "BrawoCms API v1 - Taxonomies", type: :request do
     parameter name: :taxonomy_type, in: :query, type: :string, required: true
     parameter name: :id, in: :path, type: :integer
 
-    let(:record) { Category.create!(name: "Guides", slug: "guides", fields: { color: "#336699" }) }
+    let(:record) { Category.create!(name: "API Test Guides", slug: ApiTestData.slug("guides-show"), fields: { color: "#336699" }) }
     let(:taxonomy_type) { "category" }
     let(:id) { record.id }
 

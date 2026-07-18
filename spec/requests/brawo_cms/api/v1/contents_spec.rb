@@ -21,7 +21,7 @@ RSpec.describe "BrawoCms API v1 - Contents", type: :request do
 
         schema type: :array, items: { "$ref" => "#/components/schemas/content" }
 
-        before { Article.create!(title: "Seed", slug: "seed", status: "draft") }
+        before { Article.create!(title: "API Test Seed", slug: ApiTestData.slug("seed"), status: "draft") }
 
         run_test!
       end
@@ -53,7 +53,7 @@ RSpec.describe "BrawoCms API v1 - Contents", type: :request do
             content_type: "article",
             content: {
               title: "Hello API",
-              slug: "hello-api",
+              slug: ApiTestData.slug("hello-api"),
               status: "draft",
               fields: { author: "Jane" }
             }
@@ -75,7 +75,7 @@ RSpec.describe "BrawoCms API v1 - Contents", type: :request do
     parameter name: :content_type, in: :query, type: :string, required: true
     parameter name: :id, in: :path, type: :integer
 
-    let(:record) { Article.create!(title: "Hello API", slug: "hello-api", status: "draft", fields: { author: "Jane" }) }
+    let(:record) { Article.create!(title: "Hello API", slug: ApiTestData.slug("hello-api-show"), status: "draft", fields: { author: "Jane" }) }
     let(:content_type) { "article" }
     let(:id) { record.id }
 
