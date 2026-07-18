@@ -12,6 +12,7 @@ module BrawoCms
       app.config.assets.paths << root.join("app/assets/javascripts")
       app.config.assets.paths << root.join("app/javascript")
       app.config.assets.paths << root.join("app/assets/config")
+      app.config.assets.paths << root.join("app/blocks")
       app.config.assets.precompile += %w[
         brawo_cms/admin.css
         brawo_cms/repeater_field.js
@@ -28,6 +29,14 @@ module BrawoCms
     initializer "brawo_cms.importmap", before: "importmap" do |app|
       app.config.importmap.paths << root.join("config/importmap.rb")
       app.config.importmap.cache_sweepers << root.join("app/javascript")
+    end
+
+    initializer "brawo_cms.host_blocks_assets" do |app|
+      app.config.assets.paths << Rails.root.join("app/blocks") if Rails.root.join("app/blocks").exist?
+    end
+
+    initializer "brawo_cms.blocks" do
+      config.to_prepare { BrawoCms::Blocks.load! }
     end
 
     initializer "brawo_cms.helpers" do

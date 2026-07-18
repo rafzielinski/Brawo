@@ -1,8 +1,9 @@
 module BrawoCms
   module Admin
     module PageBuilderHelper
-      def render_page_builder(form, field_name, blocks)
+      def render_page_builder(form, field_name, blocks, available_blocks: BrawoCms.block_types)
         blocks = Array(blocks)
+        @available_blocks = available_blocks
 
         content_tag(:div, class: 'page-builder', data: {
           controller: 'page-builder',
@@ -74,7 +75,7 @@ module BrawoCms
           end +
             content_tag(:div, class: 'offcanvas-body') do
               content_tag(:div, class: 'd-grid gap-2') do
-                safe_join(BrawoCms.block_types.map do |type_name, config|
+                safe_join(available_block_types.map do |type_name, config|
                   button_tag(config[:label], type: 'button', class: 'btn btn-outline-secondary text-start',
                     data: { action: 'page-builder#pickBlockType', block_type: type_name })
                 end)
@@ -124,11 +125,17 @@ module BrawoCms
 
       def render_templates(form, field_name)
         content_tag(:div, class: 'page-builder-templates') do
-          safe_join(BrawoCms.block_types.map do |type_name, config|
+          safe_join(available_block_types.map do |type_name, config|
             render_block_template(form, field_name, type_name, config)
           end)
         end
       end
+
+      def available_block_types
+        @available_blocks || BrawoCms.block_types
+      end
+
+      private :available_block_types
 
       def render_block_row(form, field_name, block, index)
         block = block.with_indifferent_access if block.respond_to?(:with_indifferent_access)
@@ -145,7 +152,12 @@ module BrawoCms
             block_header(block_type, type_config[:label], block_data, index) +
               hidden_field_tag("#{form.object_name}[#{field_name}][#{index}][type]", block_type) +
               content_tag(:div, class: 'block-fields mt-3') do
-                render_block_data_fields(form, field_name, index, type_config[:fields], block_data)
+                if type_config[:admin_template].present?
+                  render(file: type_config[:admin_template],
+                    locals: { form: form, field_name: field_name, block_index: index, data: block_data })
+                else
+                  render_block_data_fields(form, field_name, index, type_config[:fields], block_data)
+                end
               end
           end
         end
