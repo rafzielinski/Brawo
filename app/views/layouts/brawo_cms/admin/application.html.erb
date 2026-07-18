@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BrawoCMS Admin</title>
+    <title><%= t('brawo.layout.title') %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -26,14 +26,14 @@
           <% if notice %>
             <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
               <%= notice %>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
             </div>
           <% end %>
 
           <% if alert %>
             <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
               <%= alert %>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
             </div>
           <% end %>
 
@@ -43,4 +43,3 @@
     </div>
   </body>
 </html>
-

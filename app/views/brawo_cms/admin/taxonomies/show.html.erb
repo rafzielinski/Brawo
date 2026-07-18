@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2"><%= @taxonomy.name %></h1>
   <div class="btn-toolbar mb-2 mb-md-0">
-    <%= link_to "Edit", edit_admin_taxonomy_path(@taxonomy, taxonomy_type: @taxonomy_type), class: "btn btn-warning" %>
-    <%= link_to "Back to List", admin_taxonomies_path(taxonomy_type: @taxonomy_type), class: "btn btn-secondary" %>
+    <%= link_to t('brawo.actions.edit'), edit_admin_taxonomy_path(@taxonomy, taxonomy_type: @taxonomy_type), class: "btn btn-warning" %>
+    <%= link_to t('brawo.actions.back_to_list'), admin_taxonomies_path(taxonomy_type: @taxonomy_type), class: "btn btn-secondary" %>
   </div>
 </div>
 
@@ -10,24 +10,24 @@
   <div class="card-body">
     <div class="row mb-3">
       <div class="col-md-6">
-        <strong>Name:</strong> <%= @taxonomy.name %>
+        <strong><%= t('brawo.attributes.name') %>:</strong> <%= @taxonomy.name %>
       </div>
       <div class="col-md-6">
-        <strong>Slug:</strong> <code><%= @taxonomy.slug %></code>
+        <strong><%= t('brawo.attributes.slug') %>:</strong> <code><%= @taxonomy.slug %></code>
       </div>
     </div>
 
     <% if @taxonomy.description.present? %>
       <div class="row mb-3">
         <div class="col-12">
-          <strong>Description:</strong>
+          <strong><%= t('brawo.attributes.description') %>:</strong>
           <p><%= @taxonomy.description %></p>
         </div>
       </div>
     <% end %>
 
     <% if @taxonomy_type_config[:fields].present? %>
-      <h5 class="mt-4 mb-3">Custom Fields</h5>
+      <h5 class="mt-4 mb-3"><%= t('brawo.sections.custom_fields') %></h5>
       
       <% @taxonomy_type_config[:fields].each do |field| %>
         <div class="row mb-3">
@@ -43,12 +43,11 @@
 
     <div class="row mt-4">
       <div class="col-md-6">
-        <small class="text-muted">Created: <%= @taxonomy.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+        <small class="text-muted"><%= t('brawo.timestamps.created', datetime: brawo_format_datetime(@taxonomy.created_at)) %></small>
       </div>
       <div class="col-md-6 text-end">
-        <small class="text-muted">Updated: <%= @taxonomy.updated_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+        <small class="text-muted"><%= t('brawo.timestamps.updated', datetime: brawo_format_datetime(@taxonomy.updated_at)) %></small>
       </div>
     </div>
   </div>
 </div>
-

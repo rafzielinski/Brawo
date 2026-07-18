@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     module PageBuilderHelper
+      include ApplicationHelper
       include ReorderMenuHelper
 
       def render_page_builder(form, field_name, blocks, label: nil, available_blocks: BrawoCms.block_types)
@@ -11,6 +12,7 @@ module BrawoCms
           controller: 'page-builder',
           page_builder_field_name_value: field_name,
           page_builder_form_prefix_value: form.object_name,
+          page_builder_translations_value: page_builder_translations.to_json,
           action: 'sortable:sorted->page-builder#reindex keydown@window->page-builder#closePickerOnEscape'
         }) do
           safe_join([
@@ -35,7 +37,7 @@ module BrawoCms
               safe_join(build_canvas_children(form, field_name, blocks))
             end,
             render_add_block_button('bottom', blocks.size),
-            content_tag(:p, 'No blocks yet. Click “Add block” to get started.',
+            content_tag(:p, t('brawo.page_builder.empty'),
               class: "text-muted page-builder-empty text-center py-4#{' is-hidden' if blocks.any?}")
           ])
         end
@@ -52,14 +54,14 @@ module BrawoCms
 
       def render_toolbar(label, insert_at)
         content_tag(:div, class: 'page-builder-toolbar') do
-          content_tag(:h5, label.presence || 'Content', class: 'page-builder-title mb-0') +
+          content_tag(:h5, label.presence || t('brawo.page_builder.default_label'), class: 'page-builder-title mb-0') +
             content_tag(:div, class: 'page-builder-toolbar-actions') do
-              button_tag('Structure', type: 'button',
+              button_tag(t('brawo.page_builder.structure'), type: 'button',
                 class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
                 data: { action: 'page-builder#toggleOutline' }) +
                 button_tag(type: 'button', class: 'btn btn-outline-primary btn-sm',
                   data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
-                  '+ Add block'
+                  t('brawo.page_builder.add_block')
                 end
             end
         end
@@ -69,7 +71,7 @@ module BrawoCms
         content_tag(:div, class: "page-builder-add-bar page-builder-add-bar--#{position}") do
           button_tag(type: 'button', class: 'btn btn-outline-primary btn-sm',
             data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
-            '+ Add block'
+            t('brawo.page_builder.add_block')
           end
         end
       end
@@ -77,7 +79,7 @@ module BrawoCms
       def render_insert_zone(position)
         content_tag(:div, class: 'block-insert-zone', data: { insert_position: position }) do
           content_tag(:button, '+', type: 'button', class: 'block-insert-zone-btn',
-            title: 'Insert block here',
+            title: t('brawo.page_builder.insert_block'),
             data: { action: 'page-builder#openPicker', insert_position: position })
         end
       end
@@ -86,9 +88,9 @@ module BrawoCms
         content_tag(:div, class: 'page-builder-picker offcanvas offcanvas-end', tabindex: '-1',
           data: { page_builder_target: 'picker' }) do
           content_tag(:div, class: 'offcanvas-header') do
-            content_tag(:h5, 'Choose block type', class: 'offcanvas-title') +
+            content_tag(:h5, t('brawo.page_builder.choose_block_type'), class: 'offcanvas-title') +
               button_tag(type: 'button', class: 'btn-close',
-                data: { action: 'page-builder#closePicker' }, aria: { label: 'Close' })
+                data: { action: 'page-builder#closePicker' }, aria: { label: t('brawo.layout.close') })
           end +
             content_tag(:div, class: 'offcanvas-body') do
               content_tag(:div, class: 'd-grid gap-2') do
@@ -104,9 +106,9 @@ module BrawoCms
       def render_outline_panel(blocks)
         content_tag(:aside, class: 'page-builder-outline is-collapsed', data: { page_builder_target: 'outlinePanel' }) do
           content_tag(:div, class: 'page-builder-outline-header') do
-            content_tag(:h6, 'Structure', class: 'mb-0') +
+            content_tag(:h6, t('brawo.page_builder.structure'), class: 'mb-0') +
               button_tag(type: 'button', class: 'btn btn-sm btn-link page-builder-outline-close',
-                data: { action: 'page-builder#toggleOutline' }, aria: { label: 'Close panel' }) { '×' }
+                data: { action: 'page-builder#toggleOutline' }, aria: { label: t('brawo.page_builder.close_panel') }) { '×' }
           end +
             content_tag(:ul, class: 'page-builder-outline-list list-unstyled mb-0',
               data: { controller: 'sortable', sortable_handle_value: '.outline-drag-handle',
@@ -130,7 +132,7 @@ module BrawoCms
           block_index: index,
           action: 'click->page-builder#focusBlock'
         }) do
-          content_tag(:span, '⋮⋮', class: 'outline-drag-handle', title: 'Drag to reorder') +
+          content_tag(:span, '⋮⋮', class: 'outline-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, class: 'outline-item-label') do
               content_tag(:strong, label) + tag.br + content_tag(:span, summary, class: 'text-muted small')
             end
@@ -147,6 +149,17 @@ module BrawoCms
 
       def available_block_types
         @available_blocks || BrawoCms.block_types
+      end
+
+      def page_builder_translations
+        {
+          insert_block: t('brawo.page_builder.insert_block'),
+          drag_to_reorder: t('brawo.page_builder.drag_to_reorder'),
+          empty_heading: t('brawo.page_builder.empty_heading'),
+          empty_text: t('brawo.page_builder.empty_text'),
+          faq_default_title: t('brawo.page_builder.faq_default_title'),
+          faq_items: t('brawo.page_builder.faq_items', title: '%{title}', count: '%{count}')
+        }
       end
 
       private :available_block_types
@@ -194,7 +207,7 @@ module BrawoCms
       def block_header(block_type, label, data, index)
         summary = block_summary(block_type, data)
         content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2') do
-          content_tag(:span, '⋮⋮', class: 'drag-handle text-muted', title: 'Drag to reorder') +
+          content_tag(:span, '⋮⋮', class: 'drag-handle text-muted', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, label, class: 'badge bg-primary') +
             content_tag(:span, summary, class: 'text-muted small flex-grow-1 text-truncate') +
             render_block_menu(index)
@@ -206,8 +219,8 @@ module BrawoCms
           move_action: 'page-builder#moveBlock',
           remove_action: 'page-builder#removeBlock',
           extra_before_remove: [
-            { label: 'Add block above', action: 'page-builder#openPickerRelative', data: { insert_offset: 0 } },
-            { label: 'Add block below', action: 'page-builder#openPickerRelative', data: { insert_offset: 1 } }
+            { label: t('brawo.page_builder.add_block_above'), action: 'page-builder#openPickerRelative', data: { insert_offset: 0 } },
+            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1 } }
           ]
         )
       end
@@ -216,12 +229,14 @@ module BrawoCms
         data = data.with_indifferent_access if data.respond_to?(:with_indifferent_access)
         case block_type.to_sym
         when :heading
-          data[:text].presence || '(empty heading)'
+          data[:text].presence || t('brawo.page_builder.empty_heading')
         when :text
-          data[:body].to_s.truncate(60).presence || '(empty text)'
+          data[:body].to_s.truncate(60).presence || t('brawo.page_builder.empty_text')
         when :faq
           count = Array(data[:items]).size
-          "#{data[:section_title].presence || 'FAQ'} (#{count} items)"
+          t('brawo.page_builder.faq_items',
+            title: data[:section_title].presence || t('brawo.page_builder.faq_default_title'),
+            count: count)
         else
           block_type.to_s.humanize
         end
@@ -311,7 +326,7 @@ module BrawoCms
               end
               safe_join(rows) + template
             end +
-            button_tag('+ Add Row', type: 'button', class: 'btn btn-sm btn-outline-primary mt-2',
+            button_tag(t('brawo.page_builder.add_row'), type: 'button', class: 'btn btn-sm btn-outline-primary mt-2',
               disabled: disabled, data: { action: 'repeater#addRow' })
         end
       end
@@ -333,7 +348,7 @@ module BrawoCms
         content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           content_tag(:div, class: 'card-body') do
             content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: 'Drag to reorder') +
+              content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: t('brawo.page_builder.drag_to_reorder')) +
                 content_tag(:span, '', class: 'flex-grow-1') +
                 render_item_actions_dropdown(
                   move_action: 'repeater#moveRow',

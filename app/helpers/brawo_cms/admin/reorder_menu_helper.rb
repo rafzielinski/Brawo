@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     module ReorderMenuHelper
+      include ApplicationHelper
       def render_item_actions_dropdown(move_action:, remove_action:, disabled: false, extra_before_remove: [])
         content_tag(:div, class: 'dropdown item-actions-menu') do
           button_tag('⋯', type: 'button', class: 'btn btn-sm btn-light',
@@ -26,10 +27,10 @@ module BrawoCms
 
       def reorder_menu_items(action, disabled)
         [
-          ['up', 'Move up'],
-          ['down', 'Move down'],
-          ['top', 'Move to top'],
-          ['bottom', 'Move to bottom']
+          ['up', t('brawo.reorder.move_up')],
+          ['down', t('brawo.reorder.move_down')],
+          ['top', t('brawo.reorder.move_to_top')],
+          ['bottom', t('brawo.reorder.move_to_bottom')]
         ].map do |direction, label|
           content_tag(:li) do
             button_tag(label, type: 'button', class: 'dropdown-item', disabled: disabled,
@@ -49,7 +50,7 @@ module BrawoCms
 
       def remove_menu_item(action, disabled)
         content_tag(:li) do
-          button_tag('Remove', type: 'button', class: 'dropdown-item text-danger', disabled: disabled,
+          button_tag(t('brawo.reorder.remove'), type: 'button', class: 'dropdown-item text-danger', disabled: disabled,
             data: { action: action })
         end
       end

@@ -1,12 +1,12 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Dashboard</h1>
+  <h1 class="h2"><%= t('brawo.dashboard.title') %></h1>
 </div>
 
 <div class="row">
   <div class="col-12">
     <div class="alert alert-info">
-      <h4>Welcome to BrawoCMS Admin!</h4>
-      <p>Select a content type from the sidebar to get started.</p>
+      <h4><%= t('brawo.dashboard.welcome_heading') %></h4>
+      <p><%= t('brawo.dashboard.welcome_body') %></p>
     </div>
   </div>
 </div>
@@ -17,9 +17,9 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title"><%= config[:label].pluralize %></h5>
-          <p class="card-text">Manage your <%= config[:label].downcase %> content</p>
-          <%= link_to "View All", admin_contents_path(content_type: name), class: "btn btn-primary" %>
-          <%= link_to "Create New", new_admin_content_path(content_type: name), class: "btn btn-success" %>
+          <p class="card-text"><%= t('brawo.dashboard.manage_content', label: config[:label].downcase) %></p>
+          <%= link_to t('brawo.dashboard.view_all'), admin_contents_path(content_type: name), class: "btn btn-primary" %>
+          <%= link_to t('brawo.dashboard.create_new'), new_admin_content_path(content_type: name), class: "btn btn-success" %>
         </div>
       </div>
     </div>
@@ -30,20 +30,13 @@
   <div class="row mt-4">
     <div class="col-12">
       <div class="alert alert-warning">
-        <h5>No Content Types Found</h5>
-        <p>You haven't defined any content types yet. Create a model that inherits from <code>BrawoCms::Content</code> and includes <code>BrawoCms::ContentTypeable</code>.</p>
-        <p>Example:</p>
-        <pre>class Article < BrawoCms::Content
-  include BrawoCms::ContentTypeable
-  
-  content_type :article,
-    label: 'Article',
-    fields: [
-      { name: :author, type: :string, label: 'Author' }
-    ]
-end</pre>
+        <h5><%= t('brawo.dashboard.no_content_types_heading') %></h5>
+        <p><%= t('brawo.dashboard.no_content_types_body_html',
+              content_class: tag.code('BrawoCms::Content'),
+              content_typeable_module: tag.code('BrawoCms::ContentTypeable')).html_safe %></p>
+        <p><%= t('brawo.dashboard.no_content_types_example_heading') %></p>
+        <pre><%= t('brawo.dashboard.no_content_types_example') %></pre>
       </div>
     </div>
   </div>
 <% end %>
-

@@ -3,6 +3,7 @@ module BrawoCms
     class BaseController < ActionController::Base
       layout 'brawo_cms/admin/application'
 
+      helper BrawoCms::Admin::ApplicationHelper
       helper BrawoCms::Admin::PageBuilderHelper
 
       before_action :set_content_types

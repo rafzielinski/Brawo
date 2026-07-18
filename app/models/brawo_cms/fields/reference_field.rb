@@ -28,13 +28,13 @@ module BrawoCms
       end
 
       def format_value(value)
-        return '-' unless value.present? && @model_class
+        return empty_display_value unless value.present? && @model_class
 
         model_class = resolve_model_class(@model_class)
-        return '-' unless model_class
+        return empty_display_value unless model_class
 
         ids = Array(value).compact
-        return '-' if ids.empty?
+        return empty_display_value if ids.empty?
 
         items = model_class.where(id: ids)
         items.map { |item| item.respond_to?(:title) ? item.title : item.respond_to?(:name) ? item.name : item.id }.join(', ')

@@ -27,12 +27,12 @@ module BrawoCms
       format_value(value)
     rescue => e
       Rails.logger.error("Error displaying field #{@name}: #{e.message}")
-      value.present? ? value.to_s : '-'
+      value.present? ? value.to_s : empty_display_value
     end
 
     # Format a raw value for display
     def format_value(value)
-      return '-' unless value.present?
+      return empty_display_value unless value.present?
       value.to_s
     end
 
@@ -40,6 +40,10 @@ module BrawoCms
     def render_input(form, object)
       field_options = default_input_options.merge(@options)
       render_input_field(form, field_options, object)
+    end
+
+    def empty_display_value
+      I18n.t('brawo.fields.empty_value')
     end
 
     protected

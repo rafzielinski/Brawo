@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["canvas", "picker", "outline", "outlinePanel"]
   static values = {
     fieldName: String,
-    formPrefix: String
+    formPrefix: String,
+    translations: Object
   }
 
   connect() {
@@ -186,7 +187,7 @@ export default class extends Controller {
     const btn = document.createElement("button")
     btn.type = "button"
     btn.className = "block-insert-zone-btn"
-    btn.title = "Insert block here"
+    btn.title = this.translation("insert_block")
     btn.textContent = "+"
     btn.dataset.action = "page-builder#openPicker"
     btn.dataset.insertPosition = position
@@ -250,7 +251,7 @@ export default class extends Controller {
       item.dataset.blockIndex = index
 
       item.innerHTML = `
-        <span class="outline-drag-handle" title="Drag to reorder">⋮⋮</span>
+        <span class="outline-drag-handle" title="${this.escapeHtml(this.translation("drag_to_reorder"))}">⋮⋮</span>
         <span class="outline-item-label">
           <strong>${this.escapeHtml(label)}</strong><br>
           <span class="text-muted small">${this.escapeHtml(summary)}</span>
@@ -269,17 +270,17 @@ export default class extends Controller {
   blockSummary(block, blockType) {
     if (blockType === "heading") {
       const input = block.querySelector("[name*='[data][text]']")
-      return input?.value?.trim() || "(empty heading)"
+      return input?.value?.trim() || this.translation("empty_heading")
     }
     if (blockType === "text") {
       const input = block.querySelector("[name*='[data][body]']")
       const text = input?.value?.trim() || ""
-      return text.length > 60 ? `${text.slice(0, 60)}…` : text || "(empty text)"
+      return text.length > 60 ? `${text.slice(0, 60)}…` : text || this.translation("empty_text")
     }
     if (blockType === "faq") {
-      const title = block.querySelector("[name*='[data][section_title]']")?.value?.trim() || "FAQ"
+      const title = block.querySelector("[name*='[data][section_title]']")?.value?.trim() || this.translation("faq_default_title")
       const count = block.querySelectorAll(".repeater-row:not(.repeater-template)").length
-      return `${title} (${count} items)`
+      return this.translation("faq_items", { title, count })
     }
     return blockType
   }
@@ -335,5 +336,16 @@ export default class extends Controller {
     const div = document.createElement("div")
     div.textContent = text
     return div.innerHTML
+  }
+
+  translation(key, replacements = {}) {
+    let value = this.hasTranslationsValue ? this.translationsValue[key] : null
+    if (!value) return ""
+
+    Object.entries(replacements).forEach(([name, replacement]) => {
+      value = value.replace(`%{${name}}`, replacement)
+    })
+
+    return value
   }
 }

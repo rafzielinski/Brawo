@@ -6,7 +6,7 @@ module BrawoCms
       end
 
       def format_value(value)
-        return '-' unless value.present?
+        return empty_display_value unless value.present?
         DateTime.parse(value).strftime("%B %d, %Y at %I:%M %p")
       rescue
         value.to_s

@@ -34,6 +34,7 @@ module BrawoCms
         end
         
         helper = ActionController::Base.helpers
+        helper.extend(BrawoCms::Admin::ApplicationHelper)
         helper.extend(BrawoCms::Admin::ReorderMenuHelper)
         
         # Get the form object name (e.g., "content" or "taxonomy") to prefix field names
@@ -56,17 +57,17 @@ module BrawoCms
             end
             helper.safe_join(items_html) + template_html
           end +
-          helper.content_tag(:button, '+ Add Row', type: 'button',
+          helper.content_tag(:button, I18n.t('brawo.fields.add_row'), type: 'button',
                             class: 'btn btn-sm btn-outline-primary mt-2',
                             data: { action: 'repeater#addRow' })
         end
       end
 
       def format_value(value)
-        return '-' unless value.present?
+        return empty_display_value unless value.present?
         
         value = Array(value) unless value.is_a?(Array)
-        return '-' if value.empty?
+        return empty_display_value if value.empty?
         
         helper = ActionController::Base.helpers
         
@@ -88,7 +89,7 @@ module BrawoCms
             helper.content_tag(:div, class: 'card mb-2') do
               helper.content_tag(:div, class: 'card-body p-2') do
                 helper.content_tag(:small, class: 'text-muted') do
-                  "Item #{index + 1}"
+                  I18n.t('brawo.fields.item', number: index + 1)
                 end +
                 helper.content_tag(:div, class: 'mt-1') do
                   helper.safe_join(item_html)
@@ -110,7 +111,7 @@ module BrawoCms
         helper.content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           helper.content_tag(:div, class: 'card-body') do
             header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              helper.content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: 'Drag to reorder') +
+              helper.content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
                 helper.content_tag(:span, '', class: 'flex-grow-1') +
                 helper.render_item_actions_dropdown(
                   move_action: 'repeater#moveRow',
@@ -185,7 +186,7 @@ module BrawoCms
         when :select
           options = sub_field.choices.map { |c| [c.is_a?(Array) ? c[0] : c, c.is_a?(Array) ? c[1] : c] }
           select_options = base_options.merge(class: 'form-select')
-          select_options[:include_blank] = sub_field.required ? false : "Select #{sub_field.label}"
+          select_options[:include_blank] = sub_field.required ? false : I18n.t('brawo.fields.select', label: sub_field.label)
           helper.select_tag(field_name, helper.options_for_select(options, field_value), select_options)
         else
           # Fallback to text field

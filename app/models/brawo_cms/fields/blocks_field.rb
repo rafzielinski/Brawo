@@ -12,10 +12,10 @@ module BrawoCms
       end
 
       def format_value(value)
-        return '-' unless value.present?
+        return empty_display_value unless value.present?
 
         value = Array(value)
-        return '-' if value.empty?
+        return empty_display_value if value.empty?
 
         helper = ActionController::Base.helpers
         helper.content_tag(:div, class: 'blocks-display') do

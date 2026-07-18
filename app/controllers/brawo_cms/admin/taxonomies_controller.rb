@@ -24,7 +24,7 @@ module BrawoCms
 
         if result.success?
           redirect_to admin_taxonomy_path(result.record, taxonomy_type: params[:taxonomy_type]),
-                      notice: "#{@taxonomy_type_config[:label]} was successfully created."
+                      notice: t('brawo.taxonomies.flash.created', label: @taxonomy_type_config[:label])
         else
           @taxonomy = result.record
           render :new, status: :unprocessable_entity
@@ -40,7 +40,7 @@ module BrawoCms
 
         if result.success?
           redirect_to admin_taxonomy_path(result.record, taxonomy_type: params[:taxonomy_type]),
-                      notice: "#{@taxonomy_type_config[:label]} was successfully updated."
+                      notice: t('brawo.taxonomies.flash.updated', label: @taxonomy_type_config[:label])
         else
           @taxonomy = result.record
           render :edit, status: :unprocessable_entity
@@ -50,7 +50,7 @@ module BrawoCms
       def destroy
         ::BrawoCms::TaxonomyService.destroy(type: @taxonomy_type, id: params[:id])
         redirect_to admin_taxonomies_path(taxonomy_type: params[:taxonomy_type]),
-                    notice: "#{@taxonomy_type_config[:label]} was successfully deleted."
+                    notice: t('brawo.taxonomies.flash.deleted', label: @taxonomy_type_config[:label])
       end
 
       private
@@ -60,7 +60,7 @@ module BrawoCms
         @taxonomy_type_config = ::BrawoCms::TaxonomyService.type_config(@taxonomy_type)
 
         unless @taxonomy_type_config
-          redirect_to admin_root_path, alert: "Taxonomy type not found" and return
+          redirect_to admin_root_path, alert: t('brawo.errors.taxonomy_type_not_found') and return
         end
       end
 
@@ -70,7 +70,8 @@ module BrawoCms
         if result.success?
           @taxonomy = result.record
         else
-          redirect_to admin_taxonomies_path(taxonomy_type: params[:taxonomy_type]), alert: "Taxonomy not found"
+          redirect_to admin_taxonomies_path(taxonomy_type: params[:taxonomy_type]),
+                      alert: t('brawo.errors.taxonomy_not_found')
         end
       end
 

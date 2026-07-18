@@ -6,7 +6,7 @@ module BrawoCms
       end
 
       def format_value(value)
-        return '-' unless value.present?
+        return empty_display_value unless value.present?
         ActionController::Base.helpers.simple_format(value)
       end
     end

@@ -17,20 +17,20 @@ module BrawoCms
         choices = taxonomy_entries.map { |entry| [entry.name, entry.id] }
 
         select_options = {
-          include_blank: @required ? false : "Select #{@label}"
+          include_blank: @required ? false : I18n.t('brawo.fields.select', label: @label)
         }
         form.select(@name, choices, select_options, options.merge(class: 'form-select'))
       end
 
       def format_value(value)
-        return '-' unless value.present? && @taxonomy_type
+        return empty_display_value unless value.present? && @taxonomy_type
 
         taxonomy_config = BrawoCms.taxonomy_types[@taxonomy_type]
         return value.to_s unless taxonomy_config
 
         taxonomy_class = taxonomy_config[:class]
         taxonomy_item = taxonomy_class.find_by(id: value)
-        taxonomy_item ? taxonomy_item.name : '-'
+        taxonomy_item ? taxonomy_item.name : empty_display_value
       rescue
         value.to_s
       end

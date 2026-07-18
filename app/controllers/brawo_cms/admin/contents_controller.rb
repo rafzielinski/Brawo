@@ -24,7 +24,7 @@ module BrawoCms
 
         if result.success?
           redirect_to admin_content_path(result.record, content_type: params[:content_type]),
-                      notice: "#{@content_type_config[:label]} was successfully created."
+                      notice: t('brawo.contents.flash.created', label: @content_type_config[:label])
         else
           @content = result.record
           render :new, status: :unprocessable_entity
@@ -40,7 +40,7 @@ module BrawoCms
 
         if result.success?
           redirect_to admin_content_path(result.record, content_type: params[:content_type]),
-                      notice: "#{@content_type_config[:label]} was successfully updated."
+                      notice: t('brawo.contents.flash.updated', label: @content_type_config[:label])
         else
           @content = result.record
           render :edit, status: :unprocessable_entity
@@ -50,7 +50,7 @@ module BrawoCms
       def destroy
         ::BrawoCms::ContentService.destroy(type: @content_type, id: params[:id])
         redirect_to admin_contents_path(content_type: params[:content_type]),
-                    notice: "#{@content_type_config[:label]} was successfully deleted."
+                    notice: t('brawo.contents.flash.deleted', label: @content_type_config[:label])
       end
 
       private
@@ -60,7 +60,7 @@ module BrawoCms
         @content_type_config = ::BrawoCms::ContentService.type_config(@content_type)
 
         unless @content_type_config
-          redirect_to admin_root_path, alert: "Content type not found" and return
+          redirect_to admin_root_path, alert: t('brawo.errors.content_type_not_found') and return
         end
       end
 
@@ -70,7 +70,8 @@ module BrawoCms
         if result.success?
           @content = result.record
         else
-          redirect_to admin_contents_path(content_type: params[:content_type]), alert: "Content not found"
+          redirect_to admin_contents_path(content_type: params[:content_type]),
+                      alert: t('brawo.errors.content_not_found')
         end
       end
 

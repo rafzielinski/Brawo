@@ -1,0 +1,127 @@
+en:
+  brawo:
+    layout:
+      title: Brawo Admin
+      close: Close
+    navigation:
+      brand: Brawo
+      panel: Admin Panel
+    sidebar:
+      dashboard: Dashboard
+      content_types: CONTENT TYPES
+      taxonomies: TAXONOMIES
+    dashboard:
+      title: Dashboard
+      welcome_heading: Welcome to BrawoCMS Admin!
+      welcome_body: Select a content type from the sidebar to get started.
+      manage_content: Manage your %{label} content
+      view_all: View All
+      create_new: Create New
+      no_content_types_heading: No Content Types Found
+      no_content_types_body_html: You haven't defined any content types yet. Create a model that inherits from %{content_class} and includes %{content_typeable_module}.
+      no_content_types_example_heading: "Example:"
+      no_content_types_example: |
+        class Article < BrawoCms::Content
+          include BrawoCms::ContentTypeable
+
+          content_type :article,
+            label: 'Article',
+            fields: [
+              { name: :author, type: :string, label: 'Author' }
+            ]
+        end
+    actions:
+      view: View
+      edit: Edit
+      delete: Delete
+      cancel: Cancel
+      back_to_list: Back to List
+      new: New %{label}
+      confirm_delete: Are you sure?
+      submit: Save
+    tables:
+      title: Title
+      status: Status
+      created: Created
+      name: Name
+      slug: Slug
+      actions: Actions
+    attributes:
+      title: Title
+      slug: Slug
+      description: Description
+      status: Status
+      name: Name
+    hints:
+      slug_from_title: Leave blank to auto-generate from title
+      slug_from_name: Leave blank to auto-generate from name
+    status:
+      draft: Draft
+      published: Published
+      archived: Archived
+    sections:
+      custom_fields: Custom Fields
+    formats:
+      date: "%B %d, %Y"
+      datetime: "%B %d, %Y at %I:%M %p"
+    timestamps:
+      created: "Created: %{datetime}"
+      updated: "Updated: %{datetime}"
+    contents:
+      new_title: New %{label}
+      edit_title: Edit %{label}
+      empty: No %{label} found.
+      create_first: Create your first %{label}
+      flash:
+        created: "%{label} was successfully created."
+        updated: "%{label} was successfully updated."
+        deleted: "%{label} was successfully deleted."
+      errors:
+        prohibited:
+          one: "%{count} error prohibited this content from being saved:"
+          other: "%{count} errors prohibited this content from being saved:"
+    taxonomies:
+      new_title: New %{label}
+      edit_title: Edit %{label}
+      empty: No %{label} found.
+      create_first: Create your first %{label}
+      flash:
+        created: "%{label} was successfully created."
+        updated: "%{label} was successfully updated."
+        deleted: "%{label} was successfully deleted."
+      errors:
+        prohibited:
+          one: "%{count} error prohibited this taxonomy from being saved:"
+          other: "%{count} errors prohibited this taxonomy from being saved:"
+    errors:
+      content_type_not_found: Content type not found
+      content_not_found: Content not found
+      taxonomy_type_not_found: Taxonomy type not found
+      taxonomy_not_found: Taxonomy not found
+    page_builder:
+      default_label: Content
+      structure: Structure
+      add_block: Add block
+      add_block_above: Add block above
+      add_block_below: Add block below
+      choose_block_type: Choose block type
+      empty: No blocks yet. Click “Add block” to get started.
+      insert_block: Insert block here
+      drag_to_reorder: Drag to reorder
+      close_panel: Close panel
+      empty_heading: (empty heading)
+      empty_text: (empty text)
+      faq_items: "%{title} (%{count} items)"
+      faq_default_title: FAQ
+      add_row: Add Row
+    reorder:
+      move_up: Move up
+      move_down: Move down
+      move_to_top: Move to top
+      move_to_bottom: Move to bottom
+      remove: Remove
+    fields:
+      select: Select %{label}
+      item: Item %{number}
+      add_row: Add Row
+      empty_value: "-"

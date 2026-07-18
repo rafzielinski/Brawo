@@ -4,7 +4,7 @@
               local: true) do |form| %>
   <% if content.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(content.errors.count, "error") %> prohibited this content from being saved:</h4>
+      <h4><%= t('brawo.contents.errors.prohibited', count: content.errors.count) %></h4>
       <ul>
         <% content.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -15,22 +15,22 @@
 
   <div class="row mb-4">
     <div class="col-md-4">
-      <%= form.label :title, class: "form-label" %>
+      <%= form.label :title, t('brawo.attributes.title'), class: "form-label" %>
       <%= form.text_field :title, class: "form-control", required: true %>
     </div>
     <div class="col-md-4">
-      <%= form.label :slug, class: "form-label" %>
+      <%= form.label :slug, t('brawo.attributes.slug'), class: "form-label" %>
       <%= form.text_field :slug, class: "form-control" %>
-      <small class="form-text text-muted">Leave blank to auto-generate from title</small>
+      <small class="form-text text-muted"><%= t('brawo.hints.slug_from_title') %></small>
     </div>
     <div class="col-md-4">
-      <%= form.label :status, class: "form-label" %>
-      <%= form.select :status, [['Draft', 'draft'], ['Published', 'published'], ['Archived', 'archived']], {}, class: "form-select" %>
+      <%= form.label :status, t('brawo.attributes.status'), class: "form-label" %>
+      <%= form.select :status, brawo_status_options, {}, class: "form-select" %>
     </div>
   </div>
 
   <div class="mb-3">
-    <%= form.label :description, class: "form-label" %>
+    <%= form.label :description, t('brawo.attributes.description'), class: "form-label" %>
     <%= form.text_area :description, class: "form-control", rows: 2 %>
   </div>
 
@@ -41,7 +41,7 @@
   <% end %>
 
   <div class="d-flex justify-content-between mt-4">
-    <%= form.submit class: "btn btn-primary" %>
-    <%= link_to "Cancel", admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
+    <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
+    <%= link_to t('brawo.actions.cancel'), admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
   </div>
 <% end %>

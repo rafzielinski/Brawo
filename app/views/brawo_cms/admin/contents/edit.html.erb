@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Edit <%= @content_type_config[:label] %></h1>
+  <h1 class="h2"><%= t('brawo.contents.edit_title', label: @content_type_config[:label]) %></h1>
 </div>
 
 <div class="card">
@@ -11,4 +11,3 @@
     <% end %>
   </div>
 </div>
-
