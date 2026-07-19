@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     module ApplicationHelper
+      include FieldWrapperHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))
       end

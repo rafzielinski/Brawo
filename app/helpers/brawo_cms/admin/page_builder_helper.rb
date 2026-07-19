@@ -232,22 +232,18 @@ module BrawoCms
         data = data.with_indifferent_access if data.respond_to?(:with_indifferent_access)
         prefix = "#{form.object_name}[#{field_name}][#{block_index}][data]"
 
-        content_tag(:div, class: 'row') do
+        content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) do
           safe_join(field_defs.map do |field_def|
             sub_field = BrawoCms::FieldFactory.build(field_def)
             field_key = sub_field.name.to_s
             field_value = data[field_key] || data[field_key.to_sym]
             input_name = "#{prefix}[#{field_key}]"
 
-            content_tag(:div, class: field_column_class(field_def)) do
+            content_tag(:div, **field_wrapper_attrs(field_def)) do
               render_block_field_input(sub_field, field_def, input_name, field_value, prefix, disabled: disabled)
             end
           end)
         end
-      end
-
-      def field_column_class(field_def)
-        field_def[:type] == :repeater ? 'col-12 mb-2' : 'col-md-6 mb-2'
       end
 
       def render_block_field_input(sub_field, field_def, input_name, field_value, prefix, disabled: false)
@@ -326,7 +322,7 @@ module BrawoCms
           sub_name = "#{base_name}[#{index}][#{sub_field.name}]"
           sub_value = item_data[sub_field.name.to_s] || item_data[sub_field.name.to_sym]
 
-          content_tag(:div, class: 'col-md-6 mb-2') do
+          content_tag(:div, **field_wrapper_attrs(sub_field_def)) do
             render_block_field_input(sub_field, sub_field_def, sub_name, sub_value, base_name, disabled: disabled)
           end
         end
@@ -342,7 +338,7 @@ module BrawoCms
                   disabled: disabled
                 )
             end +
-              content_tag(:div, class: 'row') { safe_join(fields_html) }
+              content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) { safe_join(fields_html) }
           end
         end
       end

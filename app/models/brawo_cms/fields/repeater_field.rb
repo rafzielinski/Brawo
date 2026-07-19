@@ -128,7 +128,7 @@ module BrawoCms
               # Create a temporary object to hold the field value for rendering
               temp_object = OpenStruct.new(fields: { sub_field.name.to_s => field_value })
               
-              helper.content_tag(:div, class: 'col-md-6 mb-2') do
+              helper.content_tag(:div, **helper.field_wrapper_attrs(sub_field_def)) do
                 # Add required indicator to label
                 label_text = sub_field.label
                 label_text += ' <span class="text-danger">*</span>'.html_safe if sub_field.required
@@ -149,7 +149,7 @@ module BrawoCms
             end
             
             header +
-            helper.content_tag(:div, class: 'row') do
+            helper.content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) do
               helper.safe_join(fields_html)
             end
           end

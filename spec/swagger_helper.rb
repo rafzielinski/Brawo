@@ -59,6 +59,20 @@ RSpec.configure do |config|
                 type: :array,
                 items: { "$ref" => "#/components/schemas/field_definition" },
                 nullable: true
+              },
+              wrapper: {
+                type: :object,
+                nullable: true,
+                properties: {
+                  width: { type: :string, description: 'Field width percentage for tablet+ (default 100)' },
+                  class: { type: :string, description: 'Extra CSS class on field wrapper' },
+                  attr: {
+                    oneOf: [
+                      { type: :object, additionalProperties: { type: :string } },
+                      { type: :string, description: 'HTML attributes string, e.g. data-foo="bar"' }
+                    ]
+                  }
+                }
               }
             },
             required: %w[name type label]

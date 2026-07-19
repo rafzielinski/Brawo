@@ -45,11 +45,38 @@ class Article < BrawoCms::Content
         type: :repeater,
         label: 'FAQ Items',
         sub_fields: [
-          { name: :question, type: :string, label: 'Question' },
-          { name: :answer, type: :textarea, label: 'Answer' },
+          { 
+            name: :question, 
+            type: :string, 
+            label: 'Question',
+            wrapper: {
+              width: '50'
+            } 
+          },
+          { 
+            name: :answer, 
+            type: :textarea, 
+            label: 'Answer',
+            wrapper: {
+              width: '50'
+            } 
+          },
           { name: :sub_items, type: :repeater, label: 'Sub Items', 
             sub_fields: [
-              { name: :sub_item_question, type: :string, required: true, label: 'Sub Item Question' },
+              { 
+                name: :sub_item_question, 
+                type: :string, 
+                required: true, 
+                label: 'Sub Item Question',
+                wrapper: {
+                  width: '50'
+                } 
+              },
+              { 
+                name: :sub_item_answer, 
+                type: :textarea, 
+                label: 'Sub Item Answer' 
+              },
               { name: :sub_item_answer, type: :textarea, label: 'Sub Item Answer' },
             ]
           },

@@ -51,8 +51,10 @@ app/blocks/hero/
 # app/blocks/hero/block.rb
 label "Hero"
 
-field :title, type: :string, label: "Title", required: true
-field :subtitle, type: :textarea, label: "Subtitle"
+field :title, type: :string, label: "Title", required: true,
+  wrapper: { width: "50", class: "hero-title" }
+field :subtitle, type: :textarea, label: "Subtitle",
+  wrapper: { width: "50" }
 field :cta_url, type: :string, label: "CTA URL"
 ```
 

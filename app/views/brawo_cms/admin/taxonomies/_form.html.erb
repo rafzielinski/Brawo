@@ -33,15 +33,7 @@
     <hr class="my-4">
     <h5 class="mb-3"><%= t('brawo.sections.custom_fields') %></h5>
 
-    <% @taxonomy_type_config[:fields].each do |field| %>
-      <div class="mb-3">
-        <%= form.label field[:name], field[:label] || field[:name].to_s.titleize, class: "form-label" %>
-        <%= render_field_input(form, field, taxonomy) %>
-        <% if field[:help_text] %>
-          <small class="form-text text-muted"><%= field[:help_text] %></small>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render_field_group(form, @taxonomy_type_config[:fields], taxonomy, render_input: :render_field_input) %>
   <% end %>
 
   <div class="d-flex justify-content-between mt-4">

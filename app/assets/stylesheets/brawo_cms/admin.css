@@ -66,6 +66,8 @@ main {
   display: none !important;
 }
 
+/* Field layout uses Bootstrap row/col (see FieldWrapperHelper) */
+
 /* Page Builder */
 .page-builder {
   position: relative;

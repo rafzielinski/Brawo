@@ -85,6 +85,9 @@ export default class extends Controller {
 
     this.rebuildCanvasStructure()
     this.focusBlockElement(clone)
+    requestAnimationFrame(() => {
+      void clone.offsetWidth
+    })
   }
 
   removeBlock(event) {

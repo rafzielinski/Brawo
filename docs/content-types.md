@@ -60,6 +60,27 @@ Custom fields never get their own DB columns.
 
 Common keys: `name`, `type`, `label`, `help_text`, `required`.
 
+### Field wrapper (admin layout)
+
+Control how a field renders in admin forms. Width maps to Bootstrap columns (`col-12` on mobile, `col-md-*` on tablet+). Default is full width (`100` → `col-12`).
+
+```ruby
+{
+  name: :author,
+  type: :string,
+  label: "Author",
+  wrapper: {
+    width: "50",                              # → col-md-6 (12-col grid)
+    class: "custom-class",                    # extra CSS class on wrapper
+    attr: { "data-custom-attr" => "value" } # or string: 'data-custom-attr="value"'
+  }
+}
+```
+
+Common widths: `50` → half, `33` → third, `25` → quarter, `100` → full. Other values round to the nearest column.
+
+Works on top-level fields, repeater `sub_fields`, block `field()` definitions, and nested repeaters.
+
 ## Content type options
 
 ```ruby
