@@ -1,0 +1,14 @@
+---
+description: Brawo CMS engine boundaries and Rails conventions
+alwaysApply: true
+---
+
+# Brawo CMS core
+
+- This repo is a **Rails engine** (`BrawoCms::Engine`), not a standalone app. Tests boot `test/dummy` via `spec/rails_helper.rb`.
+- Content/taxonomy types are **registered in memory** from host models (`content_type` / `taxonomy_type` DSL). Do not introduce a `ContentType` AR model.
+- Persistence: STI on `brawo_cms_contents` / `brawo_cms_taxonomies`; custom fields in JSONB — no migration per field.
+- **Writes** go through `ContentService` / `TaxonomyService` and `ParamsBuilder`; controllers stay thin.
+- Extend integration behavior via `test/dummy/app/models/` (Article, Product, Page, Category) and matching specs.
+- Keep changes small and idiomatic Rails; inline comments only for non-obvious behavior.
+- Before completing work: `bundle exec rspec`.

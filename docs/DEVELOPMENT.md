@@ -6,7 +6,7 @@
 brawo/
 ├── app/
 │   ├── assets/stylesheets/
-│   │   └── brawo_cms/admin.css        # Admin UI styles
+│   │   └── brawo_cms/admin.css        # Admin UI manifest (see admin/*.css)
 │   ├── controllers/
 │   │   └── brawo_cms/admin/
 │   │       ├── base_controller.rb      # Base admin controller
@@ -209,24 +209,7 @@ Article.order("fields->>'published_date' DESC")
 
 ## Testing
 
-Add tests for your content types:
-
-```ruby
-require 'test_helper'
-
-class ArticleTest < ActiveSupport::TestCase
-  test "should create article with custom fields" do
-    article = Article.create!(
-      title: "Test Article",
-      author: "Test Author",
-      body: "Test content"
-    )
-    
-    assert_equal "Test Author", article.author
-    assert_equal "Test content", article.body
-  end
-end
-```
+See [testing.md](testing.md) for RSpec, the dummy app, migrations sync, and OpenAPI generation.
 
 ## Deployment Considerations
 
@@ -250,12 +233,9 @@ end
 - Check `content_type` is called with proper syntax
 - Restart server to reload model definitions
 
-## Future Development Ideas
+## More documentation
 
-- Add rich text editor support
-- Implement media library
-- Add content versioning
-- Create API endpoints
-- Build taxonomy system
-- Add user roles and permissions
+- [index.md](index.md) — doc hub
+- [testing.md](testing.md) — engine test suite
+- [admin-internals.md](admin-internals.md) — admin UI map for contributors
 

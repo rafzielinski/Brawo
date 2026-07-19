@@ -2,6 +2,7 @@ module BrawoCms
   module Admin
     module ApplicationHelper
       include FieldWrapperHelper
+      include FieldsHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))
       end
@@ -18,6 +19,35 @@ module BrawoCms
         %w[draft published archived].map do |status|
           [brawo_status_label(status), status]
         end
+      end
+
+      def status_badge_class(status)
+        case status
+        when 'published'
+          'bg-success'
+        when 'draft'
+          'bg-warning'
+        when 'archived'
+          'bg-secondary'
+        else
+          'bg-info'
+        end
+      end
+
+      def sidebar_link_class(active)
+        active ? 'nav-link active' : 'nav-link'
+      end
+
+      def dashboard_sidebar_active?
+        controller_name == 'dashboard'
+      end
+
+      def content_type_sidebar_active?(name)
+        controller_name == 'contents' && params[:content_type].to_s == name.to_s
+      end
+
+      def taxonomy_type_sidebar_active?(name)
+        controller_name == 'taxonomies' && params[:taxonomy_type].to_s == name.to_s
       end
     end
   end

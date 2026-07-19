@@ -1,6 +1,8 @@
 module BrawoCms
   module Admin
     class ContentsController < BaseController
+      helper BrawoCms::Admin::PageBuilderHelper
+
       before_action :set_content_type
       before_action :set_content, only: [:show, :edit, :update, :destroy]
 

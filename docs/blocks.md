@@ -87,7 +87,7 @@ content_type :landing,
 <%= render_blocks(@page.blocks) %>
 ```
 
-`BlocksHelper` is included globally. Renders each block's `render.html.erb` with `data` local.
+`BlocksHelper` renders each block's `render.html.erb` with a `data` local (ERB files under `app/blocks/` are compiled via `ErbFileRenderer`, not `render file:`).
 
 Single block: `<%= render_block({ type: "heading", data: { text: "Hi", level: 1 } }) %>`
 

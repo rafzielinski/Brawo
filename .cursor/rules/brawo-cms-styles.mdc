@@ -1,0 +1,13 @@
+---
+description: Brawo CMS admin stylesheets
+globs: app/assets/stylesheets/brawo_cms/**
+alwaysApply: false
+---
+
+# Admin CSS
+
+- Entry: `app/assets/stylesheets/brawo_cms/admin.css` imports layered partials under `admin/`.
+- Use `--brawo-*` variables from `_variables.css` before new hard-coded colors.
+- Scope UI under `.brawo-admin`; do not override Bootstrap globally outside that wrapper.
+- Page builder styles belong in `_page_builder.css` only.
+- Section header comments for major blocks; avoid long per-selector commentary.

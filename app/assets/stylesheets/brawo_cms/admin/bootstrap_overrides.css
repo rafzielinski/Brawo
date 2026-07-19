@@ -1,0 +1,217 @@
+/* Bootstrap overrides scoped to .brawo-admin */
+
+.brawo-admin .btn-primary {
+  background-color: var(--brawo-green);
+  border-color: var(--brawo-green);
+  color: #fff;
+}
+
+.brawo-admin .btn-primary:hover,
+.brawo-admin .btn-primary:focus {
+  background-color: var(--brawo-green-dark);
+  border-color: var(--brawo-green-dark);
+  color: #fff;
+}
+
+.brawo-admin .btn-success {
+  background-color: var(--brawo-yellow);
+  border-color: var(--brawo-yellow);
+  color: var(--brawo-text);
+}
+
+.brawo-admin .btn-success:hover,
+.brawo-admin .btn-success:focus {
+  background-color: var(--brawo-yellow-dark);
+  border-color: var(--brawo-yellow-dark);
+  color: var(--brawo-text);
+}
+
+.brawo-admin .btn-outline-primary {
+  color: var(--brawo-green);
+  border-color: var(--brawo-green);
+}
+
+.brawo-admin .btn-outline-primary:hover,
+.brawo-admin .btn-outline-primary:focus {
+  background-color: var(--brawo-green);
+  border-color: var(--brawo-green);
+  color: #fff;
+}
+
+.brawo-admin .btn-outline-secondary {
+  color: var(--brawo-muted);
+  border-color: var(--brawo-border);
+}
+
+.brawo-admin .btn-outline-secondary:hover,
+.brawo-admin .btn-outline-secondary:focus {
+  background-color: var(--brawo-dark);
+  border-color: var(--brawo-dark);
+  color: var(--brawo-text-on-dark);
+}
+
+.brawo-admin .btn-outline-dark {
+  color: var(--brawo-bg);
+  border-color: var(--brawo-bg);
+}
+
+.brawo-admin .btn-outline-dark:hover,
+.brawo-admin .btn-outline-dark:focus {
+  background-color: var(--brawo-bg);
+  border-color: var(--brawo-bg);
+  color: #fff;
+}
+
+.brawo-admin .btn-secondary {
+  background-color: var(--brawo-dark);
+  border-color: var(--brawo-dark);
+  color: #fff;
+}
+
+.brawo-admin .btn-secondary:hover,
+.brawo-admin .btn-secondary:focus {
+  background-color: var(--brawo-bg);
+  border-color: var(--brawo-bg);
+  color: #fff;
+}
+
+.brawo-admin .btn-danger {
+  background-color: var(--brawo-error);
+  border-color: var(--brawo-error);
+  color: #fff;
+}
+
+.brawo-admin .btn-danger:hover,
+.brawo-admin .btn-danger:focus {
+  background-color: #B03E3E;
+  border-color: #B03E3E;
+  color: #fff;
+}
+
+.brawo-admin .btn-sm {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  border-radius: 4px;
+}
+
+.brawo-admin .table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.brawo-admin .btn-toolbar {
+  gap: 0.5rem;
+}
+
+.brawo-admin .alert-success {
+  background-color: var(--brawo-success-bg);
+  border-color: var(--brawo-success-border);
+  color: var(--brawo-green-dark);
+}
+
+.brawo-admin .alert-danger {
+  background-color: var(--brawo-error-bg);
+  border-color: var(--brawo-error-border);
+  color: var(--brawo-error);
+}
+
+.brawo-admin .alert-warning {
+  background-color: var(--brawo-warning-bg);
+  border-color: var(--brawo-warning-border);
+  color: var(--brawo-yellow-dark);
+}
+
+.brawo-admin .alert-info {
+  background-color: var(--brawo-info-bg);
+  border-color: var(--brawo-info-border);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .form-control,
+.brawo-admin .form-select {
+  border-color: var(--brawo-border);
+  background-color: #fff;
+}
+
+.brawo-admin .form-control:focus,
+.brawo-admin .form-select:focus {
+  border-color: var(--brawo-green);
+  box-shadow: none;
+}
+
+.brawo-admin .form-check-input:checked {
+  background-color: var(--brawo-green);
+  border-color: var(--brawo-green);
+}
+
+.brawo-admin .form-check-input:focus {
+  border-color: var(--brawo-green);
+  box-shadow: none;
+}
+
+.brawo-admin .invalid-feedback,
+.brawo-admin .text-danger {
+  color: var(--brawo-error) !important;
+}
+
+.brawo-admin .form-control.is-invalid,
+.brawo-admin .form-select.is-invalid {
+  border-color: var(--brawo-error);
+}
+
+.brawo-admin .border-bottom,
+.brawo-admin .border-top,
+.brawo-admin .border {
+  border-color: var(--brawo-border) !important;
+}
+
+.brawo-admin .text-muted {
+  color: var(--brawo-muted) !important;
+}
+
+.brawo-admin .table {
+  --bs-table-bg: var(--brawo-light);
+  --bs-table-striped-bg: #fff;
+  --bs-table-hover-bg: #E8EBED;
+  --bs-table-border-color: var(--brawo-border);
+}
+
+.brawo-admin .table > thead {
+  --bs-table-bg: var(--brawo-light);
+}
+
+.brawo-admin .dropdown-item.active,
+.brawo-admin .dropdown-item:active {
+  background-color: var(--brawo-green);
+}
+
+.brawo-admin .page-link {
+  color: var(--brawo-green);
+  border-color: var(--brawo-border);
+}
+
+.brawo-admin .page-link:hover {
+  color: var(--brawo-green-dark);
+  background-color: var(--brawo-green-light);
+  border-color: var(--brawo-border);
+}
+
+.brawo-admin .page-item.active .page-link {
+  background-color: var(--brawo-green);
+  border-color: var(--brawo-green);
+}
+
+.brawo-admin .badge.bg-primary {
+  background-color: var(--brawo-green) !important;
+}
+
+.brawo-admin .badge.bg-secondary {
+  background-color: var(--brawo-dark) !important;
+}
+
+.brawo-admin .badge.bg-warning {
+  background-color: var(--brawo-yellow) !important;
+  color: var(--brawo-text) !important;
+}

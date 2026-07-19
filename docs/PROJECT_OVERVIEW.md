@@ -1,12 +1,12 @@
 # BrawoCMS - Project Overview
 
-## 🎯 Project Status: BASIC DRAFT COMPLETE ✅
+> **Note:** This file is a historical build log. For current features and setup, start at [index.md](index.md) and [../README.md](../README.md).
 
-This is a functional BASIC draft of the BrawoCMS engine following the incremental build plan.
+## Project status
 
-## ✨ Completed Features
+The engine includes content types, taxonomies, blocks/page builder, admin UI, JSON API, and OpenAPI docs. Integration tests run against `test/dummy` via RSpec (`bundle exec rspec`).
 
-### Phase 1: Engine Foundation & Basic Content Type ✅
+## Historical: basic draft milestones
 
 #### ✅ Step 1: Rails Engine Initialized
 - [x] Rails Engine structure created

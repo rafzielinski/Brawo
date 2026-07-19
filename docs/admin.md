@@ -22,7 +22,7 @@ Auto-populated from `BrawoCms.content_types` and `BrawoCms.taxonomy_types`. New 
 
 ## Content form
 
-**Base fields:** title, slug, description, status, published_at.
+**Base fields:** title, slug, description, status (`draft` / `published` / `archived`).
 
 **Custom fields:** rendered dynamically from field definitions via `FieldFactory` → appropriate input widget per type.
 
@@ -40,7 +40,7 @@ Special UIs:
 | `published` | Visible via `.published` scope |
 | `archived` | Hidden from public queries |
 
-Set `published_at` when publishing.
+Set `status` to `published` for public visibility. Optional `published_at` column exists on the model but is not exposed in the default admin form.
 
 ## Layout & assets
 

@@ -3,110 +3,88 @@
 require "rails_helper"
 
 RSpec.describe BrawoCms::Content, type: :model do
-  let(:content_type) do
-    BrawoCms::ContentType.create!(
-      name: "Post",
-      slug: "post",
-      field_definitions: [
-        { name: "excerpt", type: "textarea" },
-        { name: "author", type: "text", required: true },
-        { name: "views", type: "number" }
-      ]
-    )
-  end
-
   describe "validations" do
     it "requires a title" do
-      content = BrawoCms::Content.new(content_type: content_type)
-      expect(content).not_to be_valid
-      expect(content.errors[:title]).to be_present
+      article = Article.new(title: nil, slug: "test-slug", status: "draft")
+      expect(article).not_to be_valid
+      expect(article.errors[:title]).to be_present
     end
 
-    it "requires a content_type" do
-      content = BrawoCms::Content.new(title: "Test")
-      expect(content).not_to be_valid
-      expect(content.errors[:content_type]).to be_present
+    it "requires a slug when title cannot generate one" do
+      article = Article.new(title: "", slug: "", status: "draft")
+      expect(article).not_to be_valid
+      expect(article.errors[:slug]).to be_present
+    end
+
+    it "requires a valid status" do
+      article = Article.new(title: "Test", slug: "test", status: "invalid")
+      expect(article).not_to be_valid
+      expect(article.errors[:status]).to be_present
     end
   end
 
   describe "field management" do
-    let(:content) { BrawoCms::Content.create!(content_type: content_type, title: "Test Post") }
+    let(:article) { Article.create!(title: "Test Post", slug: "test-post", status: "draft") }
 
-    it "sets and gets fields" do
-      content.set_field("excerpt", "This is an excerpt")
-      content.set_field("views", "100")
-      content.save!
+    it "sets and gets fields via JSONB" do
+      article.set_field("author", "Jane Doe")
+      article.save!
 
-      expect(content.field("excerpt")).to eq("This is an excerpt")
-      expect(content.field("views")).to eq(100) # Should be coerced to integer
+      expect(article.get_field("author")).to eq("Jane Doe")
+      expect(article.field_value("author")).to eq("Jane Doe")
     end
 
-    it "coerces field types" do
-      content.set_field("views", "42")
-      content.save!
+    it "exposes DSL-defined accessors" do
+      article.author = "Bob"
+      article.save!
 
-      expect(content.field("views")).to be_a(Integer)
-      expect(content.field("views")).to eq(42)
-    end
-
-    it "validates required fields" do
-      content.fields = {}
-      expect(content).not_to be_valid
-      expect(content.errors[:author]).to be_present
+      expect(article.author).to eq("Bob")
     end
   end
 
-  describe "publishing" do
-    let(:content) { BrawoCms::Content.create!(content_type: content_type, title: "Test Post") }
+  describe "slug generation" do
+    it "parameterizes title when slug is blank" do
+      article = Article.new(title: "Hello World", status: "draft")
+      article.valid?
 
-    it "publishes content" do
-      content.publish!
-      expect(content.published).to be true
-      expect(content.published_at).to be_present
-    end
-
-    it "unpublishes content" do
-      content.publish!
-      content.unpublish!
-      expect(content.published).to be false
+      expect(article.slug).to eq("hello-world")
     end
   end
 
   describe "scopes" do
-    let!(:published_content) do
-      BrawoCms::Content.create!(
-        content_type: content_type,
-        title: "Published",
-        published: true
-      )
+    let!(:published_article) do
+      Article.create!(title: "Published", slug: "published-article", status: "published")
     end
 
-    let!(:draft_content) do
-      BrawoCms::Content.create!(
-        content_type: content_type,
-        title: "Draft",
-        published: false
-      )
+    let!(:draft_article) do
+      Article.create!(title: "Draft", slug: "draft-article", status: "draft")
     end
 
     it "filters published content" do
-      expect(BrawoCms::Content.published).to include(published_content)
-      expect(BrawoCms::Content.published).not_to include(draft_content)
+      expect(Article.published).to include(published_article)
+      expect(Article.published).not_to include(draft_article)
     end
 
     it "filters draft content" do
-      expect(BrawoCms::Content.draft).to include(draft_content)
-      expect(BrawoCms::Content.draft).not_to include(published_content)
+      expect(Article.draft).to include(draft_article)
+      expect(Article.draft).not_to include(published_article)
     end
 
-    it "filters by content type" do
-      other_type = BrawoCms::ContentType.create!(name: "Page", slug: "page")
-      other_content = BrawoCms::Content.create!(content_type: other_type, title: "Other")
+    it "scopes STI subclasses to their type" do
+      product = Product.create!(title: "Widget", slug: "widget", status: "draft")
 
-      expect(BrawoCms::Content.by_content_type(content_type)).to include(published_content)
-      expect(BrawoCms::Content.by_content_type(content_type)).to include(draft_content)
-      expect(BrawoCms::Content.by_content_type(content_type)).not_to include(other_content)
+      expect(Article.all).to include(published_article, draft_article)
+      expect(Article.all).not_to include(product)
+    end
+  end
+
+  describe "content type metadata" do
+    let(:article) { Article.create!(title: "Meta", slug: "meta", status: "draft") }
+
+    it "resolves config from the registry" do
+      expect(article.content_type_name).to eq("article")
+      expect(article.content_type_config[:label]).to eq("Article")
+      expect(article.field_definitions.map { |f| f[:name] }).to include(:author, :body)
     end
   end
 end
-

@@ -4,7 +4,6 @@ module BrawoCms
       layout 'brawo_cms/admin/application'
 
       helper BrawoCms::Admin::ApplicationHelper
-      helper BrawoCms::Admin::PageBuilderHelper
 
       before_action :set_content_types
       before_action :set_taxonomy_types

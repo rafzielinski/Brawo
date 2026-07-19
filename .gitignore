@@ -39,7 +39,11 @@ coverage/
 Thumbs.db
 
 # IDE / editor
-.cursor/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**
 .idea/
 *~
 *.swp

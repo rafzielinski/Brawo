@@ -2,51 +2,34 @@
 
 require "rails_helper"
 
-RSpec.describe BrawoCms::ContentTypeable, type: :concern do
-  # Create a test model that uses the concern
-  let(:test_model_class) do
-    Class.new(ActiveRecord::Base) do
-      self.table_name = "posts"
-      include BrawoCms::ContentTypeable
-
-      content_type :post, {
-        fields: [
-          { name: "excerpt", type: "textarea" },
-          { name: "author", type: "text", required: true }
-        ],
-        model_class_name: "Post"
-      }
-    end
+RSpec.describe BrawoCms::ContentTypeable, type: :model do
+  before do
+    Rails.application.reloader.execute if Rails.application.config.cache_classes == false
   end
 
-  describe "when included" do
-    before do
-      # Create a temporary table for testing
-      ActiveRecord::Base.connection.create_table :posts, force: true do |t|
-        t.string :title
-        t.timestamps
-      end
-    end
+  it "uses the shared contents table" do
+    expect(Article.table_name).to eq("brawo_cms_contents")
+  end
 
-    after do
-      ActiveRecord::Base.connection.drop_table :posts if ActiveRecord::Base.connection.table_exists?(:posts)
-    end
+  it "registers the model with BrawoCms" do
+    expect(BrawoCms.content_types[:article][:class]).to eq(Article)
+  end
 
-    it "provides cms_content association" do
-      post = test_model_class.create!(title: "Test Post")
-      expect(post).to respond_to(:cms_content)
-    end
+  it "defines field accessors from the DSL" do
+    article = Article.create!(title: "Concern test", slug: "concern-test", status: "draft")
+    article.body = "Hello"
+    article.featured = true
+    article.save!
 
-    it "allows setting CMS fields" do
-      post = test_model_class.create!(title: "Test Post")
-      post.set_cms_field("excerpt", "This is an excerpt")
-      expect(post.cms_field("excerpt")).to eq("This is an excerpt")
-    end
+    expect(article.body).to eq("Hello")
+    expect(article.featured).to be true
+  end
 
-    it "provides cms_title accessor" do
-      post = test_model_class.create!(title: "Test Post")
-      expect(post).to respond_to(:cms_title)
-    end
+  it "default_scope limits queries to the STI type" do
+    article = Article.create!(title: "Scoped", slug: "scoped-article", status: "draft")
+    product = Product.create!(title: "Scoped product", slug: "scoped-product", status: "draft")
+
+    expect(Article.find(article.id)).to eq(article)
+    expect { Article.find(product.id) }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end
-

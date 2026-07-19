@@ -3,7 +3,7 @@ module BrawoCms
     isolate_namespace BrawoCms
 
     config.generators do |g|
-      g.test_framework :test_unit
+      g.test_framework :rspec
       g.template_engine :erb
     end
 
@@ -15,7 +15,6 @@ module BrawoCms
       app.config.assets.paths << root.join("app/blocks")
       app.config.assets.precompile += %w[
         brawo_cms/admin.css
-        brawo_cms/repeater_field.js
         brawo_cms_manifest.js
         brawo_cms/application.js
         brawo_cms/controllers/application.js

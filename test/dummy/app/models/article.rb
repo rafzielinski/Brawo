@@ -77,7 +77,6 @@ class Article < BrawoCms::Content
                 type: :textarea, 
                 label: 'Sub Item Answer' 
               },
-              { name: :sub_item_answer, type: :textarea, label: 'Sub Item Answer' },
             ]
           },
           { name: :published, type: :boolean, label: 'Published' }

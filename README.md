@@ -71,12 +71,12 @@ Details: [QUICKSTART.md](QUICKSTART.md), [DOCKER_SETUP.md](DOCKER_SETUP.md)
 
 ## Repo layout
 
-- `app/` — engine admin UI, models, fields, assets (`brawo_cms/admin.css`, `brawo_cms/repeater_field.js`)
+- `app/` — engine admin UI, models, fields, assets (`brawo_cms/admin.css`, Stimulus via importmap)
 - `config/routes.rb` — engine routes (`admin/contents`, `admin/taxonomies`)
 - `db/migrate/` — engine migrations (contents + taxonomies tables)
 - `lib/brawo_cms/` — engine + version **0.1.0**
 - `test/dummy/` — runnable demo Rails app
-- `spec/` — RSpec (dummy app in `spec/dummy` for tests)
+- `spec/` — RSpec (boots `test/dummy` via `spec/rails_helper.rb`)
 - `openapi/` — generated OpenAPI spec (`v1/swagger.yaml`)
 
 ## API docs (OpenAPI / rswag)
@@ -89,7 +89,9 @@ Details: [QUICKSTART.md](QUICKSTART.md), [DOCKER_SETUP.md](DOCKER_SETUP.md)
   bundle exec rake openapi:generate
   ```
 
-  Run API specs: `bundle exec rspec spec/requests/brawo_cms/api/v1`
+  Run the full suite: `bundle exec rspec`
+
+  API-only: `bundle exec rspec spec/requests/brawo_cms/api/v1`
 
 Host apps need `rswag-api` and `rswag-ui` in the bundle for the interactive UI (included in this repo’s Gemfile). Mount paths assume default engine mount `/admin`.
 

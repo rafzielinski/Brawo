@@ -1,0 +1,31 @@
+/* Design tokens — use these before adding new colors */
+
+:root {
+  --brawo-bg: #1E2022;
+  --brawo-dark: #45474B;
+  --brawo-light: #F5F7F8;
+  --brawo-yellow: #F4CE14;
+  --brawo-green: #379777;
+
+  --brawo-border: #D5D8DA;
+  --brawo-border-dark: rgba(245, 247, 248, 0.14);
+  --brawo-muted: #6B6E73;
+  --brawo-muted-light: #A8ABAF;
+  --brawo-text: #2C2E31;
+  --brawo-text-on-dark: #F5F7F8;
+
+  --brawo-green-dark: #2B7A60;
+  --brawo-green-light: #E8F4EF;
+  --brawo-yellow-dark: #C9A810;
+  --brawo-yellow-light: #FDF8E3;
+
+  --brawo-error: #C94A4A;
+  --brawo-error-bg: #FDF0F0;
+  --brawo-error-border: #E8B4B4;
+  --brawo-success-bg: #E8F4EF;
+  --brawo-success-border: #A8D5C2;
+  --brawo-warning-bg: #FDF8E3;
+  --brawo-warning-border: #E8D87A;
+  --brawo-info-bg: #EEF2F3;
+  --brawo-info-border: #C5CACD;
+}

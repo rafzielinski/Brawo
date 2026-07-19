@@ -1,0 +1,97 @@
+/* Admin shell — navbar, sidebar, main content area */
+
+body.brawo-admin {
+  padding: 4px;
+  background-color: var(--brawo-bg);
+  color: var(--brawo-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.brawo-admin-shell {
+  flex: 1;
+  min-height: 0;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.brawo-admin-layout {
+  display: flex;
+  flex: 1;
+  gap: 0.75rem;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.brawo-admin-navbar {
+  background-color: var(--brawo-bg) !important;
+  flex-shrink: 0;
+}
+
+.brawo-admin-navbar .navbar-brand {
+  color: var(--brawo-yellow) !important;
+}
+
+.brawo-admin-navbar .navbar-brand:hover {
+  color: var(--brawo-text-on-dark) !important;
+}
+
+.brawo-admin-navbar .navbar-text {
+  color: var(--brawo-muted-light) !important;
+}
+
+.sidebar {
+  position: static;
+  flex: 0 0 200px;
+  padding: 0.5rem 0 1rem;
+}
+
+.brawo-admin-sidebar {
+  height: 100%;
+  padding: 0.5rem 0.25rem;
+}
+
+.brawo-admin-sidebar .nav-link {
+  color: var(--brawo-muted-light);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+}
+
+.brawo-admin-sidebar .nav-link:hover {
+  color: var(--brawo-yellow);
+  background-color: rgba(244, 206, 20, 0.1);
+}
+
+.brawo-admin-sidebar .nav-link.active,
+.brawo-admin-sidebar .nav-pills .nav-link.active {
+  color: var(--brawo-text-on-dark);
+  background-color: var(--brawo-green);
+}
+
+.brawo-admin-sidebar .sidebar-section-label {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: 0.15rem;
+}
+
+.brawo-admin-sidebar .text-muted {
+  color: var(--brawo-muted-light) !important;
+}
+
+.brawo-admin-main {
+  flex: 1;
+  min-width: 0;
+  background-color: var(--brawo-light);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.brawo-admin-main a:not(.btn) {
+  color: var(--brawo-green);
+}
+
+.brawo-admin-main a:not(.btn):hover {
+  color: var(--brawo-green-dark);
+}

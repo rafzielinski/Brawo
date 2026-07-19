@@ -1,0 +1,15 @@
+---
+description: Admin views and helpers for Brawo CMS
+globs: app/views/brawo_cms/**,app/helpers/brawo_cms/admin/**
+alwaysApply: false
+---
+
+# Admin UI
+
+- Use shared partials under `app/views/brawo_cms/admin/shared/` (`_form_errors`, `_page_header`, `_status_badge`) instead of copying markup.
+- Field rendering: `FieldsHelper#display_field_value` / `#render_field_input` → `FieldFactory` → `BrawoCms::Fields::*`.
+- Layout/wrapper widths: `FieldWrapperHelper` only.
+- Page builder: `PageBuilderHelper` — include on controllers that render page builder forms, not globally.
+- i18n keys under `brawo.*` in `config/locales/brawo.en.yml`.
+- Destroy links: `data: { turbo_method: :delete }` with `turbo_confirm` where appropriate.
+- Host apps can override engine views via standard Rails engine view paths (documented in `docs/admin.md`).

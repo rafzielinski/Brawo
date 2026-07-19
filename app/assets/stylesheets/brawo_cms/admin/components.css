@@ -1,0 +1,39 @@
+/* Cards, tables, repeater fields */
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+.card {
+  border: 1px solid var(--brawo-border);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.repeater-field {
+  margin-bottom: 1.5rem;
+}
+
+.repeater-row {
+  position: relative;
+  border: 1px solid var(--brawo-border);
+  background-color: #fff;
+}
+
+.repeater-row .card-body {
+  padding: 1rem;
+}
+
+.repeater-add-btn {
+  margin-top: 0.5rem;
+}
+
+.repeater-remove-btn {
+  margin-top: 0.5rem;
+}
+
+.repeater-template {
+  display: none !important;
+}
+
+/* Field layout uses Bootstrap row/col (see FieldWrapperHelper) */

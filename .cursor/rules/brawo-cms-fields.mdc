@@ -1,0 +1,13 @@
+---
+description: Custom field types in Brawo CMS
+globs: app/models/brawo_cms/fields/**
+alwaysApply: false
+---
+
+# Field types
+
+- Each type lives in `app/models/brawo_cms/fields/<name>_field.rb`, registered in `FieldFactory`.
+- Implement `render_input(form, record)` and `display_value(record)`; keep HTML in helpers/partials when practical.
+- Subclasses of `BrawoCms::Field` — follow an existing field (e.g. `TextField`, `RepeaterField`) for structure.
+- After adding a type: example on a dummy model (`test/dummy/app/models/`), helper coverage if new markup, run full rspec.
+- Do not coerce types inside `BrawoCms::Content` unless the whole stack agrees — prefer field-level parsing.

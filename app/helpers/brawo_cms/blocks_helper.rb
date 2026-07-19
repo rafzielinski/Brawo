@@ -1,5 +1,7 @@
 module BrawoCms
   module BlocksHelper
+    include ErbFileRenderer
+
     def render_blocks(blocks)
       return '' if blocks.blank?
 
@@ -14,7 +16,7 @@ module BrawoCms
       return nil unless type_config
 
       if type_config[:render_template].present?
-        render(file: type_config[:render_template], locals: { data: data }, layout: false)
+        render_erb_file(type_config[:render_template], data: data)
       else
         render_legacy_partial(block_type, data)
       end

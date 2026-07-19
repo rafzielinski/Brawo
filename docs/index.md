@@ -1,16 +1,35 @@
 # BrawoCMS Docs
 
+*(Brawo "Better Rails Alternative for Wordpress Outdated" CMS)*  
+*(Brawo "Opinionated Wordpress Alternative in Rails & Better")*
+
 Rails engine: code-first content types, taxonomies, blocks, admin UI, JSON API.
 
 ## Pages
 
-| Topic | What it covers |
-|-------|----------------|
+
+| Topic                             | What it covers                              |
+| --------------------------------- | ------------------------------------------- |
 | [Content Types](content-types.md) | Define models, fields, generators, querying |
-| [Taxonomies](taxonomies.md) | Categories/tags, linking to content |
-| [Blocks](blocks.md) | Page builder, block DSL, frontend rendering |
-| [Admin](admin.md) | Dashboard, CRUD, routes, status workflow |
-| [API](api.md) | REST endpoints, auth, OpenAPI |
+| [Taxonomies](taxonomies.md)       | Categories/tags, linking to content         |
+| [Blocks](blocks.md)               | Page builder, block DSL, frontend rendering |
+| [Admin](admin.md)                 | Dashboard, CRUD, routes, status workflow    |
+| [API](api.md)                     | REST endpoints, auth, OpenAPI               |
+
+
+## Contributors
+
+
+| Topic                | Doc                                      |
+| -------------------- | ---------------------------------------- |
+| Testing              | [testing.md](testing.md)                 |
+| Admin implementation | [admin-internals.md](admin-internals.md) |
+| Security             | [security.md](security.md)               |
+| Architecture         | [architecture.md](architecture.md)       |
+| Agent onboarding     | [../AGENTS.md](../AGENTS.md)             |
+
+
+
 
 ## Setup (30 seconds)
 
@@ -35,6 +54,8 @@ bin/rails railties:install:migrations && bin/rails db:migrate
 - API: `/admin/api/v1`
 - Swagger: `/admin/api/docs`
 
+
+
 ## How it works
 
 ```
@@ -52,4 +73,6 @@ Your models (Article, Category, Page)
 
 - [QUICKSTART.md](QUICKSTART.md) — Docker demo
 - [architecture.md](architecture.md) — layer diagrams
-- [DEVELOPMENT.md](DEVELOPMENT.md) — contributing
+- [DEVELOPMENT.md](DEVELOPMENT.md) — contributing notes
+- [testing.md](testing.md) — RSpec and dummy app
+

@@ -3,6 +3,7 @@ module BrawoCms
     module PageBuilderHelper
       include ApplicationHelper
       include ReorderMenuHelper
+      include BrawoCms::ErbFileRenderer
 
       def render_page_builder(form, field_name, blocks, label: nil, available_blocks: BrawoCms.block_types)
         blocks = Array(blocks)
@@ -175,8 +176,8 @@ module BrawoCms
               hidden_field_tag("#{form.object_name}[#{field_name}][#{index}][type]", block_type) +
                 content_tag(:div, class: 'block-fields') do
                 if type_config[:admin_template].present?
-                  render(file: type_config[:admin_template],
-                    locals: { form: form, field_name: field_name, block_index: index, data: block_data })
+                  render_erb_file(type_config[:admin_template],
+                    form: form, field_name: field_name, block_index: index, data: block_data)
                 else
                   render_block_data_fields(form, field_name, index, type_config[:fields], block_data)
                 end

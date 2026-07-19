@@ -3,14 +3,9 @@
               scope: :taxonomy,
               local: true) do |form| %>
   <% if taxonomy.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= t('brawo.taxonomies.errors.prohibited', count: taxonomy.errors.count) %></h4>
-      <ul>
-        <% taxonomy.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render 'brawo_cms/admin/shared/form_errors',
+               record: taxonomy,
+               error_heading: t('brawo.taxonomies.errors.prohibited', count: taxonomy.errors.count) %>
   <% end %>
 
   <div class="mb-3">
