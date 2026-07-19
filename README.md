@@ -95,10 +95,10 @@ Host apps need `rswag-api` and `rswag-ui` in the bundle for the interactive UI (
 
 ## More docs
 
-- [QUICKSTART.md](QUICKSTART.md) — first run + sample data  
-- [DEVELOPMENT.md](DEVELOPMENT.md) — structure, customization  
-- [ENGINE_ROUTES_GUIDE.md](ENGINE_ROUTES_GUIDE.md) — routing  
-- Taxonomies: [TAXONOMY_GUIDE.md](TAXONOMY_GUIDE.md), [TAXONOMY_REFERENCE_GUIDE.md](TAXONOMY_REFERENCE_GUIDE.md)
+- [docs/index.md](docs/index.md) — **content types, taxonomies, blocks, admin, API**
+- [QUICKSTART.md](docs/QUICKSTART.md) — first run + sample data
+- [architecture.md](docs/architecture.md) — layer diagrams
+- [DEVELOPMENT.md](docs/DEVELOPMENT.md) — contributing
 
 ## License
 
