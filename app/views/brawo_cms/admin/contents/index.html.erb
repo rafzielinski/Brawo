@@ -28,12 +28,14 @@
           </td>
           <td><%= brawo_format_date(content.created_at) %></td>
           <td>
-            <%= link_to t('brawo.actions.view'), admin_content_path(content, content_type: @content_type), class: "btn btn-sm btn-info" %>
-            <%= link_to t('brawo.actions.edit'), edit_admin_content_path(content, content_type: @content_type), class: "btn btn-sm btn-warning" %>
-            <%= link_to t('brawo.actions.delete'), admin_content_path(content, content_type: @content_type), 
-                        method: :delete, 
-                        data: { confirm: t('brawo.actions.confirm_delete') }, 
-                        class: "btn btn-sm btn-danger" %>
+            <div class="table-actions">
+              <%= link_to t('brawo.actions.view'), admin_content_path(content, content_type: @content_type), class: "btn btn-sm btn-outline-dark" %>
+              <%= link_to t('brawo.actions.edit'), edit_admin_content_path(content, content_type: @content_type), class: "btn btn-sm btn-outline-primary" %>
+              <%= link_to t('brawo.actions.delete'), admin_content_path(content, content_type: @content_type),
+                          method: :delete,
+                          data: { confirm: t('brawo.actions.confirm_delete') },
+                          class: "btn btn-sm btn-danger" %>
+            </div>
           </td>
         </tr>
       <% end %>
