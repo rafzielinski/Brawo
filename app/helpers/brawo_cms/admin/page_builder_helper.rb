@@ -124,9 +124,7 @@ module BrawoCms
       def render_outline_item(block, index)
         block = block.with_indifferent_access
         block_type = block[:type]
-        type_config = BrawoCms.block_type(block_type)
-        label = type_config ? type_config[:label] : block_type.to_s.humanize
-        summary = block_summary(block_type, block[:data] || {})
+        label = block_type_label(block_type)
 
         content_tag(:li, class: 'page-builder-outline-item', data: {
           block_index: index,
@@ -134,7 +132,7 @@ module BrawoCms
         }) do
           content_tag(:span, '⋮⋮', class: 'outline-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, class: 'outline-item-label') do
-              content_tag(:strong, label) + tag.br + content_tag(:span, summary, class: 'text-muted small')
+              content_tag(:strong, label)
             end
         end
       end
@@ -154,11 +152,7 @@ module BrawoCms
       def page_builder_translations
         {
           insert_block: t('brawo.page_builder.insert_block'),
-          drag_to_reorder: t('brawo.page_builder.drag_to_reorder'),
-          empty_heading: t('brawo.page_builder.empty_heading'),
-          empty_text: t('brawo.page_builder.empty_text'),
-          faq_default_title: t('brawo.page_builder.faq_default_title'),
-          faq_items: t('brawo.page_builder.faq_items', title: '%{title}', count: '%{count}')
+          drag_to_reorder: t('brawo.page_builder.drag_to_reorder')
         }
       end
 
@@ -173,12 +167,13 @@ module BrawoCms
 
         content_tag(:div, class: 'page-builder-block card', data: {
           block_type: block_type,
+          block_label: type_config[:label],
           block_index: index
         }) do
-          content_tag(:div, class: 'card-body') do
-            block_header(block_type, type_config[:label], block_data, index) +
+          block_header(type_config[:label], index) +
+            content_tag(:div, class: 'card-body') do
               hidden_field_tag("#{form.object_name}[#{field_name}][#{index}][type]", block_type) +
-              content_tag(:div, class: 'block-fields mt-3') do
+                content_tag(:div, class: 'block-fields') do
                 if type_config[:admin_template].present?
                   render(file: type_config[:admin_template],
                     locals: { form: form, field_name: field_name, block_index: index, data: block_data })
@@ -192,11 +187,15 @@ module BrawoCms
 
       def render_block_template(form, field_name, type_name, config)
         content_tag(:div, class: 'page-builder-template', data: { block_type: type_name }) do
-          content_tag(:div, class: 'page-builder-block card', data: { block_type: type_name, block_index: 'INDEX' }) do
-            content_tag(:div, class: 'card-body') do
-              block_header(type_name, config[:label], {}, 'INDEX') +
+          content_tag(:div, class: 'page-builder-block card', data: {
+            block_type: type_name,
+            block_label: config[:label],
+            block_index: 'INDEX'
+          }) do
+            block_header(config[:label], 'INDEX') +
+              content_tag(:div, class: 'card-body') do
                 hidden_field_tag("#{form.object_name}[#{field_name}][INDEX][type]", type_name, disabled: true) +
-                content_tag(:div, class: 'block-fields mt-3') do
+                  content_tag(:div, class: 'block-fields') do
                   render_block_data_fields(form, field_name, 'INDEX', config[:fields], {}, disabled: true)
                 end
             end
@@ -204,12 +203,11 @@ module BrawoCms
         end
       end
 
-      def block_header(block_type, label, data, index)
-        summary = block_summary(block_type, data)
+      def block_header(label, index)
         content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2') do
           content_tag(:span, '⋮⋮', class: 'drag-handle text-muted', title: t('brawo.page_builder.drag_to_reorder')) +
-            content_tag(:span, label, class: 'badge bg-primary') +
-            content_tag(:span, summary, class: 'text-muted small flex-grow-1 text-truncate') +
+            content_tag(:span, label, class: 'page-builder-block-type') +
+            content_tag(:span, '', class: 'flex-grow-1') +
             render_block_menu(index)
         end
       end
@@ -225,21 +223,9 @@ module BrawoCms
         )
       end
 
-      def block_summary(block_type, data)
-        data = data.with_indifferent_access if data.respond_to?(:with_indifferent_access)
-        case block_type.to_sym
-        when :heading
-          data[:text].presence || t('brawo.page_builder.empty_heading')
-        when :text
-          data[:body].to_s.truncate(60).presence || t('brawo.page_builder.empty_text')
-        when :faq
-          count = Array(data[:items]).size
-          t('brawo.page_builder.faq_items',
-            title: data[:section_title].presence || t('brawo.page_builder.faq_default_title'),
-            count: count)
-        else
-          block_type.to_s.humanize
-        end
+      def block_type_label(block_type)
+        type_config = BrawoCms.block_type(block_type)
+        type_config ? type_config[:label] : block_type.to_s.humanize
       end
 
       def render_block_data_fields(form, field_name, block_index, field_defs, data, disabled: false)

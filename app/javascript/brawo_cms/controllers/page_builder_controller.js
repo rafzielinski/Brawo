@@ -242,9 +242,7 @@ export default class extends Controller {
     list.innerHTML = ""
 
     blocks.forEach((block, index) => {
-      const blockType = block.dataset.blockType
-      const label = block.querySelector(".badge")?.textContent?.trim() || blockType
-      const summary = this.blockSummary(block, blockType)
+      const label = block.dataset.blockLabel || block.dataset.blockType
 
       const item = document.createElement("li")
       item.className = "page-builder-outline-item"
@@ -253,8 +251,7 @@ export default class extends Controller {
       item.innerHTML = `
         <span class="outline-drag-handle" title="${this.escapeHtml(this.translation("drag_to_reorder"))}">⋮⋮</span>
         <span class="outline-item-label">
-          <strong>${this.escapeHtml(label)}</strong><br>
-          <span class="text-muted small">${this.escapeHtml(summary)}</span>
+          <strong>${this.escapeHtml(label)}</strong>
         </span>
       `
 
@@ -265,24 +262,6 @@ export default class extends Controller {
 
       list.appendChild(item)
     })
-  }
-
-  blockSummary(block, blockType) {
-    if (blockType === "heading") {
-      const input = block.querySelector("[name*='[data][text]']")
-      return input?.value?.trim() || this.translation("empty_heading")
-    }
-    if (blockType === "text") {
-      const input = block.querySelector("[name*='[data][body]']")
-      const text = input?.value?.trim() || ""
-      return text.length > 60 ? `${text.slice(0, 60)}…` : text || this.translation("empty_text")
-    }
-    if (blockType === "faq") {
-      const title = block.querySelector("[name*='[data][section_title]']")?.value?.trim() || this.translation("faq_default_title")
-      const count = block.querySelectorAll(".repeater-row:not(.repeater-template)").length
-      return this.translation("faq_items", { title, count })
-    }
-    return blockType
   }
 
   focusBlock(event) {
