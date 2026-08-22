@@ -91,7 +91,7 @@ module BrawoCms
           content_tag(:div, class: 'offcanvas-header') do
             content_tag(:h5, t('brawo.page_builder.choose_block_type'), class: 'offcanvas-title') +
               button_tag(type: 'button', class: 'btn-close',
-                data: { action: 'page-builder#closePicker' }, aria: { label: t('brawo.layout.close') })
+                data: { action: 'page-builder#closePicker' }, aria: { label: t('brawo.layout.close') }) {}
           end +
             content_tag(:div, class: 'offcanvas-body') do
               content_tag(:div, class: 'd-grid gap-2') do
