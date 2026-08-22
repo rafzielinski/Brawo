@@ -39,7 +39,7 @@ Or: `docker-compose build && docker-compose up -d`, then copy engine migrations 
 - Admin: http://localhost:3000/admin  
 - Postgres published on host **5433** → container 5432 (avoids clashing with local Postgres)
 
-Details: [QUICKSTART.md](QUICKSTART.md), [DOCKER_SETUP.md](DOCKER_SETUP.md)
+Details: [QUICKSTART.md](docs/QUICKSTART.md) (Docker Compose or **Dev Container**), [DOCKER_SETUP.md](docs/DOCKER_SETUP.md)
 
 ## Use in your own Rails app
 

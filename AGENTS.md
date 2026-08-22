@@ -11,7 +11,7 @@ Rails **engine** mounted at `/admin`. Host app defines STI models (`Article`, `C
 | API | `app/controllers/brawo_cms/api/v1/`, `app/serializers/brawo_cms/` |
 | Writes / validation | `app/services/brawo_cms/` (`ContentService`, `TaxonomyService`, `ParamsBuilder`) |
 | Field widgets | `app/models/brawo_cms/fields/`, `FieldFactory` |
-| Blocks (engine) | `app/blocks/`; host overrides in `Rails.root/app/blocks/` |
+| Frontend blocks | `app/helpers/brawo_cms/blocks_helper.rb`, `app/blocks/`, host `app/blocks/` |
 | Routes | `config/routes.rb` (engine) |
 | Demo / integration tests | `test/dummy/app/models/` |
 | User docs | `docs/` — start at [docs/index.md](docs/index.md) |

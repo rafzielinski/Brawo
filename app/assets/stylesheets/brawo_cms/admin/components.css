@@ -7,7 +7,7 @@
 .card {
   border: 1px solid var(--brawo-border);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 .repeater-field {

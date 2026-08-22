@@ -23,6 +23,15 @@ ContentsController / TaxonomiesController
 
 `PageBuilderHelper` is registered on `ContentsController`, not `BaseController`.
 
+## Frontend blocks (host app)
+
+| Module | Role |
+|--------|------|
+| `BlocksHelper` | `render_blocks` / `render_block` for `:blocks` JSON on public pages |
+| `ErbFileRenderer` | Compiles `app/blocks/*/render.html.erb` (do not use `render file:` — paths are outside view load paths) |
+
+See [blocks.md](blocks.md).
+
 ## Shared partials
 
 `app/views/brawo_cms/admin/shared/`:

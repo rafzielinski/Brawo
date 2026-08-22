@@ -87,7 +87,7 @@ The engine includes content types, taxonomies, blocks/page builder, admin UI, JS
 - [x] Dockerfile with Ruby 3.3
 - [x] docker-compose.yml with PostgreSQL 16
 - [x] Development environment configured
-- [x] Setup scripts (setup.sh, setup.bat)
+- [x] Setup script (`setup.sh`)
 
 ### ✅ Dummy Application with Examples
 - [x] Full Rails 7.1 dummy application
@@ -150,9 +150,7 @@ brawo/
 
 ### Quick Start:
 ```bash
-./setup.sh                # Mac/Linux
-# or
-setup.bat                 # Windows
+./setup.sh
 ```
 
 ### Manual Start:

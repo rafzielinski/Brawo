@@ -118,6 +118,13 @@ docker-compose exec web bash -c 'mkdir -p test/dummy/db/migrate && cp db/migrate
 - Deeper structure / overrides: [DEVELOPMENT.md](DEVELOPMENT.md).  
 - Docker-only reference: [DOCKER_SETUP.md](DOCKER_SETUP.md).
 
-## Note on `dev.sh`
+## Dev Container (Cursor / VS Code)
 
-`dev.sh` targets extra Compose services (`brawo_cms`, `test`) that are **not** in the current `docker-compose.yml`. Prefer `setup.sh` + `docker-compose` for this repo’s demo workflow.
+Open the repo in a **Dev Container**. `postCreateCommand` runs [`.devcontainer/post-create.sh`](../.devcontainer/post-create.sh) (`bundle install`, sync migrations, `db:prepare`).
+
+```bash
+cd test/dummy && bundle exec rails server -b 0.0.0.0   # from /workspace
+bundle exec rspec                                      # tests from gem root
+```
+
+Admin UI: http://localhost:3000/admin/admin (engine mount + admin namespace).

@@ -13,7 +13,14 @@ log/
 test/dummy/db/*.sqlite3
 test/dummy/db/*.sqlite3-*
 
-# Spec dummy app (when expanded)
+# IDE / editor — allow committed agent guidance
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**
+
+# Legacy spec/dummy paths (tree removed; tests use test/dummy)
 spec/dummy/log/
 spec/dummy/tmp/
 spec/dummy/storage/
@@ -38,12 +45,6 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# IDE / editor
-.cursor/*
-!.cursor/rules/
-!.cursor/rules/**
-!.cursor/skills/
-!.cursor/skills/**
 .idea/
 *~
 *.swp

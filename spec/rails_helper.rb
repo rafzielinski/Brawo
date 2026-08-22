@@ -34,8 +34,9 @@ rescue ActiveRecord::PendingMigrationError => e
   puts "ERROR: Pending migrations detected!"
   puts "#{'=' * 80}"
   puts e.message
-  puts "\nPlease run:"
-  puts "  ./dev.sh migrate"
+  puts "\nPlease run (see docs/testing.md):"
+  puts "  cp db/migrate/*.rb test/dummy/db/migrate/"
+  puts "  cd test/dummy && bundle exec rails db:migrate RAILS_ENV=test"
   puts "#{'=' * 80}\n\n"
   abort e.to_s.strip
 end
