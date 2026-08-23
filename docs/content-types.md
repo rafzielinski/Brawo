@@ -145,3 +145,52 @@ Public site queries models directly — no engine service layer needed.
 - **Admin:** `/admin/contents?content_type=<type>`
 - **API:** `/admin/api/v1/contents?content_type=<type>` — full details in [Swagger UI](/admin/api/docs)
 - **Schema introspection:** `/admin/api/v1/content_types` or `/content_types/<type>`
+
+## Generators
+
+```bash
+# Model only
+rails g brawo_cms:content_type Post author:string body:textarea
+
+# Public site at /posts/:slug
+rails g brawo_cms:content_type Post author:string body:textarea --public-controller --public-views --routes
+
+# Page at /:slug with page builder (defaults for Page)
+rails g brawo_cms:content_type Page --page-builder --root-path
+```
+
+| Flag | Effect |
+|------|--------|
+| `--public-controller` | `app/controllers/<plural>_controller.rb` (index + show) |
+| `--public-views` | `app/views/<plural>/` index + show templates |
+| `--routes` | `resources :<plural>, param: :slug` in `config/routes.rb` |
+| `--root-path` | `/:slug` via `SlugsController` (for types in `root_content_types`) |
+| `--page-builder` | `page_builder: true` + `:blocks` field |
+
+`--root-path` and `--routes` are mutually exclusive for the same type.
+
+## Root-path pages (`/:slug`)
+
+Configure which content types are served at the site root:
+
+```ruby
+# config/initializers/brawo_cms.rb
+BrawoCms.configure do |config|
+  config.root_content_types = [:page]
+  config.reserved_slugs = %w[admin api rails assets packs up articles products]
+end
+```
+
+Add the catch-all route **last** in `config/routes.rb`:
+
+```ruby
+BrawoCms::Routing.draw_root_route(self)
+```
+
+## Slug rules
+
+- **Per content type:** slug unique within the same STI class (`Article` + `Article` → `about-2`)
+- **Across types:** same slug allowed (`Page` `about` at `/about` + `Article` `about` at `/articles/about`)
+- **Root types:** slugs must not match `reserved_slugs` (route segments like `admin`, `articles`)
+- Auto-suffix on collision (`about-2`, `about-3`, …)
+

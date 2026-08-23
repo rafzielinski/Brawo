@@ -83,6 +83,10 @@ module BrawoCms
       taxonomy_type_config&.dig(:fields) || []
     end
 
+    def to_param
+      slug
+    end
+
     private
 
     def generate_slug

@@ -1,0 +1,36 @@
+<%# locals: id (required), title:, open: false, size:, backdrop: "true", keyboard: true, footer: %>
+<div data-controller="admin-modal"
+     data-admin-modal-open-value="<%= local_assigns.fetch(:open, false) %>"
+     data-admin-modal-backdrop-value="<%= local_assigns.fetch(:backdrop, 'true') %>"
+     data-admin-modal-keyboard-value="<%= local_assigns.fetch(:keyboard, true) %>">
+  <div class="modal fade"
+       id="<%= id %>"
+       tabindex="-1"
+       aria-labelledby="<%= id %>-label"
+       aria-hidden="true"
+       data-admin-modal-target="dialog">
+    <div class="modal-dialog<%= " modal-#{size}" if local_assigns[:size].present? %>">
+      <div class="modal-content">
+        <% if local_assigns[:title].present? %>
+          <div class="modal-header">
+            <h5 class="modal-title" id="<%= id %>-label"><%= title %></h5>
+            <% if local_assigns.fetch(:dismissible, false) %>
+              <button type="button"
+                      class="btn-close"
+                      data-action="admin-modal#close"
+                      aria-label="<%= t('brawo.layout.close') %>"></button>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="modal-body">
+          <%= yield %>
+        </div>
+        <% if local_assigns[:footer].present? %>
+          <div class="modal-footer">
+            <%= footer %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

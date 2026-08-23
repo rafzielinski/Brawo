@@ -22,13 +22,18 @@ module BrawoCms
       end
 
       def create
-        result = ::BrawoCms::ContentService.create(type: @content_type, attributes: content_params)
+        result = ::BrawoCms::ContentService.create(
+          type: @content_type,
+          attributes: content_params,
+          accept_adjusted_slug: params[:accept_adjusted_slug] == "1"
+        )
 
         if result.success?
           redirect_to admin_content_path(result.record, content_type: params[:content_type]),
                       notice: t('brawo.contents.flash.created', label: @content_type_config[:label])
         else
           @content = result.record
+          @slug_conflict = result.slug_conflict if result.slug_conflict?
           render :new, status: :unprocessable_entity
         end
       end

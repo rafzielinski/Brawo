@@ -8,7 +8,7 @@ Rails mountable engine: content types + taxonomies, JSONB custom fields, auto-ge
 - Admin at mount path (`/admin` in docs below): CRUD for contents + taxonomies, drafts / published / archived, slug from title
 - JSON API at `/admin/api/v1` (relative to mount path): CRUD + type metadata; optional bearer token via `BrawoCms.api_token`
 - OpenAPI docs at `/admin/api/docs` (Swagger UI); spec in `openapi/v1/swagger.yaml`
-- Generators: `brawo_cms:content_type`, `brawo_cms:taxonomy_type`
+- Generators: `brawo_cms:content_type`, `brawo_cms:taxonomy_type` (with `--routes`, `--root-path`, `--public-archive` flags — see [docs/content-types.md](docs/content-types.md))
 - Demo app: `test/dummy` (Articles, Products, Categories, references + repeaters on Article)
 
 

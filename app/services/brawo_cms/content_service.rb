@@ -15,17 +15,30 @@ module BrawoCms
         config = type_config(type)
         return type_not_found(type) unless config
 
-        record = config[:class].find_by(id: id)
+        record = RecordFinder.find(config[:class].all, id)
         return ServiceResult.not_found("Content not found") unless record
 
         ServiceResult.success(record)
       end
 
-      def create(type:, attributes:)
+      def create(type:, attributes:, accept_adjusted_slug: false)
         config = type_config(type)
         return type_not_found(type) unless config
 
         record = config[:class].new(attributes)
+
+        unless accept_adjusted_slug
+          conflict = slug_conflict_for(record)
+          if conflict
+            return ServiceResult.failure(
+              record: record,
+              errors: {},
+              error_code: :slug_conflict,
+              slug_conflict: conflict
+            )
+          end
+        end
+
         save_record(record)
       end
 
@@ -71,10 +84,30 @@ module BrawoCms
 
       def save_record(record)
         if record.save
-          ServiceResult.success(record)
+          result = ServiceResult.success(record)
+          result.slug_adjusted = true if record.respond_to?(:slug_adjusted?) && record.slug_adjusted?
+          result
         else
           ServiceResult.failure(record: record, errors: record.errors.to_hash)
         end
+      end
+
+      def slug_conflict_for(record)
+        source = record.slug.presence || record.title
+        return nil if source.blank?
+
+        preview = SlugGenerator.generate(
+          source,
+          record_class: record.class,
+          exclude_id: record.id,
+          adjust: false
+        )
+        return nil unless preview.conflict?
+
+        {
+          requested: preview.slug,
+          suggested: preview.suggested_slug
+        }
       end
 
       def type_not_found(type)

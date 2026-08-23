@@ -1,10 +1,12 @@
 class <%= class_name %> < BrawoCms::Content
   include BrawoCms::ContentTypeable
 
-  content_type :<%= file_name %>,
+  content_type :<%= file_name.singularize %>,
     label: '<%= class_name %>',
+<% if options[:page_builder] -%>
+    page_builder: true,
+<% end -%>
     fields: [
 <%= field_definitions %>
     ]
 end
-

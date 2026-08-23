@@ -1,0 +1,35 @@
+<% conflict = local_assigns.fetch(:conflict) %>
+<% footer = safe_join([
+  tag.button(
+    t("brawo.slug_conflict.go_back"),
+    type: "button",
+    class: "btn btn-secondary",
+    data: { action: "slug-conflict#goBack admin-modal#close" }
+  ),
+  tag.button(
+    t("brawo.slug_conflict.save_as", slug: conflict[:suggested]),
+    type: "button",
+    class: "btn btn-primary",
+    data: { action: "slug-conflict#accept" }
+  )
+]) %>
+
+<div data-controller="slug-conflict">
+  <%= render layout: "brawo_cms/admin/shared/modal",
+             locals: {
+               id: "slug-conflict-modal",
+               title: t("brawo.slug_conflict.title"),
+               open: true,
+               backdrop: "static",
+               keyboard: false,
+               footer: footer
+             } do %>
+    <p class="mb-0">
+      <%= t(
+            "brawo.slug_conflict.message_html",
+            requested: tag.strong(conflict[:requested]),
+            suggested: tag.strong(conflict[:suggested])
+          ).html_safe %>
+    </p>
+  <% end %>
+</div>

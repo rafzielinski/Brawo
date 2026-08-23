@@ -1,41 +1,29 @@
-<%= form_with(model: content, 
-              url: content.persisted? ? admin_content_path(content, content_type: @content_type) : admin_contents_path(content_type: @content_type), 
+<%= form_with(model: content,
+              url: content.persisted? ? admin_content_path(content, content_type: @content_type) : admin_contents_path(content_type: @content_type),
               scope: :content,
-              local: true) do |form| %>
+              local: true,
+              html: { data: { slug_conflict_form: true } }) do |form| %>
+  <% if content.new_record? %>
+    <%= hidden_field_tag :accept_adjusted_slug, "0", id: "accept_adjusted_slug" %>
+  <% end %>
   <% if content.errors.any? %>
     <%= render 'brawo_cms/admin/shared/form_errors',
                record: content,
                error_heading: t('brawo.contents.errors.prohibited', count: content.errors.count) %>
   <% end %>
 
-  <div class="mb-3">
-    <%= form.label :title, t('brawo.attributes.title'), class: "form-label" %>
-    <%= form.text_field :title, class: "form-control", required: true %>
-  </div>
+  <% if content.persisted? %>
+    <div class="content-meta-panel">
+      <%= render 'title_slug_fields', form: form, content: content %>
+    </div>
 
-  <div class="mb-3">
-    <%= form.label :slug, t('brawo.attributes.slug'), class: "form-label" %>
-    <%= form.text_field :slug, class: "form-control" %>
-    <small class="form-text text-muted"><%= t('brawo.hints.slug_from_title') %></small>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :description, t('brawo.attributes.description'), class: "form-label" %>
-    <%= form.text_area :description, class: "form-control", rows: 3 %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :status, t('brawo.attributes.status'), class: "form-label" %>
-    <%= form.select :status, brawo_status_options, {}, class: "form-select" %>
-  </div>
-
-  <hr class="my-4">
-  <h5 class="mb-3"><%= t('brawo.sections.custom_fields') %></h5>
-
-  <%= render_field_group(form, @content_type_config[:fields], content, render_input: :render_field_input) %>
-
-  <div class="d-flex justify-content-between mt-4">
-    <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
-    <%= link_to t('brawo.actions.cancel'), admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
-  </div>
+    <div class="card">
+      <div class="card-body">
+        <%= render 'standard_form_body', form: form, content: content %>
+      </div>
+    </div>
+  <% else %>
+    <%= render 'title_slug_fields', form: form, content: content %>
+    <%= render 'standard_form_body', form: form, content: content %>
+  <% end %>
 <% end %>

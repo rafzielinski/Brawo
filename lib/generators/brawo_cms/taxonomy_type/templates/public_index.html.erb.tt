@@ -1,0 +1,9 @@
+<h1 class="mb-4"><%= class_name.pluralize %></h1>
+
+<ul class="list-group">
+  <%% @<%= route_controller %>.each do |<%= file_name.singularize %>| %>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <%%= link_to <%= file_name.singularize %>.name, <%= file_name.singularize %>_path(<%= file_name.singularize %>) %>
+    </li>
+  <%% end %>
+</ul>

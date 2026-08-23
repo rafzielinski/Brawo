@@ -25,8 +25,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_03_174104) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["fields"], name: "index_brawo_cms_contents_on_fields", using: :gin
-    t.index ["slug"], name: "index_brawo_cms_contents_on_slug", unique: true
     t.index ["status"], name: "index_brawo_cms_contents_on_status"
+    t.index ["type", "slug"], name: "index_brawo_cms_contents_on_type_and_slug", unique: true
     t.index ["type"], name: "index_brawo_cms_contents_on_type"
   end
 

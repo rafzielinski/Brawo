@@ -1,0 +1,22 @@
+<div class="row mb-4">
+  <div class="col-md-4">
+    <%= form.label :status, t('brawo.attributes.status'), class: "form-label" %>
+    <%= form.select :status, brawo_status_options, {}, class: "form-select" %>
+  </div>
+</div>
+
+<div class="mb-3">
+  <%= form.label :description, t('brawo.attributes.description'), class: "form-label" %>
+  <%= form.text_area :description, class: "form-control", rows: 2 %>
+</div>
+
+<% @content_type_config[:fields].each do |field| %>
+<% if field[:type] == :blocks %>
+  <%= render_field_input(form, field, content) %>
+<% end %>
+<% end %>
+
+<div class="d-flex justify-content-between mt-4">
+  <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
+  <%= link_to t('brawo.actions.cancel'), admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
+</div>

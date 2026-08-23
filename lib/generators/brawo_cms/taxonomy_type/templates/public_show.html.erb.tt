@@ -1,0 +1,15 @@
+<article class="mb-5">
+  <h1 class="mb-3"><%%= @<%= file_name.singularize %>.name %></h1>
+
+  <%% if @<%= file_name.singularize %>.description.present? %>
+    <p class="lead"><%%= @<%= file_name.singularize %>.description %></p>
+  <%% end %>
+
+<% parsed_attributes.each do |attr| -%>
+  <p><strong><%= attr[:name].to_s.titleize %>:</strong> <%%= @<%= file_name.singularize %>.<%= attr[:name] %> %></p>
+<% end -%>
+
+  <div class="mt-4">
+    <%%= link_to "Back", <%= route_controller %>_path, class: "btn btn-secondary" %>
+  </div>
+</article>

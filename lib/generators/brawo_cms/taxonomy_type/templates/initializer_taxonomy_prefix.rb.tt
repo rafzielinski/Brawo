@@ -1,0 +1,3 @@
+BrawoCms.configure do |config|
+  config.taxonomy_route_prefixes[:<%= taxonomy_type_name %>] = "<%= options[:route_prefix].presence || taxonomy_route_prefix %>"
+end

@@ -1,0 +1,26 @@
+<article class="mb-5">
+  <h1 class="mb-3"><%%= content.title %></h1>
+
+  <%% if content.description.present? %>
+    <div class="lead mb-4">
+      <%%= content.description %>
+    </div>
+  <%% end %>
+
+<% if options[:page_builder] -%>
+  <%%= render_blocks(content.blocks) %>
+<% else -%>
+<% parsed_attributes.each do |attr| -%>
+<%   case attr[:type].to_sym
+     when :textarea, :text -%>
+  <div class="mb-3">
+    <%%= simple_format(content.<%= attr[:name] %>) %>
+  </div>
+<%   when :blocks -%>
+  <%%= render_blocks(content.<%= attr[:name] %>) %>
+<%   else -%>
+  <p><%%= content.<%= attr[:name] %> %></p>
+<%   end -%>
+<% end -%>
+<% end -%>
+</article>

@@ -92,3 +92,31 @@ Sidebar auto-lists all registered taxonomy types alongside content types.
 | Taxonomy term | One row in `brawo_cms_taxonomies` (a single category) |
 
 No separate `Term` model.
+
+## Generators
+
+```bash
+# Model only
+rails g brawo_cms:taxonomy_type Category color:string
+
+# Public archive at configurable prefix (default: /categories/:slug)
+rails g brawo_cms:taxonomy_type Category color:string --public-archive --routes
+
+# Custom route prefix
+rails g brawo_cms:taxonomy_type Category --routes --route-prefix=topics
+```
+
+## Route prefix config
+
+```ruby
+# config/initializers/brawo_cms.rb
+BrawoCms.configure do |config|
+  config.taxonomy_route_prefixes = {
+    category: "categories",
+    tag: "tags"
+  }
+end
+```
+
+Unset types default to the pluralized taxonomy name (`tag` → `/tags/:slug`).
+

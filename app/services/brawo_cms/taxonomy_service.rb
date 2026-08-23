@@ -15,7 +15,7 @@ module BrawoCms
         config = type_config(type)
         return type_not_found(type) unless config
 
-        record = config[:class].find_by(id: id)
+        record = RecordFinder.find(config[:class].all, id)
         return ServiceResult.not_found("Taxonomy not found") unless record
 
         ServiceResult.success(record)

@@ -49,6 +49,13 @@ RSpec.describe BrawoCms::Content, type: :model do
 
       expect(article.slug).to eq("hello-world")
     end
+
+    it "allows the same slug on different content types" do
+      Page.create!(title: "About", slug: "about", status: "draft", fields: {})
+      article = Article.new(title: "About", slug: "about", status: "draft")
+
+      expect(article).to be_valid
+    end
   end
 
   describe "scopes" do

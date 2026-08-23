@@ -1,0 +1,21 @@
+<h1 class="mb-4"><%= class_name.pluralize %></h1>
+
+<div class="row">
+  <%% @<%= route_plural %>.each do |<%= file_name.singularize %>| %>
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%%= <%= file_name.singularize %>.title %></h5>
+          <p class="card-text"><%%= <%= file_name.singularize %>.description %></p>
+          <div class="mt-3">
+            <%%= link_to "View", <%= file_name.singularize %>_path(<%= file_name.singularize %>), class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%% end %>
+</div>
+
+<%% if @<%= route_plural %>.empty? %>
+  <div class="alert alert-info">No <%= file_name.pluralize %> found.</div>
+<%% end %>

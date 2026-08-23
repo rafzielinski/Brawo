@@ -1,0 +1,9 @@
+class <%= route_controller.camelize %>Controller < ApplicationController
+  def index
+    @<%= route_plural %> = <%= class_name %>.published.order(created_at: :desc)
+  end
+
+  def show
+    @<%= file_name.singularize %> = <%= class_name %>.published.find_by!(slug: params[:slug])
+  end
+end

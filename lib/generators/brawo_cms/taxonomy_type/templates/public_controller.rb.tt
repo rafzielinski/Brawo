@@ -1,0 +1,9 @@
+class <%= route_controller.camelize %>Controller < ApplicationController
+  def index
+    @<%= route_controller %> = <%= class_name %>.order(:name)
+  end
+
+  def show
+    @<%= file_name.singularize %> = <%= class_name %>.find_by!(slug: params[:slug])
+  end
+end

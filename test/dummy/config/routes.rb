@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   mount BrawoCms::Engine => "/admin"
-  
+
   root "pages#home"
-  
-  get "pages/:slug", to: "pages#show", as: :page
 
-  # Example routes for viewing content
-  resources :articles, only: [:index, :show]
-  resources :products, only: [:index, :show]
+  # brawo_cms:routes
+  resources :articles, only: %i[index show], param: :slug
+  resources :products, only: %i[index show], param: :slug
+
+  BrawoCms::Routing.draw_root_route(self)
 end
-

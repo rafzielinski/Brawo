@@ -1,0 +1,30 @@
+<article class="mb-5">
+  <h1 class="mb-3"><%%= @<%= file_name.singularize %>.title %></h1>
+
+  <%% if @<%= file_name.singularize %>.description.present? %>
+    <div class="lead mb-4">
+      <%%= @<%= file_name.singularize %>.description %>
+    </div>
+  <%% end %>
+
+<% parsed_attributes.each do |attr| -%>
+<%   case attr[:type].to_sym
+     when :textarea, :text -%>
+  <div class="mb-3">
+    <%%= simple_format(@<%= file_name.singularize %>.<%= attr[:name] %>) %>
+  </div>
+<%   when :boolean, :checkbox -%>
+  <%% if @<%= file_name.singularize %>.<%= attr[:name] %> %>
+    <span class="badge bg-secondary"><%= attr[:name].to_s.titleize %></span>
+  <%% end %>
+<%   when :blocks -%>
+  <%%= render_blocks(@<%= file_name.singularize %>.<%= attr[:name] %>) %>
+<%   else -%>
+  <p><%%= @<%= file_name.singularize %>.<%= attr[:name] %> %></p>
+<%   end -%>
+<% end -%>
+
+  <div class="mt-4">
+    <%%= link_to "Back", <%= route_plural %>_path, class: "btn btn-secondary" %>
+  </div>
+</article>

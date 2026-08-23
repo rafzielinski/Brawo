@@ -4,11 +4,11 @@ module BrawoCms
 
     # Validations
     validates :title, presence: true
-    validates :slug, presence: true, uniqueness: true
+    validates :slug, presence: true, uniqueness: { scope: :type }
     validates :status, inclusion: { in: %w[draft published archived] }
 
     # Callbacks
-    before_validation :generate_slug, if: -> { slug.blank? && title.present? }
+    before_validation :generate_slug, if: -> { (slug.blank? && title.present?) || will_save_change_to_slug? }
 
     # Scopes
     scope :published, -> { where(status: 'published') }
@@ -106,10 +106,25 @@ module BrawoCms
       content_type_config&.dig(:fields) || []
     end
 
+    def to_param
+      slug
+    end
+
     private
 
     def generate_slug
-      self.slug = title.parameterize
+      source = slug.presence || title
+      result = BrawoCms::SlugGenerator.generate(
+        source,
+        record_class: self.class,
+        exclude_id: id
+      )
+      self.slug = result.slug
+      @slug_adjusted = result.adjusted
+    end
+
+    def slug_adjusted?
+      @slug_adjusted == true
     end
   end
 end

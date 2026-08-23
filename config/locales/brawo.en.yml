@@ -55,6 +55,12 @@ en:
     hints:
       slug_from_title: Leave blank to auto-generate from title
       slug_from_name: Leave blank to auto-generate from name
+      slug_edit: Changing the slug may break existing links
+    slug_conflict:
+      title: Slug already in use
+      message_html: The slug %{requested} is already taken. Save as %{suggested} instead?
+      save_as: Save as %{slug}
+      go_back: Go back and edit
     status:
       draft: Draft
       published: Published

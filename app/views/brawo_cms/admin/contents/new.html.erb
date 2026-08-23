@@ -10,3 +10,5 @@
     <% end %>
   </div>
 </div>
+
+<%= render 'slug_conflict_modal', conflict: @slug_conflict if @slug_conflict.present? %>
