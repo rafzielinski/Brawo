@@ -22,5 +22,6 @@ description: Change Brawo CMS JSON API (controllers, serializers, OpenAPI). Use 
 
 ## References
 
-- [docs/api.md](../../../docs/api.md)
+- Swagger UI at `/admin/api/docs` and `openapi/v1/swagger.yaml`
 - [docs/architecture.md](../../../docs/architecture.md)
+- [docs/development/testing.md](../../../docs/development/testing.md)

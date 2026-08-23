@@ -44,7 +44,7 @@ Or run `./setup.sh` if you use the Docker demo workflow.
 bundle exec rake openapi:generate
 ```
 
-Updates `openapi/v1/swagger.yaml` from request specs. See [api.md](api.md).
+Updates `openapi/v1/swagger.yaml` from request specs. API endpoint documentation lives in Swagger UI (`/admin/api/docs`) and the generated YAML — not in markdown.
 
 ## Generator default
 

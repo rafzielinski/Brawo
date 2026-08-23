@@ -1,10 +1,10 @@
-# Engine Route Helpers Guide
+# Engine route helpers
 
-## Understanding Rails Engine Routes
+## Understanding Rails engine routes
 
-When you mount a Rails engine in your application, the engine's routes are **namespaced** with the engine name. This is important to understand when linking to engine routes from your main application.
+When you mount a Rails engine in your application, the engine's routes are **namespaced** with the engine name. This is important when linking to engine routes from your main application.
 
-## The Mount Point
+## The mount point
 
 In your `config/routes.rb`:
 
@@ -16,9 +16,9 @@ end
 
 This mounts the BrawoCMS engine at the `/admin` path.
 
-## Using Engine Route Helpers
+## Using engine route helpers
 
-### ❌ Wrong - This Won't Work
+### Wrong — this won't work
 
 ```erb
 <%= link_to "Admin", admin_root_path %>
@@ -27,16 +27,16 @@ This mounts the BrawoCMS engine at the `/admin` path.
 
 **Error**: `undefined local variable or method 'admin_root_path'`
 
-### ✅ Correct - Namespace with Engine Name
+### Correct — namespace with engine name
 
 ```erb
 <%= link_to "Admin", brawo_cms.admin_root_path %>
 <%= link_to "Articles", brawo_cms.admin_contents_path(content_type: :article) %>
 ```
 
-## Complete List of Engine Routes
+## Complete list of engine routes
 
-### Public Routes (Main App → Engine)
+### Public routes (main app → engine)
 
 From your main application views, use these helpers:
 
@@ -62,7 +62,7 @@ From your main application views, use these helpers:
 <!-- URL: /admin/contents/1/edit?content_type=article -->
 ```
 
-### Internal Routes (Engine → Engine)
+### Internal routes (engine → engine)
 
 Inside the engine's views (e.g., in admin templates), you don't need the namespace:
 
@@ -72,7 +72,7 @@ Inside the engine's views (e.g., in admin templates), you don't need the namespa
 <%= link_to "Articles", admin_contents_path(content_type: :article) %>
 ```
 
-## Checking Available Routes
+## Checking available routes
 
 To see all available engine routes:
 
@@ -86,9 +86,9 @@ Or in Rails console:
 Rails.application.routes.named_routes.helper_names.grep(/brawo/)
 ```
 
-## Common Patterns
+## Common patterns
 
-### Linking from Main App to Admin
+### Linking from main app to admin
 
 ```erb
 <!-- Home page -->
@@ -98,7 +98,7 @@ Rails.application.routes.named_routes.helper_names.grep(/brawo/)
 <%= link_to "Edit this article", brawo_cms.edit_admin_content_path(@article, content_type: :article) %>
 ```
 
-### Linking from Admin to Main App
+### Linking from admin to main app
 
 ```erb
 <!-- In admin navigation -->
@@ -108,21 +108,21 @@ Rails.application.routes.named_routes.helper_names.grep(/brawo/)
 
 Note: Use `main_app` prefix when linking from engine back to main app.
 
-## URL Helpers in Controllers
+## URL helpers in controllers
 
-### Main App Controllers
+### Main app controllers
 
 ```ruby
 class ArticlesController < ApplicationController
   def show
     @article = Article.find(params[:id])
-    # Generate admin edit URL
+  # Generate admin edit URL
     @edit_url = brawo_cms.edit_admin_content_path(@article, content_type: :article)
   end
 end
 ```
 
-### Engine Controllers
+### Engine controllers
 
 ```ruby
 module BrawoCms
@@ -137,9 +137,9 @@ module BrawoCms
 end
 ```
 
-## Testing Routes
+## Testing routes
 
-### In Rails Console
+### In Rails console
 
 ```ruby
 # Access engine routes
@@ -171,6 +171,7 @@ app.articles_path
 ### Error: "undefined method `admin_root_path'"
 
 **Fix**: Add `brawo_cms.` prefix:
+
 ```erb
 <%= link_to "Admin", brawo_cms.admin_root_path %>
 ```
@@ -178,17 +179,16 @@ app.articles_path
 ### Error: "No route matches"
 
 **Fix**: Make sure engine is mounted in `config/routes.rb`:
+
 ```ruby
 mount BrawoCms::Engine => "/admin"
 ```
 
-### Wrong URL Generated
+### Wrong URL generated
 
 **Check**: Verify you're using the correct namespace for your context (main app vs engine).
 
----
+## See also
 
-For more information, see:
 - [Rails Engines Guide](https://guides.rubyonrails.org/engines.html)
 - [Rails Routing Guide](https://guides.rubyonrails.org/routing.html)
-

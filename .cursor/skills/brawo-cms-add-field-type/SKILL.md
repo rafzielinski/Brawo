@@ -23,5 +23,5 @@ description: Add a new Brawo CMS admin field type end-to-end (model class, facto
 
 ## References
 
-- [docs/admin-internals.md](../../../docs/admin-internals.md)
+- [docs/development/admin-internals.md](../../../docs/development/admin-internals.md)
 - [docs/content-types.md](../../../docs/content-types.md)

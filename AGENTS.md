@@ -15,7 +15,7 @@ Rails **engine** mounted at `/admin`. Host app defines STI models (`Article`, `C
 | Routes | `config/routes.rb` (engine) |
 | Demo / integration tests | `test/dummy/app/models/` |
 | User docs | `docs/` — start at [docs/index.md](docs/index.md) |
-| Contributor internals | [docs/admin-internals.md](docs/admin-internals.md), [docs/testing.md](docs/testing.md) |
+| Contributor internals | [docs/development/admin-internals.md](docs/development/admin-internals.md), [docs/development/testing.md](docs/development/testing.md) |
 
 ## Commands
 
@@ -24,7 +24,7 @@ bundle exec rspec                    # full suite (boots test/dummy)
 bundle exec rake openapi:generate    # regen openapi/v1/swagger.yaml from request specs
 ```
 
-After new engine migrations, sync to dummy (see [docs/testing.md](docs/testing.md) or `./setup.sh`).
+After new engine migrations, sync to dummy (see [docs/development/testing.md](docs/development/testing.md) or `./setup.sh`).
 
 ## Principles
 

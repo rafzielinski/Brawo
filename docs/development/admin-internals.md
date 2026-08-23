@@ -1,6 +1,6 @@
 # Admin internals
 
-Contributor map for the engine admin UI. User-facing overview: [admin.md](admin.md).
+Contributor map for the engine admin UI. User-facing overview: [../admin.md](../admin.md).
 
 ## Request flow
 
@@ -30,7 +30,7 @@ ContentsController / TaxonomiesController
 | `BlocksHelper` | `render_blocks` / `render_block` for `:blocks` JSON on public pages |
 | `ErbFileRenderer` | Compiles `app/blocks/*/render.html.erb` (do not use `render file:` — paths are outside view load paths) |
 
-See [blocks.md](blocks.md).
+See [../blocks.md](../blocks.md).
 
 ## Shared partials
 
@@ -71,4 +71,4 @@ Repeater markup sets `data-controller="repeater"` in `RepeaterField#render_input
 
 Engine mounted at `/admin` in the dummy app. Admin routes live under `/admin/admin/...` (engine `namespace :admin` + mount prefix). API: `/admin/api/v1/...`.
 
-Use route helpers (`admin_contents_path`, etc.) inside engine views; from host apps use `brawo_cms.admin_contents_path` when needed ([ENGINE_ROUTES_GUIDE.md](ENGINE_ROUTES_GUIDE.md)).
+Use route helpers (`admin_contents_path`, etc.) inside engine views; from host apps use `brawo_cms.admin_contents_path` when needed ([routes.md](routes.md)).

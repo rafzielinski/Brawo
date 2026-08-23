@@ -2,9 +2,10 @@
 
 ## API
 
-- Bearer token via `BrawoCms.api_token` (see [api.md](api.md)).
+- Bearer token via `BrawoCms.api_token`. Configure in host app initializer or credentials.
 - Set a strong token in production; never commit secrets.
 - API controllers enforce token auth on mutating/list endpoints as implemented in `Api::V1::BaseController`.
+- Full API auth and endpoint details: Swagger UI at `/admin/api/docs`.
 
 ## Admin UI
 
@@ -14,7 +15,7 @@
 
 ## Host app
 
-- Load models in `to_prepare` so content types register without eager-load leaks (see [index.md](index.md) setup).
+- Load models in `to_prepare` so content types register without eager-load leaks (see [../index.md](../index.md) setup).
 - Keep `master.key` and credentials out of version control (see root `.gitignore`).
 
 ## Dependencies

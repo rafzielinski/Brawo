@@ -1,8 +1,14 @@
 # Taxonomies
 
-Taxonomies are classification vocabularies (categories, tags, etc.). Same pattern as content types but simpler — no status/publishing.
+## What is a taxonomy?
 
-## Define a taxonomy type
+A taxonomy is a classification vocabulary — categories, tags, regions, or any grouping scheme. Taxonomy types follow the same DSL pattern as content types but are simpler: no status or publishing workflow. Terms share one `brawo_cms_taxonomies` table (STI).
+
+Link taxonomies to content via a `:taxonomy` field on your content type (see [Content types](content-types.md)).
+
+## Create your first taxonomy type
+
+### 1. Define the model
 
 ```ruby
 class Category < BrawoCms::Taxonomy
@@ -18,7 +24,16 @@ class Category < BrawoCms::Taxonomy
 end
 ```
 
-Or generate:
+### 2. Restart the server
+
+Taxonomy types register on boot. Restart after adding or changing a type.
+
+### 3. Manage terms
+
+- **Admin:** `/admin/taxonomies?taxonomy_type=category`
+- **API:** `/admin/api/v1/taxonomies?taxonomy_type=category` — see [Swagger UI](/admin/api/docs) for payloads
+
+Or generate a scaffold:
 
 ```bash
 rails g brawo_cms:taxonomy_type Category color:string order:integer
@@ -63,9 +78,9 @@ category.name
 
 ## Admin & API
 
-- Admin: `/admin/taxonomies?taxonomy_type=category`
-- API: `GET/POST/PATCH/DELETE /admin/api/v1/taxonomies?taxonomy_type=category`
-- Schema: `GET /admin/api/v1/taxonomy_types` or `/taxonomy_types/category`
+- **Admin:** `/admin/taxonomies?taxonomy_type=<type>`
+- **API:** `/admin/api/v1/taxonomies?taxonomy_type=<type>` — full details in [Swagger UI](/admin/api/docs)
+- **Schema introspection:** `/admin/api/v1/taxonomy_types` or `/taxonomy_types/<type>`
 
 Sidebar auto-lists all registered taxonomy types alongside content types.
 

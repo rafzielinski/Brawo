@@ -11,19 +11,25 @@ Rails mountable engine: content types + taxonomies, JSONB custom fields, auto-ge
 - Generators: `brawo_cms:content_type`, `brawo_cms:taxonomy_type`
 - Demo app: `test/dummy` (Articles, Products, Categories, references + repeaters on Article)
 
+
+
 ## Field types (engine)
 
-| Type | Notes |
-|------|--------|
-| `:string` / `:text` | Single line |
-| `:textarea` | Multiline |
-| `:number` / `:integer` | Numeric |
-| `:date`, `:datetime` | Date / time |
-| `:boolean` / `:checkbox` | Toggle |
-| `:select` | `choices: [[label, value], ...]` |
-| `:taxonomy` | `taxonomy_type: :your_type` — stores id |
-| `:reference` | `model_class: 'ModelName'` — array of ids |
-| `:repeater` | Nested `sub_fields:` (can nest repeaters) |
+
+| Type                     | Notes                                     |
+| ------------------------ | ----------------------------------------- |
+| `:string` / `:text`      | Single line                               |
+| `:textarea`              | Multiline                                 |
+| `:number` / `:integer`   | Numeric                                   |
+| `:date`, `:datetime`     | Date / time                               |
+| `:boolean` / `:checkbox` | Toggle                                    |
+| `:select`                | `choices: [[label, value], ...]`          |
+| `:taxonomy`              | `taxonomy_type: :your_type` — stores id   |
+| `:reference`             | `model_class: 'ModelName'` — array of ids |
+| `:repeater`              | Nested `sub_fields:` (can nest repeaters) |
+
+
+
 
 ## Try the demo (Docker)
 
@@ -35,39 +41,35 @@ chmod +x setup.sh && ./setup.sh
 
 Or: `docker-compose build && docker-compose up -d`, then copy engine migrations into the dummy app and migrate (see `setup.sh` for the exact pattern).
 
-- Site: http://localhost:3000  
-- Admin: http://localhost:3000/admin  
+- Site: [http://localhost:3000](http://localhost:3000)  
+- Admin: [http://localhost:3000/admin](http://localhost:3000/admin)  
 - Postgres published on host **5433** → container 5432 (avoids clashing with local Postgres)
 
-Details: [QUICKSTART.md](docs/QUICKSTART.md) (Docker Compose or **Dev Container**), [DOCKER_SETUP.md](docs/DOCKER_SETUP.md)
+Details: [docs/development/docker.md](docs/development/docker.md) (Docker Compose or **Dev Container**)
 
 ## Use in your own Rails app
 
 1. Gemfile: `gem "brawo_cms"` (or `path:` / `git:` while developing).
 2. `bundle install`
 3. Copy engine migrations, then migrate:
-
-   ```bash
+  ```bash
    bin/rails railties:install:migrations
    bin/rails db:migrate
-   ```
-
+  ```
 4. Mount engine in `config/routes.rb`:
-
-   ```ruby
+  ```ruby
    mount BrawoCms::Engine => "/admin"
-   ```
-
+  ```
 5. **Eager-load content/taxonomy models** so they register (example from dummy):
-
-   ```ruby
+  ```ruby
    # config/initializers/brawo_cms.rb
    Rails.application.config.to_prepare do
      Dir[Rails.root.join("app/models/**/*.rb")].each { |f| require_dependency f }
    end
-   ```
+  ```
+6. Define models inheriting `BrawoCms::Content` / `BrawoCms::Taxonomy` with `include BrawoCms::ContentTypeable` / `TaxonomyTypeable`. See [docs/index.md](docs/index.md) and generator READMEs under `lib/generators/brawo_cms/`.
 
-6. Define models inheriting `BrawoCms::Content` / `BrawoCms::Taxonomy` with `include BrawoCms::ContentTypeable` / `TaxonomyTypeable`. See [QUICKSTART.md](QUICKSTART.md) and generator READMEs under `lib/generators/brawo_cms/`.
+
 
 ## Repo layout
 
@@ -79,28 +81,23 @@ Details: [QUICKSTART.md](docs/QUICKSTART.md) (Docker Compose or **Dev Container*
 - `spec/` — RSpec (boots `test/dummy` via `spec/rails_helper.rb`)
 - `openapi/` — generated OpenAPI spec (`v1/swagger.yaml`)
 
+
+
 ## API docs (OpenAPI / rswag)
 
 - **Swagger UI:** `http://localhost:3000/admin/api/docs` (dummy app / Docker demo)
 - **Raw spec:** `openapi/v1/swagger.yaml` in the gem
-- **Regenerate** after changing API request specs:
 
-  ```bash
-  bundle exec rake openapi:generate
-  ```
-
-  Run the full suite: `bundle exec rspec`
-
-  API-only: `bundle exec rspec spec/requests/brawo_cms/api/v1`
+API endpoint documentation lives in Swagger — not in markdown. To regenerate the spec after changing API request specs, see [docs/development/testing.md](docs/development/testing.md).
 
 Host apps need `rswag-api` and `rswag-ui` in the bundle for the interactive UI (included in this repo’s Gemfile). Mount paths assume default engine mount `/admin`.
 
 ## More docs
 
-- [docs/index.md](docs/index.md) — **content types, taxonomies, blocks, admin, API**
-- [QUICKSTART.md](docs/QUICKSTART.md) — first run + sample data
-- [architecture.md](docs/architecture.md) — layer diagrams
-- [DEVELOPMENT.md](docs/DEVELOPMENT.md) — contributing
+- [docs/index.md](docs/index.md) — **content types, taxonomies, blocks, admin, architecture**
+- [docs/development/index.md](docs/development/index.md) — contributing, testing, Docker demo
+
+
 
 ## License
 

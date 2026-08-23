@@ -1,8 +1,14 @@
 # Blocks
 
-Composable page sections stored as JSON in a content type's `:blocks` field. Visual editor in admin, rendered on the frontend via helper.
+## What are blocks?
 
-## Enable page builder
+Blocks are composable page sections — headings, text, FAQs, heroes, etc. — stored as JSON in a content type's `:blocks` field. Enable the visual page builder in admin; render blocks on your public site via a helper.
+
+Blocks require a content type with a `:blocks` field. See [Content types](content-types.md) for the base setup.
+
+## Create your first block-enabled page type
+
+### 1. Define a content type with blocks
 
 ```ruby
 class Page < BrawoCms::Content
@@ -18,6 +24,16 @@ end
 ```
 
 `page_builder: true` switches the admin form to drag-and-drop block editor.
+
+### 2. Create a page in admin
+
+Go to `/admin/contents?content_type=page`, add blocks via the sidebar picker, save.
+
+### 3. Render on the frontend
+
+```erb
+<%= render_blocks(@page.blocks) %>
+```
 
 ## Storage format
 
@@ -39,13 +55,17 @@ end
 
 Files: `app/blocks/<name>/block.rb` + `render.html.erb`.
 
-## Create a block
+## Create a custom block
+
+### 1. Add block files
 
 ```
 app/blocks/hero/
   block.rb
   render.html.erb
 ```
+
+### 2. Define fields
 
 ```ruby
 # app/blocks/hero/block.rb
@@ -58,6 +78,8 @@ field :subtitle, type: :textarea, label: "Subtitle",
 field :cta_url, type: :string, label: "CTA URL"
 ```
 
+### 3. Add a render template
+
 ```erb
 <%# app/blocks/hero/render.html.erb %>
 <section class="hero">
@@ -69,7 +91,7 @@ field :cta_url, type: :string, label: "CTA URL"
 </section>
 ```
 
-Blocks auto-discovered from engine `app/blocks/` and host `app/blocks/` on boot.
+Blocks auto-discovered from engine `app/blocks/` and host `app/blocks/` on boot. Restart after adding a new block.
 
 ## Filter blocks per content type
 
@@ -96,5 +118,3 @@ Single block: `<%= render_block({ type: "heading", data: { text: "Hi", level: 1 
 - Stimulus controllers: `page_builder`, `sortable`, `repeater`
 - Add/remove/reorder blocks via sidebar picker
 - Field inputs auto-built from block field definitions (no custom admin template needed)
-
-Demo: create a Page at `/admin/contents?content_type=page`, view at `/pages/:slug`.

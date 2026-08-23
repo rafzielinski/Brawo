@@ -23,4 +23,4 @@ Contents and taxonomies mirror each other — copy the pattern, do not build a g
 ## References
 
 - [docs/admin.md](../../../docs/admin.md)
-- [docs/admin-internals.md](../../../docs/admin-internals.md)
+- [docs/development/admin-internals.md](../../../docs/development/admin-internals.md)

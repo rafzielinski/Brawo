@@ -1,37 +1,18 @@
 # BrawoCMS Docs
 
-*(Brawo "Better Rails Alternative for Wordpress Outdated" CMS)*  
-*(Brawo "Opinionated Wordpress Alternative in Rails & Better")*
+Rails engine for code-first content management: define content types, taxonomies, and blocks in Ruby; get an admin UI and JSON API automatically.
 
-Rails engine: code-first content types, taxonomies, blocks, admin UI, JSON API.
+## What you can do
 
-## Pages
+| Capability | Guide |
+|------------|-------|
+| Define structured content (posts, pages, products, …) | [Content types](content-types.md) |
+| Classify content (categories, tags, …) | [Taxonomies](taxonomies.md) |
+| Build pages from reusable blocks | [Blocks](blocks.md) |
+| Manage content in the browser | [Admin](admin.md) |
+| Understand how it all fits together | [Architecture](architecture.md) |
 
-
-| Topic                             | What it covers                              |
-| --------------------------------- | ------------------------------------------- |
-| [Content Types](content-types.md) | Define models, fields, generators, querying |
-| [Taxonomies](taxonomies.md)       | Categories/tags, linking to content         |
-| [Blocks](blocks.md)               | Page builder, block DSL, frontend rendering |
-| [Admin](admin.md)                 | Dashboard, CRUD, routes, status workflow    |
-| [API](api.md)                     | REST endpoints, auth, OpenAPI               |
-
-
-## Contributors
-
-
-| Topic                | Doc                                      |
-| -------------------- | ---------------------------------------- |
-| Testing              | [testing.md](testing.md)                 |
-| Admin implementation | [admin-internals.md](admin-internals.md) |
-| Security             | [security.md](security.md)               |
-| Architecture         | [architecture.md](architecture.md)       |
-| Agent onboarding     | [../AGENTS.md](../AGENTS.md)             |
-
-
-
-
-## Setup (30 seconds)
+## Quick setup
 
 ```ruby
 # Gemfile
@@ -52,14 +33,11 @@ bin/rails railties:install:migrations && bin/rails db:migrate
 
 - Admin: `/admin`
 - API: `/admin/api/v1`
-- Swagger: `/admin/api/docs`
-
-
 
 ## How it works
 
 ```
-Your models (Article, Category, Page)
+Your models (Post, Page, Category, …)
   → content_type / taxonomy_type DSL
   → BrawoCms registry (in-memory)
   → Admin UI + API auto-generated from field defs
@@ -67,12 +45,15 @@ Your models (Article, Category, Page)
 
 **Storage:** one `brawo_cms_contents` table (STI), one `brawo_cms_taxonomies` table. Custom fields in JSONB `fields` column — no migration per field.
 
-**Demo app:** `test/dummy` — Article, Product, Page, Category.
+## API
 
-## Also see
+API documentation is maintained in OpenAPI (Swagger):
 
-- [QUICKSTART.md](QUICKSTART.md) — Docker demo
-- [architecture.md](architecture.md) — layer diagrams
-- [DEVELOPMENT.md](DEVELOPMENT.md) — contributing notes
-- [testing.md](testing.md) — RSpec and dummy app
+- **Interactive docs:** `/admin/api/docs` (Swagger UI)
+- **Raw spec:** `openapi/v1/swagger.yaml` in the gem
 
+No separate markdown API reference — Swagger is the source of truth for endpoints, request/response shapes, and auth.
+
+## Contributors
+
+Engine development docs: [development/index.md](development/index.md)
