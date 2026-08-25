@@ -2,28 +2,29 @@
   <div class="container-fluid d-flex align-items-center">
     <%= link_to t('brawo.navigation.brand'), admin_root_path, class: "navbar-brand" %>
 
-    <div class="ms-auto">
-      <%= brawo_toggle(
-        state: "edit",
-        off_state: "edit",
-        on_state: "preview",
-        off: {
-          icon: brawo_toggle_pen_icon,
-          aria_label: t("brawo.navigation.modes.edit")
-        },
-        on: {
-          icon: brawo_toggle_eye_icon,
-          aria_label: t("brawo.navigation.modes.preview")
-        },
-        size: :sm,
-        disabled_on: !admin_preview_available?,
-        html: {
-          data: {
-            admin_mode_target: "modeToggle",
-            action: "toggle:change->admin-mode#setModeFromToggle"
+    <% if previewable_content_edit? %>
+      <div class="ms-auto">
+        <%= brawo_toggle(
+          state: "edit",
+          off_state: "edit",
+          on_state: "preview",
+          off: {
+            icon: brawo_toggle_pen_icon,
+            aria_label: t("brawo.navigation.modes.edit")
+          },
+          on: {
+            icon: brawo_toggle_eye_icon,
+            aria_label: t("brawo.navigation.modes.preview")
+          },
+          size: :sm,
+          html: {
+            data: {
+              admin_mode_target: "modeToggle",
+              action: "toggle:change->admin-mode#setModeFromToggle"
+            }
           }
-        }
-      ) %>
-    </div>
+        ) %>
+      </div>
+    <% end %>
   </div>
 </nav>

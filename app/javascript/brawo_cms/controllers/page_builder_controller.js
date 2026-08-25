@@ -191,7 +191,7 @@ export default class extends Controller {
     btn.type = "button"
     btn.className = "block-insert-zone-btn"
     btn.title = this.translation("insert_block")
-    btn.textContent = "+"
+    btn.innerHTML = `<i class="bi bi-plus-lg brawo-icon brawo-icon--sm" aria-hidden="true"></i>`
     btn.dataset.action = "page-builder#openPicker"
     btn.dataset.insertPosition = position
 
@@ -252,7 +252,7 @@ export default class extends Controller {
       item.dataset.blockIndex = index
 
       item.innerHTML = `
-        <span class="outline-drag-handle" title="${this.escapeHtml(this.translation("drag_to_reorder"))}">⋮⋮</span>
+        <span class="outline-drag-handle" title="${this.escapeHtml(this.translation("drag_to_reorder"))}"><i class="bi bi-grip-vertical brawo-icon" aria-hidden="true"></i></span>
         <span class="outline-item-label">
           <strong>${this.escapeHtml(label)}</strong>
         </span>

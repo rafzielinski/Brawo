@@ -3,6 +3,7 @@ module BrawoCms
     module ApplicationHelper
       include FieldWrapperHelper
       include FieldsHelper
+      include IconsHelper
       include ToggleHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))

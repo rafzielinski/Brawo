@@ -158,12 +158,12 @@
   box-shadow: 0 1px 2px color-mix(in oklch, var(--brawo-dark) 4%, transparent);
   flex-shrink: 0;
 
-  svg {
-    flex: 0 0 14px;
+  .brawo-icon {
+    flex: 0 0 var(--brawo-icon-size-sm);
     display: block;
-    width: 14px;
-    height: 14px;
-    fill: currentColor;
+    width: var(--brawo-icon-size-sm);
+    height: var(--brawo-icon-size-sm);
+    font-size: var(--brawo-icon-size-sm);
   }
 }
 
@@ -370,10 +370,11 @@
   height: 14px;
 }
 
-.brawo-toggle__icon svg {
+.brawo-toggle__icon .brawo-icon {
   display: block;
   width: 100%;
   height: 100%;
+  font-size: inherit;
 }
 
 .brawo-toggle--sm .brawo-toggle__segment {
@@ -387,16 +388,16 @@
 }
 
 .brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider {
-  background-color: color-mix(in oklch, var(--brawo-light) 96%, transparent);
-  color: var(--brawo-accent-on-dark);
+  background-color: var(--brawo-light-soft);
+  color: var(--brawo-dark);
 }
 
 .brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider-content {
-  color: var(--brawo-accent-on-dark);
+  color: var(--brawo-dark);
 }
 
 .brawo-admin-navbar .brawo-toggle__segment-backdrop {
-  color: color-mix(in oklch, var(--brawo-light) 92%, transparent);
+  color: var(--brawo-chrome-faint);
   opacity: 1;
 }
 

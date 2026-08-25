@@ -79,7 +79,7 @@ module BrawoCms
 
       def render_insert_zone(position)
         content_tag(:div, class: 'block-insert-zone', data: { insert_position: position }) do
-          content_tag(:button, '+', type: 'button', class: 'block-insert-zone-btn',
+          content_tag(:button, brawo_icon(:plus_lg, size: :sm), type: 'button', class: 'block-insert-zone-btn',
             title: t('brawo.page_builder.insert_block'),
             data: { action: 'page-builder#openPicker', insert_position: position })
         end
@@ -109,7 +109,9 @@ module BrawoCms
           content_tag(:div, class: 'page-builder-outline-header') do
             content_tag(:h6, t('brawo.page_builder.structure'), class: 'mb-0') +
               button_tag(type: 'button', class: 'btn btn-sm btn-link page-builder-outline-close',
-                data: { action: 'page-builder#toggleOutline' }, aria: { label: t('brawo.page_builder.close_panel') }) { '×' }
+                data: { action: 'page-builder#toggleOutline' }, aria: { label: t('brawo.page_builder.close_panel') }) do
+                brawo_icon(:x_lg, size: :sm)
+              end
           end +
             content_tag(:ul, class: 'page-builder-outline-list list-unstyled mb-0',
               data: { controller: 'sortable', sortable_handle_value: '.outline-drag-handle',
@@ -131,7 +133,7 @@ module BrawoCms
           block_index: index,
           action: 'click->page-builder#focusBlock'
         }) do
-          content_tag(:span, '⋮⋮', class: 'outline-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
+          content_tag(:span, brawo_drag_handle, class: 'outline-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, class: 'outline-item-label') do
               content_tag(:strong, label)
             end
@@ -206,7 +208,7 @@ module BrawoCms
 
       def block_header(label, index)
         content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2') do
-          content_tag(:span, '⋮⋮', class: 'drag-handle text-muted', title: t('brawo.page_builder.drag_to_reorder')) +
+          content_tag(:span, brawo_drag_handle(class: 'text-muted'), class: 'drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, label, class: 'page-builder-block-type') +
             content_tag(:span, '', class: 'flex-grow-1') +
             render_block_menu(index)
@@ -337,7 +339,7 @@ module BrawoCms
         content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           content_tag(:div, class: 'card-body') do
             content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: t('brawo.page_builder.drag_to_reorder')) +
+              content_tag(:span, brawo_drag_handle(class: 'text-muted'), class: 'repeater-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
                 content_tag(:span, '', class: 'flex-grow-1') +
                 render_item_actions_dropdown(
                   move_action: 'repeater#moveRow',

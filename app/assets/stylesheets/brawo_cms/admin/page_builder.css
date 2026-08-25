@@ -64,11 +64,13 @@
 .page-builder-block .drag-handle,
 .outline-drag-handle,
 .repeater-drag-handle {
+  display: inline-flex;
+  align-items: center;
   cursor: grab;
   user-select: none;
-  font-size: 1.1rem;
   line-height: 1;
   flex-shrink: 0;
+  color: var(--brawo-dark-soft);
 }
 
 .page-builder-block.sortable-ghost,
@@ -107,13 +109,15 @@
 
 .block-insert-zone-btn {
   opacity: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
   border: 1px dashed var(--brawo-chrome-faint);
   background: var(--brawo-light-soft);
   color: var(--brawo-dark-soft);
-  font-size: 1rem;
   line-height: 1;
   padding: 0;
   cursor: pointer;

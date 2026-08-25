@@ -13,6 +13,7 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Article")
+      expect(response.body).not_to include('data-admin-mode-target="modeToggle"')
     end
 
     it "redirects when content type is unknown" do
@@ -100,13 +101,12 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
   end
 
   describe "GET /admin/contents/new" do
-    it "disables preview in the admin mode toggle" do
+    it "does not render the admin mode toggle" do
       get "/admin/admin/contents/new", params: { content_type: "article" }
 
       expect(response.body).to include('data-controller="admin-mode"')
       expect(response.body).to include('data-admin-mode-preview-url-value=""')
-      expect(response.body).to include('data-toggle-on-state-value="preview"')
-      expect(response.body).to include('data-toggle-disabled-on-value="true"')
+      expect(response.body).not_to include('data-admin-mode-target="modeToggle"')
     end
   end
 end

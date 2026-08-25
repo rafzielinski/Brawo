@@ -1,0 +1,23 @@
+/* Bootstrap Icons — default admin icon set (.bi + .brawo-icon) */
+
+.brawo-icon {
+  display: inline-block;
+  width: var(--brawo-icon-size);
+  height: var(--brawo-icon-size);
+  font-size: var(--brawo-icon-size);
+  line-height: 1;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+
+.brawo-icon--sm {
+  width: var(--brawo-icon-size-sm);
+  height: var(--brawo-icon-size-sm);
+  font-size: var(--brawo-icon-size-sm);
+}
+
+.brawo-icon--lg {
+  width: var(--brawo-icon-size-lg);
+  height: var(--brawo-icon-size-lg);
+  font-size: var(--brawo-icon-size-lg);
+}

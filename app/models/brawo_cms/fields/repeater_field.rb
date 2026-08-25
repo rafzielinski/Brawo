@@ -111,7 +111,7 @@ module BrawoCms
         helper.content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
           helper.content_tag(:div, class: 'card-body') do
             header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              helper.content_tag(:span, '⋮⋮', class: 'repeater-drag-handle text-muted', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
+              helper.content_tag(:span, helper.brawo_drag_handle(class: 'text-muted'), class: 'repeater-drag-handle', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
                 helper.content_tag(:span, '', class: 'flex-grow-1') +
                 helper.render_item_actions_dropdown(
                   move_action: 'repeater#moveRow',

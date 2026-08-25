@@ -14,11 +14,11 @@ module BrawoCms
       end
 
       def brawo_toggle_pen_icon
-        toggle_icon_svg("M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z")
+        brawo_icon(:pencil, size: :sm)
       end
 
       def brawo_toggle_eye_icon
-        toggle_icon_svg("M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8q-.004.087-.007.17a3.001 3.001 0 0 0-.581-1.61C12.879 4.668 11.119 3.5 9 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8zm4.197 5.178a.811.811 0 0 1-.438-.442c-.397-.819-1.55-.821-1.957 0a.889.889 0 0 1-1.511-.057A12.97 12.97 0 0 1 1.73 8.008C2.602 6.329 4.87 4.5 8 4.5c3.13 0 5.268 1.829 6.16 3.508a12.97 12.97 0 0 1-.59 4.992 1.889 1.889 0 0 1-1.512.057 1.853 1.853 0 0 1-.438-.442 2.042 2.042 0 0 0-1.947 0zM8 5.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z")
+        brawo_icon(:eye, size: :sm)
       end
 
       def toggle_side_content(side)
@@ -132,19 +132,6 @@ module BrawoCms
 
         hidden_field_tag(name, "0", id: nil) +
           check_box_tag(name, "1", options.fetch(:checked, false), input_options)
-      end
-
-      def toggle_icon_svg(path_d)
-        tag.svg(
-          xmlns: "http://www.w3.org/2000/svg",
-          width: 14,
-          height: 14,
-          fill: "currentColor",
-          viewBox: "0 0 16 16",
-          "aria-hidden": true
-        ) do
-          tag.path(d: path_d)
-        end
       end
     end
   end

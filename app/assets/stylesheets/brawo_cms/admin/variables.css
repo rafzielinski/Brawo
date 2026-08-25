@@ -75,6 +75,11 @@
   /* Component sizing */
   --brawo-toggle-bean-size: 1.625rem;
   --brawo-toggle-bean-size-sm: 1.5rem;
+
+  /* Icons — Bootstrap Icons via brawo_icon(); variant :outline (default) or :fill */
+  --brawo-icon-size: 1rem;
+  --brawo-icon-size-sm: 0.875rem;
+  --brawo-icon-size-lg: 1.25rem;
 }
 
 @supports not (color: oklch(from red l c h)) {
