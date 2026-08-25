@@ -47,51 +47,6 @@ body.brawo-admin {
   color: var(--brawo-text-on-dark) !important;
 }
 
-.brawo-admin-navbar .brawo-admin-mode-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--brawo-text-on-dark) !important;
-  border: 1px solid rgba(245, 247, 248, 0.28) !important;
-  background-color: rgba(245, 247, 248, 0.12) !important;
-  box-shadow: none !important;
-}
-
-.brawo-admin-navbar .brawo-admin-mode-btn__icon,
-.brawo-admin-navbar .brawo-admin-mode-btn__caret {
-  flex-shrink: 0;
-  display: block;
-  fill: currentColor;
-}
-
-.brawo-admin-navbar .brawo-admin-mode-btn__icon {
-  width: 14px;
-  height: 14px;
-}
-
-.brawo-admin-navbar .brawo-admin-mode-btn__caret {
-  width: 10px;
-  height: 10px;
-  opacity: 0.85;
-}
-
-.brawo-admin-navbar .brawo-admin-mode-btn:hover,
-.brawo-admin-navbar .brawo-admin-mode-btn:focus,
-.brawo-admin-navbar .brawo-admin-mode-btn.show {
-  color: var(--brawo-yellow) !important;
-  border-color: rgba(244, 206, 20, 0.45) !important;
-  background-color: rgba(244, 206, 20, 0.14) !important;
-}
-
-.brawo-admin-mode-menu .dropdown-item.active {
-  color: var(--brawo-text-on-dark);
-  background-color: var(--brawo-green);
-}
-
-.brawo-admin-mode-menu .dropdown-item:disabled {
-  color: var(--brawo-muted);
-}
-
 .sidebar {
   position: static;
   flex: 0 0 200px;

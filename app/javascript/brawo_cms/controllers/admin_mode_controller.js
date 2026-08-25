@@ -1,12 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["preview", "frame", "loader", "label", "menuItem"]
+  static targets = ["preview", "frame", "loader", "modeToggle"]
   static values = {
     mode: { type: String, default: "edit" },
-    previewUrl: String,
-    editLabel: String,
-    previewLabel: String
+    previewUrl: String
   }
 
   connect() {
@@ -25,6 +23,13 @@ export default class extends Controller {
     this.modeValue = mode
   }
 
+  setModeFromToggle(event) {
+    const mode = event.detail.state
+    if (mode === "preview" && !this.previewUrlValue) return
+
+    this.modeValue = mode
+  }
+
   modeValueChanged() {
     this.applyMode()
   }
@@ -38,6 +43,7 @@ export default class extends Controller {
     const isPreview = this.modeValue === "preview"
 
     this.element.classList.toggle("brawo-admin--preview", isPreview)
+    this.syncModeToggles()
 
     if (this.hasPreviewTarget) {
       this.previewTarget.setAttribute("aria-hidden", isPreview ? "false" : "true")
@@ -48,13 +54,17 @@ export default class extends Controller {
     } else {
       this.stopPreview()
     }
+  }
 
-    if (this.hasLabelTarget) {
-      this.labelTarget.textContent = isPreview ? this.previewLabelValue : this.editLabelValue
-    }
+  syncModeToggles() {
+    if (!this.hasModeToggleTarget) return
 
-    this.menuItemTargets.forEach((item) => {
-      item.classList.toggle("active", item.dataset.adminModeModeParam === this.modeValue)
+    this.modeToggleTargets.forEach((element) => {
+      const controller = this.application.getControllerForElementAndIdentifier(element, "toggle")
+      if (!controller) return
+
+      controller.useStateValue = true
+      controller.stateValue = this.modeValue
     })
   }
 

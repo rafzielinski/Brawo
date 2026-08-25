@@ -74,15 +74,16 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       expect(response.body).not_to include('name="content[title]" class="form-control" required="required"')
     end
 
-    it "renders the admin mode menu with preview enabled" do
+    it "renders the admin mode toggle with preview enabled" do
       get "/admin/admin/contents/#{article.id}/edit", params: { content_type: "article" }
 
       expect(response.body).to include('data-controller="admin-mode"')
       expect(response.body).to include("/admin/admin/contents/editable-article/preview?content_type=article")
       expect(response.body).to include('data-admin-mode-target="preview"')
       expect(response.body).to include('data-admin-mode-target="loader"')
-      expect(response.body).to include('brawo-admin-mode-btn')
-      expect(response.body).not_to include('class="dropdown-item disabled"')
+      expect(response.body).to include("brawo-toggle--segmented")
+      expect(response.body).to include('data-admin-mode-target="modeToggle"')
+      expect(response.body).not_to include('data-toggle-disabled-on-value="true"')
     end
   end
 
@@ -99,13 +100,13 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
   end
 
   describe "GET /admin/contents/new" do
-    it "disables preview in the admin mode menu" do
+    it "disables preview in the admin mode toggle" do
       get "/admin/admin/contents/new", params: { content_type: "article" }
 
       expect(response.body).to include('data-controller="admin-mode"')
       expect(response.body).to include('data-admin-mode-preview-url-value=""')
-      expect(response.body).to include('data-admin-mode-mode-param="preview"')
-      expect(response.body).to include('class="dropdown-item disabled"')
+      expect(response.body).to include('data-toggle-on-state-value="preview"')
+      expect(response.body).to include('data-toggle-disabled-on-value="true"')
     end
   end
 end

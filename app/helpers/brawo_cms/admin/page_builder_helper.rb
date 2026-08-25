@@ -254,9 +254,15 @@ module BrawoCms
         if field_def[:type] == :repeater
           render_block_repeater(field_def, input_name, field_value, disabled: disabled)
         elsif field_def[:type] == :boolean || field_def[:type] == :checkbox
-          content_tag(:div, class: 'form-check') do
-            check_box_tag(input_name, '1', field_value, class: 'form-check-input', disabled: disabled) +
-              label_tag(input_name, label_text.html_safe, class: 'form-check-label')
+          content_tag(:div, class: "brawo-field-toggle-row") do
+            label_tag(input_name, label_text.html_safe, class: "brawo-field-toggle-row__label") +
+              content_tag(:div, class: "brawo-field-toggle-row__control") do
+                brawo_toggle(
+                  name: input_name,
+                  checked: field_value,
+                  disabled: disabled
+                )
+              end
           end
         else
           label_tag(input_name, label_text.html_safe, class: 'form-label') +

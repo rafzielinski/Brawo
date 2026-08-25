@@ -147,3 +147,224 @@
 .content-meta__edit--icon-only:focus-visible {
   gap: 0;
 }
+
+/* Toggle — iOS / GitHub-inspired switch and segmented controls */
+
+.brawo-toggle {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  --brawo-toggle-bean: var(--brawo-toggle-bean-size);
+}
+
+.brawo-toggle--sm {
+  --brawo-toggle-bean: var(--brawo-toggle-bean-size-sm);
+}
+
+.brawo-toggle--switch .brawo-toggle__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.brawo-toggle--switch .brawo-toggle__switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.brawo-toggle--switch .brawo-toggle__track {
+  position: relative;
+  width: calc(var(--brawo-toggle-bean) * 2 + 4px);
+  height: calc(var(--brawo-toggle-bean) + 4px);
+  border-radius: 999px;
+  background-color: var(--brawo-border);
+  transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.brawo-toggle--switch.is-on .brawo-toggle__track {
+  background-color: var(--brawo-green);
+}
+
+.brawo-toggle--switch .brawo-toggle__slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: var(--brawo-toggle-bean);
+  height: var(--brawo-toggle-bean);
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brawo-toggle--switch.is-on .brawo-toggle__slider {
+  left: calc(100% - var(--brawo-toggle-bean) - 2px);
+}
+
+.brawo-toggle--segmented .brawo-toggle__control {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.brawo-toggle--segmented .brawo-toggle__control:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.brawo-toggle--segmented .brawo-toggle__track {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  padding: 2px;
+  border-radius: 999px;
+  background-color: var(--brawo-info-bg);
+  border: 1px solid var(--brawo-border);
+  overflow: hidden;
+}
+
+.brawo-toggle--segmented .brawo-toggle__slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: var(--brawo-toggle-bean);
+  height: var(--brawo-toggle-bean);
+  border-radius: 999px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brawo-green);
+}
+
+.brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider-content {
+  color: var(--brawo-green);
+}
+
+.brawo-toggle--segmented.is-on .brawo-toggle__slider {
+  left: calc(100% - var(--brawo-toggle-bean) - 2px);
+}
+
+.brawo-toggle__slider-content {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  line-height: 1;
+}
+
+.brawo-toggle.is-off .brawo-toggle__slider-content--off,
+.brawo-toggle.is-on .brawo-toggle__slider-content--on {
+  display: inline-flex;
+}
+
+.brawo-toggle__segment {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: var(--brawo-toggle-bean);
+  min-height: var(--brawo-toggle-bean);
+  padding: 0 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--brawo-muted);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.brawo-toggle__segment-backdrop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  color: var(--brawo-muted);
+  opacity: 0.55;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.brawo-toggle.is-off .brawo-toggle__segment--off .brawo-toggle__segment-backdrop,
+.brawo-toggle.is-on .brawo-toggle__segment--on .brawo-toggle__segment-backdrop {
+  opacity: 0;
+}
+
+.brawo-toggle--segmented .brawo-toggle__control:disabled .brawo-toggle__segment-backdrop {
+  opacity: 0.35;
+}
+
+.brawo-toggle__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.brawo-toggle__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brawo-toggle--sm .brawo-toggle__segment {
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+}
+
+.brawo-admin-navbar .brawo-toggle--segmented .brawo-toggle__track {
+  background-color: rgba(245, 247, 248, 0.1);
+  border-color: rgba(245, 247, 248, 0.24);
+}
+
+.brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider {
+  background-color: rgba(245, 247, 248, 0.96);
+  color: var(--brawo-yellow);
+}
+
+.brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider-content {
+  color: var(--brawo-yellow);
+}
+
+.brawo-admin-navbar .brawo-toggle__segment-backdrop {
+  color: rgba(245, 247, 248, 0.92);
+  opacity: 1;
+}
+
+.brawo-field-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.brawo-field-toggle-row__label {
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.brawo-field-toggle-row__control {
+  flex-shrink: 0;
+}
+
+.brawo-field-toggle-row__help {
+  margin-top: 0.25rem;
+}

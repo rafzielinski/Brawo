@@ -134,11 +134,16 @@ module BrawoCms
                 label_text += ' <span class="text-danger">*</span>'.html_safe if sub_field.required
                 
                 if sub_field.type == :boolean || sub_field.type == :checkbox
-                  # For checkboxes, wrap in form-check div
-                  helper.content_tag(:div, class: 'form-check') do
-                    input = render_nested_field_input(form, sub_field, field_name, temp_object, helper)
-                    label = helper.label_tag(field_name, label_text, class: 'form-check-label', for: nil)
-                    input + label
+                  helper.content_tag(:div, class: "brawo-field-toggle-row") do
+                    label = helper.label_tag(field_name, label_text.html_safe, class: "brawo-field-toggle-row__label", for: nil)
+                    control = helper.brawo_toggle(
+                      name: field_name,
+                      checked: field_value,
+                      input_html: {
+                        options: sub_field.required ? { "aria-required" => "true" } : {}
+                      }
+                    )
+                    label + helper.content_tag(:div, class: "brawo-field-toggle-row__control") { control }
                   end
                 else
                   label = helper.label_tag(field_name, label_text, class: 'form-label')
@@ -175,10 +180,7 @@ module BrawoCms
           helper.number_field_tag(field_name, field_value, 
                                  base_options.merge(class: 'form-control'))
         when :boolean, :checkbox
-          # Checkboxes don't use required attribute (use aria-required for accessibility)
-          options = { class: 'form-check-input' }
-          options['aria-required'] = 'true' if sub_field.required
-          helper.check_box_tag(field_name, '1', field_value, options)
+          raise "Use brawo_toggle for boolean fields in repeaters"
         when :date
           helper.date_field_tag(field_name, field_value, base_options.merge(class: 'form-control'))
         when :datetime

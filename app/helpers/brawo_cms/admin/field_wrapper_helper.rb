@@ -53,15 +53,43 @@ module BrawoCms
       end
 
       def render_wrapped_field(form, field, record, render_input:)
+        if boolean_field?(field)
+          render_boolean_wrapped_field(form, field, record, render_input: render_input)
+        else
+          render_standard_wrapped_field(form, field, record, render_input: render_input)
+        end
+      end
+
+      def render_standard_wrapped_field(form, field, record, render_input:)
         content_tag(:div, **field_wrapper_attrs(field)) do
-          label = form.label(field[:name], field[:label] || field[:name].to_s.titleize, class: 'form-label')
+          label = form.label(field[:name], field[:label] || field[:name].to_s.titleize, class: "form-label")
           input = public_send(render_input, form, field, record)
           help = if field[:help_text].present?
-                   content_tag(:small, field[:help_text], class: 'form-text text-muted')
+                   content_tag(:small, field[:help_text], class: "form-text text-muted")
                  end
 
           safe_join([label, input, help].compact)
         end
+      end
+
+      def render_boolean_wrapped_field(form, field, record, render_input:)
+        content_tag(:div, **field_wrapper_attrs(field)) do
+          label = form.label(field[:name], field[:label] || field[:name].to_s.titleize, class: "brawo-field-toggle-row__label")
+          input = public_send(render_input, form, field, record)
+          help = if field[:help_text].present?
+                   content_tag(:small, field[:help_text], class: "form-text text-muted brawo-field-toggle-row__help")
+                 end
+
+          row = content_tag(:div, class: "brawo-field-toggle-row") do
+            safe_join([label, content_tag(:div, class: "brawo-field-toggle-row__control") { input }])
+          end
+
+          safe_join([row, help].compact)
+        end
+      end
+
+      def boolean_field?(field)
+        field[:type].in?([:boolean, :checkbox])
       end
 
       private

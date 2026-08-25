@@ -8,7 +8,7 @@ module BrawoCms
 
       def render_field_input(form, field, record)
         field_instance = field.is_a?(BrawoCms::Field) ? field : BrawoCms::FieldFactory.build(field)
-        field_instance.render_input(form, record)
+        field_instance.render_input(form, record, helper: self)
       end
     end
   end

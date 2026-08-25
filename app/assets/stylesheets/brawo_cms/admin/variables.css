@@ -28,4 +28,7 @@
   --brawo-warning-border: #E8D87A;
   --brawo-info-bg: #EEF2F3;
   --brawo-info-border: #C5CACD;
+
+  --brawo-toggle-bean-size: 1.625rem;
+  --brawo-toggle-bean-size-sm: 1.5rem;
 }

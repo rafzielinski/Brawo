@@ -1,0 +1,77 @@
+<%#
+  locals: variant, size, use_state, state, off_state, on_state, checked, off, on,
+          has_segment_content, disabled, disabled_on, checkbox, wrapper_html, switch_label
+%>
+<% wrapper_classes = class_names(
+  "brawo-toggle",
+  "brawo-toggle--#{variant}",
+  "brawo-toggle--#{size}",
+  checked ? "is-on" : "is-off",
+  variant == :segmented && has_segment_content && "brawo-toggle--has-content",
+  wrapper_html[:class]
+) %>
+<% wrapper_data = (wrapper_html[:data] || {}).deep_dup %>
+<% wrapper_data[:controller] = class_names("toggle", wrapper_data[:controller]) %>
+<% wrapper_data[:toggle_checked_value] = checked %>
+<% wrapper_data[:toggle_use_state_value] = use_state %>
+<% wrapper_data[:toggle_state_value] = state %>
+<% wrapper_data[:toggle_off_state_value] = off_state %>
+<% wrapper_data[:toggle_on_state_value] = on_state %>
+<% wrapper_data[:toggle_disabled_value] = disabled %>
+<% wrapper_data[:toggle_disabled_on_value] = disabled_on %>
+<% wrapper_attrs = wrapper_html.except(:class, :data).merge(class: wrapper_classes, data: wrapper_data) %>
+
+<%= tag.div(**wrapper_attrs) do %>
+  <% if checkbox.present? %>
+    <%= checkbox %>
+  <% end %>
+
+  <% if variant == :switch %>
+    <button type="button"
+            class="brawo-toggle__switch"
+            role="switch"
+            aria-checked="<%= checked %>"
+            data-toggle-role="switch"
+            data-action="toggle#toggle"
+            <%= "disabled" if disabled %>>
+      <span class="brawo-toggle__track" aria-hidden="true">
+        <span class="brawo-toggle__slider"></span>
+      </span>
+      <% if switch_label.present? %>
+        <span class="brawo-toggle__switch-label"><%= switch_label %></span>
+      <% end %>
+    </button>
+  <% else %>
+    <button type="button"
+            class="brawo-toggle__control"
+            role="switch"
+            aria-checked="<%= checked %>"
+            aria-label="<%= [toggle_side_aria_label(off, off_state), toggle_side_aria_label(on, on_state)].join(" / ") %>"
+            data-toggle-role="switch"
+            data-action="toggle#toggle"
+            <%= "disabled" if disabled %>>
+      <span class="brawo-toggle__track" aria-hidden="true">
+        <span class="brawo-toggle__slider">
+          <% if has_segment_content %>
+            <span class="brawo-toggle__slider-content brawo-toggle__slider-content--off">
+              <%= toggle_side_content(off) %>
+            </span>
+            <span class="brawo-toggle__slider-content brawo-toggle__slider-content--on">
+              <%= toggle_side_content(on) %>
+            </span>
+          <% end %>
+        </span>
+        <span class="brawo-toggle__segment brawo-toggle__segment--off">
+          <% if has_segment_content %>
+            <span class="brawo-toggle__segment-backdrop"><%= toggle_side_content(off) %></span>
+          <% end %>
+        </span>
+        <span class="brawo-toggle__segment brawo-toggle__segment--on">
+          <% if has_segment_content %>
+            <span class="brawo-toggle__segment-backdrop"><%= toggle_side_content(on) %></span>
+          <% end %>
+        </span>
+      </span>
+    </button>
+  <% end %>
+<% end %>
