@@ -73,5 +73,39 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       expect(response.body).to include('data-controller="inline-edit"')
       expect(response.body).not_to include('name="content[title]" class="form-control" required="required"')
     end
+
+    it "renders the admin mode menu with preview enabled" do
+      get "/admin/admin/contents/#{article.id}/edit", params: { content_type: "article" }
+
+      expect(response.body).to include('data-controller="admin-mode"')
+      expect(response.body).to include("/admin/admin/contents/editable-article/preview?content_type=article")
+      expect(response.body).to include('data-admin-mode-target="preview"')
+      expect(response.body).to include('data-admin-mode-target="loader"')
+      expect(response.body).to include('brawo-admin-mode-btn')
+      expect(response.body).not_to include('class="dropdown-item disabled"')
+    end
+  end
+
+  describe "GET /admin/contents/:id/preview" do
+    let!(:article) { Article.create!(title: "Draft Preview", slug: "draft-preview", status: "draft", fields: { author: "Jane", body: "Hello" }) }
+
+    it "renders draft content using the host show template" do
+      get "/admin/admin/contents/#{article.id}/preview", params: { content_type: "article" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Draft Preview")
+      expect(response.body).to include("Hello")
+    end
+  end
+
+  describe "GET /admin/contents/new" do
+    it "disables preview in the admin mode menu" do
+      get "/admin/admin/contents/new", params: { content_type: "article" }
+
+      expect(response.body).to include('data-controller="admin-mode"')
+      expect(response.body).to include('data-admin-mode-preview-url-value=""')
+      expect(response.body).to include('data-admin-mode-mode-param="preview"')
+      expect(response.body).to include('class="dropdown-item disabled"')
+    end
   end
 end

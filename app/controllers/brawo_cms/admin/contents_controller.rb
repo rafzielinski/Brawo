@@ -4,7 +4,7 @@ module BrawoCms
       helper BrawoCms::Admin::PageBuilderHelper
 
       before_action :set_content_type
-      before_action :set_content, only: [:show, :edit, :update, :destroy]
+      before_action :set_content, only: [:show, :edit, :update, :destroy, :preview]
 
       def index
         result = ::BrawoCms::ContentService.list(type: @content_type)
@@ -19,6 +19,10 @@ module BrawoCms
       end
 
       def edit
+      end
+
+      def preview
+        render_content_preview(@content)
       end
 
       def create
@@ -92,6 +96,46 @@ module BrawoCms
           params: params,
           wrap_key: :content
         )
+      end
+
+      def render_content_preview(content)
+        element = content.model_name.element
+
+        template, render_options = if BrawoCms.root_content_type?(@content_type)
+          [
+            "slugs/show",
+            { locals: { content: content, partial: element } }
+          ]
+        else
+          [
+            "#{content.model_name.plural}/show",
+            { assigns: { element.to_sym => content } }
+          ]
+        end
+
+        html = host_renderer.render(
+          template: template,
+          layout: preview_layout,
+          **render_options
+        )
+
+        render html: html, layout: false
+      rescue ActionView::MissingTemplate
+        render template: "brawo_cms/admin/contents/preview_fallback",
+               locals: { content: content },
+               layout: false
+      end
+
+      def host_renderer
+        @host_renderer ||= ::ApplicationController.renderer.new(
+          "HTTP_HOST" => request.host_with_port,
+          "HTTPS" => request.ssl? ? "on" : "off",
+          "rack.url_scheme" => request.scheme
+        )
+      end
+
+      def preview_layout
+        "application"
       end
     end
   end

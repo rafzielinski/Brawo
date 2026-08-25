@@ -15,7 +15,11 @@ BrawoCms::Engine.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
-    resources :contents
+    resources :contents do
+      member do
+        get :preview
+      end
+    end
     resources :taxonomies
   end
 end

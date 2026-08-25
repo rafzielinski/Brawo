@@ -1,8 +1,42 @@
 <nav class="navbar navbar-dark brawo-admin-navbar">
-  <div class="container-fluid">
+  <div class="container-fluid d-flex align-items-center">
     <%= link_to t('brawo.navigation.brand'), admin_root_path, class: "navbar-brand" %>
-    <span class="navbar-text text-white">
-      <%= t('brawo.navigation.panel') %>
-    </span>
+
+    <div class="dropdown ms-auto">
+      <button type="button"
+              class="btn btn-sm brawo-admin-mode-btn"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="<%= t('brawo.navigation.mode_menu') %>">
+        <svg class="brawo-admin-mode-btn__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+        <span data-admin-mode-target="label"><%= t('brawo.navigation.modes.edit') %></span>
+        <svg class="brawo-admin-mode-btn__caret" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end brawo-admin-mode-menu">
+        <li>
+          <button type="button"
+                  class="dropdown-item active"
+                  data-admin-mode-target="menuItem"
+                  data-admin-mode-mode-param="edit"
+                  data-action="admin-mode#setMode">
+            <%= t('brawo.navigation.modes.edit') %>
+          </button>
+        </li>
+        <li>
+          <button type="button"
+                  class="dropdown-item<%= ' disabled' unless admin_preview_available? %>"
+                  data-admin-mode-target="menuItem"
+                  data-admin-mode-mode-param="preview"
+                  data-action="admin-mode#setMode"
+                  <%= 'disabled' unless admin_preview_available? %>>
+            <%= t('brawo.navigation.modes.preview') %>
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

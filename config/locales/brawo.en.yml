@@ -6,6 +6,11 @@ en:
     navigation:
       brand: Brawo
       panel: Admin Panel
+      mode_menu: Switch editor mode
+      modes:
+        edit: Edit
+        preview: Preview
+      preview_loading: Loading preview…
     sidebar:
       dashboard: Dashboard
       content_types: CONTENT TYPES

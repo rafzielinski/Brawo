@@ -49,6 +49,20 @@ module BrawoCms
       def taxonomy_type_sidebar_active?(name)
         controller_name == 'taxonomies' && params[:taxonomy_type].to_s == name.to_s
       end
+
+      def previewable_content_edit?
+        controller_name == 'contents' && action_name == 'edit' && @content&.persisted?
+      end
+
+      def admin_preview_url
+        return unless previewable_content_edit?
+
+        preview_admin_content_path(@content, content_type: @content_type)
+      end
+
+      def admin_preview_available?
+        admin_preview_url.present?
+      end
     end
   end
 end

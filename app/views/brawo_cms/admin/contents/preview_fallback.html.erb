@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content.title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  </head>
+  <body>
+    <article>
+      <h1><%= content.title %></h1>
+
+      <% if content.description.present? %>
+        <p><%= content.description %></p>
+      <% end %>
+    </article>
+  </body>
+</html>
