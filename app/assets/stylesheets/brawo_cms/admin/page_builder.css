@@ -51,14 +51,14 @@
 
 .page-builder-block {
   border: 1px solid var(--brawo-border);
-  background-color: var(--brawo-inverse-raised);
+  background-color: var(--brawo-light-soft);
   margin: 0.25rem 0;
   transition: border-color 0.15s ease;
 }
 
 .page-builder-block.is-focused {
-  border-color: var(--brawo-accent-on-main);
-  outline: 2px solid var(--brawo-accent-subtle);
+  border-color: var(--brawo-accent-on-light);
+  outline: 2px solid var(--brawo-accent-faint);
 }
 
 .page-builder-block .drag-handle,
@@ -79,7 +79,7 @@
 
 .page-builder-block-header {
   padding: 0.625rem 1rem;
-  background-color: var(--brawo-inverse);
+  background-color: var(--brawo-light);
   border-bottom: 1px solid var(--brawo-border);
   border-radius: 7px 7px 0 0;
   min-height: 2.5rem;
@@ -88,7 +88,7 @@
 .page-builder-block-type {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--brawo-main-muted);
+  color: var(--brawo-dark-soft);
 }
 
 .page-builder-block-menu .dropdown-menu,
@@ -110,9 +110,9 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  border: 1px dashed var(--brawo-chrome-muted);
-  background: var(--brawo-inverse-raised);
-  color: var(--brawo-main-muted);
+  border: 1px dashed var(--brawo-chrome-faint);
+  background: var(--brawo-light-soft);
+  color: var(--brawo-dark-soft);
   font-size: 1rem;
   line-height: 1;
   padding: 0;
@@ -126,9 +126,9 @@
 }
 
 .block-insert-zone-btn:hover {
-  border-color: var(--brawo-accent-on-main);
-  color: var(--brawo-accent-on-main);
-  background: var(--brawo-accent-subtle);
+  border-color: var(--brawo-accent-on-light);
+  color: var(--brawo-accent-on-light);
+  background: var(--brawo-accent-faint);
 }
 
 .block-insert-zone::before {
@@ -175,7 +175,7 @@
   flex-direction: column;
   border: 1px solid var(--brawo-border);
   border-radius: 8px;
-  background: var(--brawo-inverse-raised);
+  background: var(--brawo-light-soft);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -193,7 +193,7 @@
   justify-content: space-between;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--brawo-border);
-  background: var(--brawo-inverse);
+  background: var(--brawo-light);
 }
 
 .page-builder-outline-close {
@@ -221,12 +221,12 @@
 }
 
 .page-builder-outline-item:hover {
-  background: var(--brawo-inverse);
+  background: var(--brawo-light);
 }
 
 .page-builder-outline-item.is-active {
-  background: var(--brawo-accent-subtle);
-  border-color: var(--brawo-success-border);
+  background: var(--brawo-accent-faint);
+  border-color: var(--brawo-success-faint);
 }
 
 .outline-item-label {

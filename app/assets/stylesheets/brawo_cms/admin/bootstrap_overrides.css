@@ -1,87 +1,84 @@
 /* Bootstrap overrides scoped to .brawo-admin */
 
 .brawo-admin {
-  --bs-body-color: var(--brawo-main);
-  --bs-body-bg: var(--brawo-inverse);
+  --bs-body-color: var(--brawo-dark);
+  --bs-body-bg: var(--brawo-light);
   --bs-primary: var(--brawo-accent);
-  --bs-secondary: var(--brawo-chrome-elevated);
+  --bs-secondary: var(--brawo-chrome-soft);
   --bs-success: var(--brawo-success);
   --bs-warning: var(--brawo-warning);
   --bs-danger: var(--brawo-error);
   --bs-border-color: var(--brawo-border);
-  --bs-link-color: var(--brawo-accent-on-main);
-  --bs-link-hover-color: var(--brawo-accent-strong);
-  --bs-btn-color: var(--brawo-on-accent);
-  --bs-btn-bg: var(--brawo-accent);
-  --bs-btn-border-color: var(--brawo-accent);
-  --bs-btn-hover-color: var(--brawo-on-accent);
-  --bs-btn-hover-bg: var(--brawo-accent-strong);
-  --bs-btn-hover-border-color: var(--brawo-accent-strong);
-  --bs-btn-focus-shadow-rgb: none;
-  --bs-btn-active-color: var(--brawo-on-accent);
-  --bs-btn-active-bg: var(--brawo-accent-strong);
-  --bs-btn-active-border-color: var(--brawo-accent-strong);
+  --bs-link-color: var(--brawo-accent-on-light);
+  --bs-link-hover-color: var(--brawo-accent-strong-on-light);
 }
 
 .brawo-admin .btn-primary {
-  --bs-btn-color: var(--brawo-on-accent);
   --bs-btn-bg: var(--brawo-accent);
+  --bs-btn-color: var(--brawo-on-accent);
   --bs-btn-border-color: var(--brawo-accent);
   --bs-btn-hover-bg: var(--brawo-accent-strong);
+  --bs-btn-hover-color: var(--brawo-on-accent);
   --bs-btn-hover-border-color: var(--brawo-accent-strong);
   --bs-btn-active-bg: var(--brawo-accent-strong);
+  --bs-btn-active-color: var(--brawo-on-accent);
   --bs-btn-active-border-color: var(--brawo-accent-strong);
+  --bs-btn-disabled-bg: var(--brawo-accent);
+  --bs-btn-disabled-color: var(--brawo-on-accent);
+  --bs-btn-disabled-border-color: var(--brawo-accent);
+  --bs-btn-focus-shadow-rgb: none;
 }
 
 .brawo-admin .btn-success {
-  --bs-btn-color: var(--brawo-main);
+  --bs-btn-color: var(--brawo-dark);
   --bs-btn-bg: var(--brawo-warning);
   --bs-btn-border-color: var(--brawo-warning);
-  --bs-btn-hover-color: var(--brawo-main);
+  --bs-btn-hover-color: var(--brawo-dark);
   --bs-btn-hover-bg: var(--brawo-warning-strong);
   --bs-btn-hover-border-color: var(--brawo-warning-strong);
+  --bs-btn-active-color: var(--brawo-dark);
   --bs-btn-active-bg: var(--brawo-warning-strong);
   --bs-btn-active-border-color: var(--brawo-warning-strong);
 }
 
 .brawo-admin .btn-outline-primary {
-  --bs-btn-color: var(--brawo-accent-on-main);
-  --bs-btn-border-color: var(--brawo-accent-on-main);
+  --bs-btn-color: var(--brawo-accent-on-light);
+  --bs-btn-border-color: var(--brawo-accent-on-light);
   --bs-btn-hover-color: var(--brawo-on-accent);
-  --bs-btn-hover-bg: var(--brawo-accent-on-main);
-  --bs-btn-hover-border-color: var(--brawo-accent-on-main);
+  --bs-btn-hover-bg: var(--brawo-accent);
+  --bs-btn-hover-border-color: var(--brawo-accent);
   --bs-btn-active-color: var(--brawo-on-accent);
-  --bs-btn-active-bg: var(--brawo-accent-on-main);
-  --bs-btn-active-border-color: var(--brawo-accent-on-main);
+  --bs-btn-active-bg: var(--brawo-accent);
+  --bs-btn-active-border-color: var(--brawo-accent);
 }
 
 .brawo-admin .btn-outline-secondary {
-  --bs-btn-color: var(--brawo-main-muted);
+  --bs-btn-color: var(--brawo-dark-soft);
   --bs-btn-border-color: var(--brawo-border);
-  --bs-btn-hover-color: var(--brawo-on-chrome);
-  --bs-btn-hover-bg: var(--brawo-chrome-elevated);
-  --bs-btn-hover-border-color: var(--brawo-chrome-elevated);
-  --bs-btn-active-color: var(--brawo-on-chrome);
-  --bs-btn-active-bg: var(--brawo-chrome-elevated);
-  --bs-btn-active-border-color: var(--brawo-chrome-elevated);
+  --bs-btn-hover-color: var(--brawo-light);
+  --bs-btn-hover-bg: var(--brawo-chrome-soft);
+  --bs-btn-hover-border-color: var(--brawo-chrome-soft);
+  --bs-btn-active-color: var(--brawo-light);
+  --bs-btn-active-bg: var(--brawo-chrome-soft);
+  --bs-btn-active-border-color: var(--brawo-chrome-soft);
 }
 
 .brawo-admin .btn-outline-dark {
   --bs-btn-color: var(--brawo-chrome);
   --bs-btn-border-color: var(--brawo-chrome);
-  --bs-btn-hover-color: var(--brawo-on-chrome);
+  --bs-btn-hover-color: var(--brawo-light);
   --bs-btn-hover-bg: var(--brawo-chrome);
   --bs-btn-hover-border-color: var(--brawo-chrome);
-  --bs-btn-active-color: var(--brawo-on-chrome);
+  --bs-btn-active-color: var(--brawo-light);
   --bs-btn-active-bg: var(--brawo-chrome);
   --bs-btn-active-border-color: var(--brawo-chrome);
 }
 
 .brawo-admin .btn-secondary {
-  --bs-btn-color: var(--brawo-on-chrome);
-  --bs-btn-bg: var(--brawo-chrome-elevated);
-  --bs-btn-border-color: var(--brawo-chrome-elevated);
-  --bs-btn-hover-color: var(--brawo-on-chrome);
+  --bs-btn-color: var(--brawo-light);
+  --bs-btn-bg: var(--brawo-chrome-soft);
+  --bs-btn-border-color: var(--brawo-chrome-soft);
+  --bs-btn-hover-color: var(--brawo-light);
   --bs-btn-hover-bg: var(--brawo-chrome);
   --bs-btn-hover-border-color: var(--brawo-chrome);
   --bs-btn-active-bg: var(--brawo-chrome);
@@ -89,11 +86,13 @@
 }
 
 .brawo-admin .btn-danger {
-  --bs-btn-color: var(--brawo-on-accent);
+  --bs-btn-color: var(--brawo-light);
   --bs-btn-bg: var(--brawo-error);
   --bs-btn-border-color: var(--brawo-error);
+  --bs-btn-hover-color: var(--brawo-light);
   --bs-btn-hover-bg: var(--brawo-error-strong);
   --bs-btn-hover-border-color: var(--brawo-error-strong);
+  --bs-btn-active-color: var(--brawo-light);
   --bs-btn-active-bg: var(--brawo-error-strong);
   --bs-btn-active-border-color: var(--brawo-error-strong);
 }
@@ -116,48 +115,48 @@
 }
 
 .brawo-admin .alert-success {
-  background-color: var(--brawo-success-bg);
-  border-color: var(--brawo-success-border);
-  color: var(--brawo-accent-strong);
+  background-color: var(--brawo-success-soft);
+  border-color: var(--brawo-success-faint);
+  color: var(--brawo-accent-strong-on-light);
 }
 
 .brawo-admin .alert-danger {
-  background-color: var(--brawo-error-bg);
-  border-color: var(--brawo-error-border);
+  background-color: var(--brawo-error-soft);
+  border-color: var(--brawo-error-faint);
   color: var(--brawo-error);
 }
 
 .brawo-admin .alert-warning {
-  background-color: var(--brawo-warning-bg);
-  border-color: var(--brawo-warning-border);
+  background-color: var(--brawo-warning-soft);
+  border-color: var(--brawo-warning-faint);
   color: var(--brawo-warning-strong);
 }
 
 .brawo-admin .alert-info {
-  background-color: var(--brawo-info-bg);
-  border-color: var(--brawo-info-border);
-  color: var(--brawo-chrome-elevated);
+  background-color: var(--brawo-info-soft);
+  border-color: var(--brawo-info-faint);
+  color: var(--brawo-chrome-soft);
 }
 
 .brawo-admin .form-control,
 .brawo-admin .form-select {
   border-color: var(--brawo-border);
-  background-color: var(--brawo-inverse-raised);
+  background-color: var(--brawo-light-soft);
 }
 
 .brawo-admin .form-control:focus,
 .brawo-admin .form-select:focus {
-  border-color: var(--brawo-accent-on-main);
+  border-color: var(--brawo-accent-on-light);
   box-shadow: none;
 }
 
 .brawo-admin .form-check-input:checked {
-  background-color: var(--brawo-accent-on-main);
-  border-color: var(--brawo-accent-on-main);
+  background-color: var(--brawo-accent);
+  border-color: var(--brawo-accent);
 }
 
 .brawo-admin .form-check-input:focus {
-  border-color: var(--brawo-accent-on-main);
+  border-color: var(--brawo-accent-on-light);
   box-shadow: none;
 }
 
@@ -178,51 +177,53 @@
 }
 
 .brawo-admin .text-muted {
-  color: var(--brawo-main-muted) !important;
+  color: var(--brawo-dark-soft) !important;
 }
 
 .brawo-admin .table {
-  --bs-table-bg: var(--brawo-inverse);
-  --bs-table-striped-bg: var(--brawo-inverse-raised);
-  --bs-table-hover-bg: var(--brawo-inverse-sunken);
+  --bs-table-bg: var(--brawo-light);
+  --bs-table-striped-bg: var(--brawo-light-soft);
+  --bs-table-hover-bg: var(--brawo-light-strong);
   --bs-table-border-color: var(--brawo-border);
 }
 
 .brawo-admin .table > thead {
-  --bs-table-bg: var(--brawo-inverse);
+  --bs-table-bg: var(--brawo-light);
 }
 
 .brawo-admin .dropdown-item.active,
 .brawo-admin .dropdown-item:active {
-  background-color: var(--brawo-accent-on-main);
+  background-color: var(--brawo-accent);
+  color: var(--brawo-on-accent);
 }
 
 .brawo-admin .page-link {
-  color: var(--brawo-accent-on-main);
+  color: var(--brawo-accent-on-light);
   border-color: var(--brawo-border);
 }
 
 .brawo-admin .page-link:hover {
-  color: var(--brawo-accent-strong);
-  background-color: var(--brawo-accent-subtle);
+  color: var(--brawo-accent-strong-on-light);
+  background-color: var(--brawo-accent-faint);
   border-color: var(--brawo-border);
 }
 
 .brawo-admin .page-item.active .page-link {
-  background-color: var(--brawo-accent-on-main);
-  border-color: var(--brawo-accent-on-main);
+  background-color: var(--brawo-accent);
+  border-color: var(--brawo-accent);
   color: var(--brawo-on-accent);
 }
 
 .brawo-admin .badge.bg-primary {
-  background-color: var(--brawo-accent-on-main) !important;
+  background-color: var(--brawo-accent) !important;
+  color: var(--brawo-on-accent) !important;
 }
 
 .brawo-admin .badge.bg-secondary {
-  background-color: var(--brawo-chrome-elevated) !important;
+  background-color: var(--brawo-chrome-soft) !important;
 }
 
 .brawo-admin .badge.bg-warning {
   background-color: var(--brawo-warning) !important;
-  color: var(--brawo-main) !important;
+  color: var(--brawo-dark) !important;
 }

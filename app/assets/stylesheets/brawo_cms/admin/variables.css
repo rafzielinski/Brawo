@@ -1,78 +1,112 @@
 /* Design tokens — override the three primitives to retheme the admin UI.
  *
- * Accent: pick a color with enough chroma/lightness for dark chrome (--brawo-chrome).
- * Stage links and buttons use --brawo-accent-on-main (auto-derived).
- * Navbar brand and chrome highlights use --brawo-accent-on-inverse (auto-derived).
+ * Primitives: --brawo-light, --brawo-dark, --brawo-accent
+ *
+ * Accent model:
+ *   --brawo-accent            seed + fill (buttons, active nav, badges)
+ *   --brawo-accent-on-light   generated fg on light surfaces (links, outlines)
+ *   --brawo-accent-on-dark    generated fg on chrome surfaces (navbar, sidebar)
+ *   --brawo-on-accent         text on accent fills — set to var(--brawo-light) or var(--brawo-dark)
+ *
+ * Override any generated accent-on-* or --brawo-on-accent if the defaults miss.
+ *
+ * Shade scale: base | -soft | -strong | -faint
  */
 
 :root {
   /* Primitives — host-editable */
-  --brawo-main: oklch(0.27 0.01 250);
-  --brawo-inverse: oklch(0.97 0.005 250);
-  --brawo-accent: oklch(66.68% 0.13061 231.933);
+  --brawo-light: oklch(0.97 0.005 250);
+  --brawo-dark: oklch(0.27 0.01 250);
+  --brawo-accent: oklch(83.905% 0.16629 157.184);
 
-  /* Chrome — derived dark shell, not a fourth brand color */
-  --brawo-chrome: oklch(from var(--brawo-main) calc(l * 0.35) c h);
+  /* Text on accent-filled controls — host picks light or dark */
+  --brawo-on-accent: var(--brawo-dark);
 
-  /* Layout — derived shades */
-  --brawo-main-muted: color-mix(in oklch, var(--brawo-main) 65%, var(--brawo-inverse));
-  --brawo-main-subtle: color-mix(in oklch, var(--brawo-main) 12%, var(--brawo-inverse));
-  --brawo-border: color-mix(in oklch, var(--brawo-main) 18%, var(--brawo-inverse));
-  --brawo-border-chrome: color-mix(in oklch, var(--brawo-inverse) 14%, transparent);
+  /* Accent fg variants — generated from accent, overridable */
+  --brawo-accent-on-light: color-mix(in oklch, var(--brawo-accent) 50%, var(--brawo-dark));
+  --brawo-accent-on-dark: color-mix(in oklch, var(--brawo-accent) 75%, var(--brawo-light));
+  --brawo-accent-strong-on-light: color-mix(in oklch, var(--brawo-accent-on-light) 80%, var(--brawo-dark));
+  --brawo-accent-strong-on-dark: color-mix(in oklch, var(--brawo-accent-on-dark) 85%, var(--brawo-light));
 
-  --brawo-inverse-raised: color-mix(in oklch, var(--brawo-inverse) 92%, white);
-  --brawo-inverse-sunken: color-mix(in oklch, var(--brawo-main) 6%, var(--brawo-inverse));
+  /* Accent fill + subtle (from primitive) */
+  --brawo-accent-strong: color-mix(in oklch, var(--brawo-accent) 82%, var(--brawo-dark));
+  --brawo-accent-faint: color-mix(in oklch, var(--brawo-accent) 14%, var(--brawo-light));
 
-  --brawo-chrome-elevated: color-mix(in oklch, var(--brawo-chrome) 55%, var(--brawo-main-muted));
-  --brawo-chrome-muted: color-mix(in oklch, var(--brawo-inverse) 62%, var(--brawo-chrome));
+  /* Chrome — shell, derived from dark */
+  --brawo-chrome: oklch(from var(--brawo-dark) calc(l * 0.35) c h);
+  --brawo-chrome-soft: color-mix(in oklch, var(--brawo-chrome) 55%, color-mix(in oklch, var(--brawo-dark) 65%, var(--brawo-light)));
+  --brawo-chrome-faint: color-mix(in oklch, var(--brawo-light) 62%, var(--brawo-chrome));
+  --brawo-chrome-border: color-mix(in oklch, var(--brawo-light) 14%, transparent);
 
-  --brawo-on-chrome: var(--brawo-inverse);
-  --brawo-on-chrome-muted: var(--brawo-chrome-muted);
+  /* Light surfaces */
+  --brawo-light-soft: color-mix(in oklch, var(--brawo-light) 92%, white);
+  --brawo-light-strong: color-mix(in oklch, var(--brawo-dark) 6%, var(--brawo-light));
 
-  /* Accent — interactive emphasis */
-  --brawo-accent-strong: color-mix(in oklch, var(--brawo-accent) 82%, var(--brawo-main));
-  --brawo-accent-subtle: color-mix(in oklch, var(--brawo-accent) 14%, var(--brawo-inverse));
-  --brawo-accent-on-main: color-mix(in oklch, var(--brawo-accent) 88%, var(--brawo-main));
-  --brawo-accent-on-inverse: color-mix(in oklch, var(--brawo-accent) 70%, white);
-  --brawo-on-accent: oklch(0.99 0 0);
+  /* Dark text */
+  --brawo-dark-soft: color-mix(in oklch, var(--brawo-dark) 65%, var(--brawo-light));
+  --brawo-dark-faint: color-mix(in oklch, var(--brawo-dark) 12%, var(--brawo-light));
+
+  /* Shared borders */
+  --brawo-border: color-mix(in oklch, var(--brawo-dark) 18%, var(--brawo-light));
 
   /* Semantic utilities — fixed, not derived from layout primitives */
   --brawo-success: oklch(0.55 0.12 165);
-  --brawo-success-bg: oklch(0.95 0.03 165);
-  --brawo-success-border: oklch(0.82 0.06 165);
+  --brawo-success-soft: oklch(0.95 0.03 165);
+  --brawo-success-faint: oklch(0.82 0.06 165);
 
   --brawo-warning: oklch(0.84 0.17 95);
   --brawo-warning-strong: oklch(0.72 0.15 95);
-  --brawo-warning-bg: oklch(0.97 0.04 95);
-  --brawo-warning-border: oklch(0.88 0.1 95);
+  --brawo-warning-soft: oklch(0.97 0.04 95);
+  --brawo-warning-faint: oklch(0.88 0.1 95);
 
   --brawo-error: oklch(0.55 0.15 25);
-  --brawo-error-strong: color-mix(in oklch, var(--brawo-error) 85%, var(--brawo-main));
-  --brawo-error-bg: oklch(0.97 0.02 25);
-  --brawo-error-border: oklch(0.85 0.08 25);
+  --brawo-error-strong: color-mix(in oklch, var(--brawo-error) 85%, var(--brawo-dark));
+  --brawo-error-soft: oklch(0.97 0.02 25);
+  --brawo-error-faint: oklch(0.85 0.08 25);
 
-  --brawo-info-bg: color-mix(in oklch, var(--brawo-main) 8%, var(--brawo-inverse));
-  --brawo-info-border: color-mix(in oklch, var(--brawo-main) 22%, var(--brawo-inverse));
+  --brawo-info-soft: color-mix(in oklch, var(--brawo-dark) 8%, var(--brawo-light));
+  --brawo-info-faint: color-mix(in oklch, var(--brawo-dark) 22%, var(--brawo-light));
 
-  --brawo-disabled: color-mix(in oklch, var(--brawo-main) 40%, var(--brawo-inverse));
+  --brawo-disabled: color-mix(in oklch, var(--brawo-dark) 40%, var(--brawo-light));
 
   /* Component sizing */
   --brawo-toggle-bean-size: 1.625rem;
   --brawo-toggle-bean-size-sm: 1.5rem;
 
-  /* Legacy aliases — prefer the tokens above in new styles */
+  /* Legacy aliases */
+  --brawo-main: var(--brawo-dark);
+  --brawo-inverse: var(--brawo-light);
   --brawo-bg: var(--brawo-chrome);
-  --brawo-dark: var(--brawo-chrome-elevated);
-  --brawo-light: var(--brawo-inverse);
-  --brawo-text: var(--brawo-main);
-  --brawo-text-on-dark: var(--brawo-on-chrome);
-  --brawo-muted: var(--brawo-main-muted);
-  --brawo-muted-light: var(--brawo-chrome-muted);
-  --brawo-border-dark: var(--brawo-border-chrome);
+  --brawo-text: var(--brawo-dark);
+  --brawo-text-on-dark: var(--brawo-light);
+  --brawo-muted: var(--brawo-dark-soft);
+  --brawo-muted-light: var(--brawo-chrome-faint);
+  --brawo-border-dark: var(--brawo-chrome-border);
+  --brawo-dark-muted: var(--brawo-dark-soft);
+  --brawo-dark-subtle: var(--brawo-dark-faint);
+  --brawo-light-raised: var(--brawo-light-soft);
+  --brawo-light-sunken: var(--brawo-light-strong);
+  --brawo-chrome-elevated: var(--brawo-chrome-soft);
+  --brawo-chrome-muted: var(--brawo-chrome-faint);
+  --brawo-accent-subtle: var(--brawo-accent-faint);
+  --brawo-accent-on-main: var(--brawo-accent-on-light);
+  --brawo-accent-on-inverse: var(--brawo-accent-on-dark);
+  --brawo-on-chrome: var(--brawo-light);
+  --brawo-on-light: var(--brawo-dark);
+  --brawo-on-light-muted: var(--brawo-dark-soft);
+  --brawo-on-chrome-muted: var(--brawo-chrome-faint);
+  --brawo-success-bg: var(--brawo-success-soft);
+  --brawo-success-border: var(--brawo-success-faint);
+  --brawo-warning-bg: var(--brawo-warning-soft);
+  --brawo-warning-border: var(--brawo-warning-faint);
+  --brawo-error-bg: var(--brawo-error-soft);
+  --brawo-error-border: var(--brawo-error-faint);
+  --brawo-info-bg: var(--brawo-info-soft);
+  --brawo-info-border: var(--brawo-info-faint);
   --brawo-green: var(--brawo-accent);
-  --brawo-green-dark: var(--brawo-accent-strong);
-  --brawo-green-light: var(--brawo-accent-subtle);
-  --brawo-yellow: var(--brawo-accent-on-inverse);
+  --brawo-green-dark: var(--brawo-accent-strong-on-light);
+  --brawo-green-light: var(--brawo-accent-faint);
+  --brawo-yellow: var(--brawo-accent-on-dark);
   --brawo-yellow-dark: var(--brawo-warning-strong);
-  --brawo-yellow-light: var(--brawo-warning-bg);
+  --brawo-yellow-light: var(--brawo-warning-soft);
 }
