@@ -7,8 +7,8 @@
 
 body.brawo-admin {
   padding: 4px 0 0 4px;
-  background-color: var(--brawo-bg);
-  color: var(--brawo-text);
+  background-color: var(--brawo-chrome);
+  color: var(--brawo-on-chrome);
   height: 100dvh;
   max-height: 100dvh;
   display: flex;
@@ -35,16 +35,16 @@ body.brawo-admin {
 }
 
 .brawo-admin-navbar {
-  background-color: var(--brawo-bg) !important;
+  background-color: var(--brawo-chrome) !important;
   flex-shrink: 0;
 }
 
 .brawo-admin-navbar .navbar-brand {
-  color: var(--brawo-yellow) !important;
+  color: var(--brawo-accent-on-inverse) !important;
 }
 
 .brawo-admin-navbar .navbar-brand:hover {
-  color: var(--brawo-text-on-dark) !important;
+  color: var(--brawo-on-chrome) !important;
 }
 
 .sidebar {
@@ -59,20 +59,20 @@ body.brawo-admin {
 }
 
 .brawo-admin-sidebar .nav-link {
-  color: var(--brawo-muted-light);
+  color: var(--brawo-chrome-muted);
   border-radius: 6px;
   padding: 0.45rem 0.75rem;
 }
 
 .brawo-admin-sidebar .nav-link:hover {
-  color: var(--brawo-yellow);
-  background-color: rgba(244, 206, 20, 0.1);
+  color: var(--brawo-accent-on-inverse);
+  background-color: color-mix(in oklch, var(--brawo-accent-on-inverse) 10%, transparent);
 }
 
 .brawo-admin-sidebar .nav-link.active,
 .brawo-admin-sidebar .nav-pills .nav-link.active {
-  color: var(--brawo-text-on-dark);
-  background-color: var(--brawo-green);
+  color: var(--brawo-on-accent);
+  background-color: var(--brawo-accent-on-main);
 }
 
 .brawo-admin-sidebar .sidebar-section-label {
@@ -82,7 +82,7 @@ body.brawo-admin {
 }
 
 .brawo-admin-sidebar .text-muted {
-  color: var(--brawo-muted-light) !important;
+  color: var(--brawo-chrome-muted) !important;
 }
 
 .brawo-admin-stage {
@@ -94,7 +94,7 @@ body.brawo-admin {
   display: flex;
   flex-direction: column;
   perspective: 1400px;
-  background-color: var(--brawo-light);
+  background-color: var(--brawo-inverse);
   border-radius: 8px 0 0 0;
   padding: .5rem 1.5rem;
 }
@@ -123,8 +123,8 @@ body.brawo-admin {
   z-index: 2;
   min-width: 0;
   overflow: hidden;
-  background-color: var(--brawo-light);
-  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.18);
+  background-color: var(--brawo-inverse);
+  box-shadow: -6px 0 24px color-mix(in oklch, var(--brawo-main) 18%, transparent);
   transform: translateX(100%) translateZ(32px);
   visibility: hidden;
   pointer-events: none;
@@ -143,7 +143,7 @@ body.brawo-admin {
   width: 100%;
   height: 100%;
   border: 0;
-  background-color: #ffffff;
+  background-color: var(--brawo-inverse-raised);
   opacity: 1;
   transition: opacity 0.2s ease;
 }
@@ -175,7 +175,7 @@ body.brawo-admin {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background-color: var(--brawo-muted);
+  background-color: var(--brawo-main-muted);
   animation: brawo-preview-dot 1.2s ease-in-out infinite;
 }
 
@@ -200,9 +200,9 @@ body.brawo-admin {
 }
 
 .brawo-admin-stage a:not(.btn) {
-  color: var(--brawo-green);
+  color: var(--brawo-accent-on-main);
 }
 
 .brawo-admin-stage a:not(.btn):hover {
-  color: var(--brawo-green-dark);
+  color: var(--brawo-accent-strong);
 }

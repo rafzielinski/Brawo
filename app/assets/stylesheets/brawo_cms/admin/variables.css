@@ -1,34 +1,78 @@
-/* Design tokens — use these before adding new colors */
+/* Design tokens — override the three primitives to retheme the admin UI.
+ *
+ * Accent: pick a color with enough chroma/lightness for dark chrome (--brawo-chrome).
+ * Stage links and buttons use --brawo-accent-on-main (auto-derived).
+ * Navbar brand and chrome highlights use --brawo-accent-on-inverse (auto-derived).
+ */
 
 :root {
-  --brawo-bg: #1E2022;
-  --brawo-dark: #45474B;
-  --brawo-light: #F5F7F8;
-  --brawo-yellow: #F4CE14;
-  --brawo-green: #379777;
+  /* Primitives — host-editable */
+  --brawo-main: oklch(0.27 0.01 250);
+  --brawo-inverse: oklch(0.97 0.005 250);
+  --brawo-accent: oklch(66.68% 0.13061 231.933);
 
-  --brawo-border: #D5D8DA;
-  --brawo-border-dark: rgba(245, 247, 248, 0.14);
-  --brawo-muted: #6B6E73;
-  --brawo-muted-light: #A8ABAF;
-  --brawo-text: #2C2E31;
-  --brawo-text-on-dark: #F5F7F8;
+  /* Chrome — derived dark shell, not a fourth brand color */
+  --brawo-chrome: oklch(from var(--brawo-main) calc(l * 0.35) c h);
 
-  --brawo-green-dark: #2B7A60;
-  --brawo-green-light: #E8F4EF;
-  --brawo-yellow-dark: #C9A810;
-  --brawo-yellow-light: #FDF8E3;
+  /* Layout — derived shades */
+  --brawo-main-muted: color-mix(in oklch, var(--brawo-main) 65%, var(--brawo-inverse));
+  --brawo-main-subtle: color-mix(in oklch, var(--brawo-main) 12%, var(--brawo-inverse));
+  --brawo-border: color-mix(in oklch, var(--brawo-main) 18%, var(--brawo-inverse));
+  --brawo-border-chrome: color-mix(in oklch, var(--brawo-inverse) 14%, transparent);
 
-  --brawo-error: #C94A4A;
-  --brawo-error-bg: #FDF0F0;
-  --brawo-error-border: #E8B4B4;
-  --brawo-success-bg: #E8F4EF;
-  --brawo-success-border: #A8D5C2;
-  --brawo-warning-bg: #FDF8E3;
-  --brawo-warning-border: #E8D87A;
-  --brawo-info-bg: #EEF2F3;
-  --brawo-info-border: #C5CACD;
+  --brawo-inverse-raised: color-mix(in oklch, var(--brawo-inverse) 92%, white);
+  --brawo-inverse-sunken: color-mix(in oklch, var(--brawo-main) 6%, var(--brawo-inverse));
 
+  --brawo-chrome-elevated: color-mix(in oklch, var(--brawo-chrome) 55%, var(--brawo-main-muted));
+  --brawo-chrome-muted: color-mix(in oklch, var(--brawo-inverse) 62%, var(--brawo-chrome));
+
+  --brawo-on-chrome: var(--brawo-inverse);
+  --brawo-on-chrome-muted: var(--brawo-chrome-muted);
+
+  /* Accent — interactive emphasis */
+  --brawo-accent-strong: color-mix(in oklch, var(--brawo-accent) 82%, var(--brawo-main));
+  --brawo-accent-subtle: color-mix(in oklch, var(--brawo-accent) 14%, var(--brawo-inverse));
+  --brawo-accent-on-main: color-mix(in oklch, var(--brawo-accent) 88%, var(--brawo-main));
+  --brawo-accent-on-inverse: color-mix(in oklch, var(--brawo-accent) 70%, white);
+  --brawo-on-accent: oklch(0.99 0 0);
+
+  /* Semantic utilities — fixed, not derived from layout primitives */
+  --brawo-success: oklch(0.55 0.12 165);
+  --brawo-success-bg: oklch(0.95 0.03 165);
+  --brawo-success-border: oklch(0.82 0.06 165);
+
+  --brawo-warning: oklch(0.84 0.17 95);
+  --brawo-warning-strong: oklch(0.72 0.15 95);
+  --brawo-warning-bg: oklch(0.97 0.04 95);
+  --brawo-warning-border: oklch(0.88 0.1 95);
+
+  --brawo-error: oklch(0.55 0.15 25);
+  --brawo-error-strong: color-mix(in oklch, var(--brawo-error) 85%, var(--brawo-main));
+  --brawo-error-bg: oklch(0.97 0.02 25);
+  --brawo-error-border: oklch(0.85 0.08 25);
+
+  --brawo-info-bg: color-mix(in oklch, var(--brawo-main) 8%, var(--brawo-inverse));
+  --brawo-info-border: color-mix(in oklch, var(--brawo-main) 22%, var(--brawo-inverse));
+
+  --brawo-disabled: color-mix(in oklch, var(--brawo-main) 40%, var(--brawo-inverse));
+
+  /* Component sizing */
   --brawo-toggle-bean-size: 1.625rem;
   --brawo-toggle-bean-size-sm: 1.5rem;
+
+  /* Legacy aliases — prefer the tokens above in new styles */
+  --brawo-bg: var(--brawo-chrome);
+  --brawo-dark: var(--brawo-chrome-elevated);
+  --brawo-light: var(--brawo-inverse);
+  --brawo-text: var(--brawo-main);
+  --brawo-text-on-dark: var(--brawo-on-chrome);
+  --brawo-muted: var(--brawo-main-muted);
+  --brawo-muted-light: var(--brawo-chrome-muted);
+  --brawo-border-dark: var(--brawo-border-chrome);
+  --brawo-green: var(--brawo-accent);
+  --brawo-green-dark: var(--brawo-accent-strong);
+  --brawo-green-light: var(--brawo-accent-subtle);
+  --brawo-yellow: var(--brawo-accent-on-inverse);
+  --brawo-yellow-dark: var(--brawo-warning-strong);
+  --brawo-yellow-light: var(--brawo-warning-bg);
 }
