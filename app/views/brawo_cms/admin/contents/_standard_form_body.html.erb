@@ -13,7 +13,7 @@
 
 <%= render_field_group(form, @content_type_config[:fields], content, render_input: :render_field_input) %>
 
-<div class="d-flex justify-content-between mt-4">
+<div class="brawo-form-actions">
   <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
-  <%= link_to t('brawo.actions.cancel'), admin_contents_path(content_type: @content_type), class: "btn btn-secondary" %>
+  <%= link_to t('brawo.actions.cancel'), admin_contents_path(content_type: @content_type), class: "btn btn-outline-secondary" %>
 </div>

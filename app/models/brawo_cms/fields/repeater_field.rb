@@ -58,7 +58,7 @@ module BrawoCms
             helper.safe_join(items_html) + template_html
           end +
           helper.content_tag(:button, I18n.t('brawo.fields.add_row'), type: 'button',
-                            class: 'btn btn-sm btn-outline-primary mt-2',
+                            class: 'btn btn-sm btn-outline-secondary mt-2',
                             data: { action: 'repeater#addRow' })
         end
       end

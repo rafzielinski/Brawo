@@ -1,4 +1,53 @@
+.brawo-admin .badge.bg-secondary {
+  background-color: var(--brawo-chrome-soft) !important;
+}
+
 /* Cards, tables, repeater fields */
+
+.brawo-lead {
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 42rem;
+}
+
+.brawo-empty-state {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 10px;
+  background: var(--brawo-light-strong);
+}
+
+.brawo-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  background: var(--brawo-light-strong);
+  color: var(--brawo-dark-soft);
+}
+
+.brawo-status--published {
+  background: var(--brawo-accent-faint);
+  color: var(--brawo-accent-on-light);
+}
+
+.brawo-status--draft,
+.brawo-status--archived {
+  background: var(--brawo-light-strong);
+  color: var(--brawo-dark-soft);
+}
+
+.brawo-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
 
 .table-responsive {
   margin-top: 20px;

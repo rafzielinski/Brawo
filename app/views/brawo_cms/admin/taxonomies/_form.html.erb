@@ -31,8 +31,8 @@
     <%= render_field_group(form, @taxonomy_type_config[:fields], taxonomy, render_input: :render_field_input) %>
   <% end %>
 
-  <div class="d-flex justify-content-between mt-4">
+  <div class="brawo-form-actions">
     <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
-    <%= link_to t('brawo.actions.cancel'), admin_taxonomies_path(taxonomy_type: @taxonomy_type), class: "btn btn-secondary" %>
+    <%= link_to t('brawo.actions.cancel'), admin_taxonomies_path(taxonomy_type: @taxonomy_type), class: "btn btn-outline-secondary" %>
   </div>
 <% end %>

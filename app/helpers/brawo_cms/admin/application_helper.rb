@@ -23,16 +23,7 @@ module BrawoCms
       end
 
       def status_badge_class(status)
-        case status
-        when 'published'
-          'bg-success'
-        when 'draft'
-          'bg-warning'
-        when 'archived'
-          'bg-secondary'
-        else
-          'bg-info'
-        end
+        "brawo-status brawo-status--#{status.to_s.parameterize}"
       end
 
       def sidebar_link_class(active)

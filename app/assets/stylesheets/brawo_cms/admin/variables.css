@@ -1,34 +1,37 @@
-/* Design tokens — override the three primitives to retheme the admin UI.
+/* Design tokens — set --brawo-accent to retheme the admin UI.
  *
- * Primitives: --brawo-light, --brawo-dark, --brawo-accent
+ * Layout derives from accent:
+ *   --brawo-light / --brawo-dark   surfaces + text (accent hue, tuned L/C)
+ *   --brawo-chrome                 dark shell (from dark)
  *
- * Accent model:
- *   --brawo-accent            seed + fill (buttons, active nav, badges)
- *   --brawo-accent-on-light   generated fg on light surfaces (links, outlines)
- *   --brawo-accent-on-dark    generated fg on chrome surfaces (navbar, sidebar)
- *   --brawo-on-accent         text on accent fills — set to var(--brawo-light) or var(--brawo-dark)
+ * Accent usage:
+ *   --brawo-accent                 seed + solid fills
+ *   --brawo-accent-on-light/dark   fg on light / chrome (generated)
+ *   --brawo-on-accent              text on accent fills (var(--brawo-light) or --brawo-dark)
  *
- * Override any generated accent-on-* or --brawo-on-accent if the defaults miss.
+ * Optional: override --brawo-light or --brawo-dark after accent if needed.
  *
  * Shade scale: base | -soft | -strong | -faint
  */
 
 :root {
-  /* Primitives — host-editable */
-  --brawo-light: oklch(0.97 0.005 250);
-  --brawo-dark: oklch(0.27 0.01 250);
+  /* Primitive — host-editable */
   --brawo-accent: oklch(83.905% 0.16629 157.184);
 
-  /* Text on accent-filled controls — host picks light or dark */
+  /* Light + dark — derived from accent (same hue family) */
+  --brawo-light: oklch(from var(--brawo-accent) 0.97 calc(c * 0.06) h);
+  --brawo-dark: oklch(from var(--brawo-accent) 0.28 calc(c * 0.35) h);
+
+  /* Text on accent-filled controls */
   --brawo-on-accent: var(--brawo-dark);
 
-  /* Accent fg variants — generated from accent, overridable */
+  /* Accent fg on surfaces */
   --brawo-accent-on-light: color-mix(in oklch, var(--brawo-accent) 50%, var(--brawo-dark));
   --brawo-accent-on-dark: color-mix(in oklch, var(--brawo-accent) 75%, var(--brawo-light));
   --brawo-accent-strong-on-light: color-mix(in oklch, var(--brawo-accent-on-light) 80%, var(--brawo-dark));
   --brawo-accent-strong-on-dark: color-mix(in oklch, var(--brawo-accent-on-dark) 85%, var(--brawo-light));
 
-  /* Accent fill + subtle (from primitive) */
+  /* Accent fill + subtle */
   --brawo-accent-strong: color-mix(in oklch, var(--brawo-accent) 82%, var(--brawo-dark));
   --brawo-accent-faint: color-mix(in oklch, var(--brawo-accent) 14%, var(--brawo-light));
 
@@ -49,7 +52,7 @@
   /* Shared borders */
   --brawo-border: color-mix(in oklch, var(--brawo-dark) 18%, var(--brawo-light));
 
-  /* Semantic utilities — fixed, not derived from layout primitives */
+  /* Semantic utilities — fixed, not derived from accent */
   --brawo-success: oklch(0.55 0.12 165);
   --brawo-success-soft: oklch(0.95 0.03 165);
   --brawo-success-faint: oklch(0.82 0.06 165);
@@ -72,7 +75,17 @@
   /* Component sizing */
   --brawo-toggle-bean-size: 1.625rem;
   --brawo-toggle-bean-size-sm: 1.5rem;
+}
 
+@supports not (color: oklch(from red l c h)) {
+  :root {
+    --brawo-light: color-mix(in oklch, var(--brawo-accent) 5%, white);
+    --brawo-dark: color-mix(in oklch, var(--brawo-accent) 22%, black);
+    --brawo-chrome: color-mix(in oklch, var(--brawo-dark) 65%, black);
+  }
+}
+
+:root {
   /* Legacy aliases */
   --brawo-main: var(--brawo-dark);
   --brawo-inverse: var(--brawo-light);

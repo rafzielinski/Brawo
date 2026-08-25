@@ -60,7 +60,7 @@ module BrawoCms
               button_tag(t('brawo.page_builder.structure'), type: 'button',
                 class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
                 data: { action: 'page-builder#toggleOutline' }) +
-                button_tag(type: 'button', class: 'btn btn-outline-primary btn-sm',
+                button_tag(type: 'button', class: 'btn btn-primary btn-sm',
                   data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
                   t('brawo.page_builder.add_block')
                 end
@@ -70,7 +70,7 @@ module BrawoCms
 
       def render_add_block_button(position, insert_at)
         content_tag(:div, class: "page-builder-add-bar page-builder-add-bar--#{position}") do
-          button_tag(type: 'button', class: 'btn btn-outline-primary btn-sm',
+          button_tag(type: 'button', class: 'btn btn-outline-secondary btn-sm',
             data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
             t('brawo.page_builder.add_block')
           end
@@ -315,7 +315,7 @@ module BrawoCms
               end
               safe_join(rows) + template
             end +
-            button_tag(t('brawo.page_builder.add_row'), type: 'button', class: 'btn btn-sm btn-outline-primary mt-2',
+            button_tag(t('brawo.page_builder.add_row'), type: 'button', class: 'btn btn-sm btn-outline-secondary mt-2',
               disabled: disabled, data: { action: 'repeater#addRow' })
         end
       end

@@ -3,7 +3,7 @@
            heading_class: 'content-page-heading',
            toolbar: link_to(t('brawo.actions.back_to_list'),
                              admin_contents_path(content_type: @content_type),
-                             class: "btn btn-secondary btn-sm") %>
+                             class: "btn btn-outline-secondary btn-sm") %>
 
 <% if @content_type_config[:page_builder] %>
   <%= render 'page_builder_form', content: @content %>

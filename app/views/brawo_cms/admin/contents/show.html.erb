@@ -1,8 +1,8 @@
 <%= render 'brawo_cms/admin/shared/page_header',
            title: @content.title,
            toolbar: safe_join([
-             link_to(t('brawo.actions.edit'), edit_admin_content_path(@content, content_type: @content_type), class: "btn btn-warning me-2"),
-             link_to(t('brawo.actions.back_to_list'), admin_contents_path(content_type: @content_type), class: "btn btn-secondary")
+             link_to(t('brawo.actions.edit'), edit_admin_content_path(@content, content_type: @content_type), class: "btn btn-primary"),
+             link_to(t('brawo.actions.back_to_list'), admin_contents_path(content_type: @content_type), class: "btn btn-outline-secondary")
            ]) %>
 
 <div class="card">

@@ -11,7 +11,7 @@
         <th><%= t('brawo.tables.name') %></th>
         <th><%= t('brawo.tables.slug') %></th>
         <th><%= t('brawo.tables.created') %></th>
-        <th><%= t('brawo.tables.actions') %></th>
+        <th class="brawo-table__actions"><%= t('brawo.tables.actions') %></th>
       </tr>
     </thead>
     <tbody>
@@ -20,13 +20,13 @@
           <td><%= taxonomy.name %></td>
           <td><code><%= taxonomy.slug %></code></td>
           <td><%= brawo_format_date(taxonomy.created_at) %></td>
-          <td>
+          <td class="brawo-table__actions">
             <div class="table-actions">
-              <%= link_to t('brawo.actions.view'), admin_taxonomy_path(taxonomy, taxonomy_type: @taxonomy_type), class: "btn btn-sm btn-outline-dark" %>
+              <%= link_to t('brawo.actions.view'), admin_taxonomy_path(taxonomy, taxonomy_type: @taxonomy_type), class: "btn btn-sm btn-outline-secondary" %>
               <%= link_to t('brawo.actions.edit'), edit_admin_taxonomy_path(taxonomy, taxonomy_type: @taxonomy_type), class: "btn btn-sm btn-outline-primary" %>
               <%= link_to t('brawo.actions.delete'), admin_taxonomy_path(taxonomy, taxonomy_type: @taxonomy_type),
                           data: { turbo_method: :delete, turbo_confirm: t('brawo.actions.confirm_delete') },
-                          class: "btn btn-sm btn-danger" %>
+                          class: "btn btn-sm btn-outline-danger" %>
             </div>
           </td>
         </tr>
@@ -36,9 +36,9 @@
 </div>
 
 <% if @taxonomies.empty? %>
-  <div class="alert alert-info">
+  <p class="brawo-empty-state text-muted">
     <%= t('brawo.taxonomies.empty', label: @taxonomy_type_config[:label].pluralize.downcase) %>
-    <%= link_to t('brawo.taxonomies.create_first', label: @taxonomy_type_config[:label].downcase), 
+    <%= link_to t('brawo.taxonomies.create_first', label: @taxonomy_type_config[:label].downcase),
                 new_admin_taxonomy_path(taxonomy_type: @taxonomy_type) %>
-  </div>
+  </p>
 <% end %>

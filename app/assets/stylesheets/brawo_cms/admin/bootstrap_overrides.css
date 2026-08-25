@@ -55,12 +55,12 @@
 .brawo-admin .btn-outline-secondary {
   --bs-btn-color: var(--brawo-dark-soft);
   --bs-btn-border-color: var(--brawo-border);
-  --bs-btn-hover-color: var(--brawo-light);
-  --bs-btn-hover-bg: var(--brawo-chrome-soft);
-  --bs-btn-hover-border-color: var(--brawo-chrome-soft);
-  --bs-btn-active-color: var(--brawo-light);
-  --bs-btn-active-bg: var(--brawo-chrome-soft);
-  --bs-btn-active-border-color: var(--brawo-chrome-soft);
+  --bs-btn-hover-color: var(--brawo-dark);
+  --bs-btn-hover-bg: var(--brawo-light-strong);
+  --bs-btn-hover-border-color: var(--brawo-border);
+  --bs-btn-active-color: var(--brawo-dark);
+  --bs-btn-active-bg: var(--brawo-light-strong);
+  --bs-btn-active-border-color: var(--brawo-border);
 }
 
 .brawo-admin .btn-outline-dark {
@@ -97,16 +97,40 @@
   --bs-btn-active-border-color: var(--brawo-error-strong);
 }
 
+.brawo-admin .btn-outline-danger {
+  --bs-btn-color: var(--brawo-error);
+  --bs-btn-border-color: var(--brawo-error);
+  --bs-btn-hover-color: var(--brawo-light);
+  --bs-btn-hover-bg: var(--brawo-error);
+  --bs-btn-hover-border-color: var(--brawo-error);
+  --bs-btn-active-color: var(--brawo-light);
+  --bs-btn-active-bg: var(--brawo-error);
+  --bs-btn-active-border-color: var(--brawo-error);
+}
+
+.brawo-admin .btn {
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  box-shadow: none;
+}
+
 .brawo-admin .btn-sm {
-  padding: 0.2rem 0.55rem;
-  font-size: 0.78rem;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.8125rem;
   line-height: 1.35;
-  border-radius: 4px;
+  border-radius: 7px;
+}
+
+.brawo-admin .brawo-table__actions {
+  text-align: right;
+  white-space: nowrap;
 }
 
 .brawo-admin .table-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
   gap: 0.35rem;
 }
 
@@ -117,7 +141,7 @@
 .brawo-admin .alert-success {
   background-color: var(--brawo-success-soft);
   border-color: var(--brawo-success-faint);
-  color: var(--brawo-accent-strong-on-light);
+  color: var(--brawo-dark);
 }
 
 .brawo-admin .alert-danger {
@@ -129,13 +153,13 @@
 .brawo-admin .alert-warning {
   background-color: var(--brawo-warning-soft);
   border-color: var(--brawo-warning-faint);
-  color: var(--brawo-warning-strong);
+  color: var(--brawo-dark);
 }
 
 .brawo-admin .alert-info {
   background-color: var(--brawo-info-soft);
   border-color: var(--brawo-info-faint);
-  color: var(--brawo-chrome-soft);
+  color: var(--brawo-dark-soft);
 }
 
 .brawo-admin .form-control,
@@ -220,10 +244,6 @@
 }
 
 .brawo-admin .badge.bg-secondary {
-  background-color: var(--brawo-chrome-soft) !important;
-}
-
-.brawo-admin .badge.bg-warning {
-  background-color: var(--brawo-warning) !important;
-  color: var(--brawo-dark) !important;
+  background-color: var(--brawo-light-strong) !important;
+  color: var(--brawo-dark-soft) !important;
 }
