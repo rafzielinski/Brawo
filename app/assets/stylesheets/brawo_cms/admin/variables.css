@@ -39,7 +39,7 @@
   --brawo-chrome: oklch(from var(--brawo-dark) calc(l * 0.35) c h);
   --brawo-chrome-soft: color-mix(in oklch, var(--brawo-chrome) 55%, color-mix(in oklch, var(--brawo-dark) 65%, var(--brawo-light)));
   --brawo-chrome-faint: color-mix(in oklch, var(--brawo-light) 62%, var(--brawo-chrome));
-  --brawo-chrome-border: color-mix(in oklch, var(--brawo-light) 14%, transparent);
+  --brawo-chrome-border: color-mix(in oklch, var(--brawo-light) 38%, transparent);
 
   /* Light surfaces */
   --brawo-light-soft: color-mix(in oklch, var(--brawo-light) 92%, white);
@@ -50,7 +50,7 @@
   --brawo-dark-faint: color-mix(in oklch, var(--brawo-dark) 12%, var(--brawo-light));
 
   /* Shared borders */
-  --brawo-border: color-mix(in oklch, var(--brawo-dark) 18%, var(--brawo-light));
+  --brawo-border: color-mix(in oklch, var(--brawo-dark) 88%, var(--brawo-light));
 
   /* Semantic utilities — fixed, not derived from accent */
   --brawo-success: oklch(0.55 0.12 165);
@@ -68,7 +68,7 @@
   --brawo-error-faint: oklch(0.85 0.08 25);
 
   --brawo-info-soft: color-mix(in oklch, var(--brawo-dark) 8%, var(--brawo-light));
-  --brawo-info-faint: color-mix(in oklch, var(--brawo-dark) 22%, var(--brawo-light));
+  --brawo-info-faint: color-mix(in oklch, var(--brawo-dark) 72%, var(--brawo-light));
 
   --brawo-disabled: color-mix(in oklch, var(--brawo-dark) 40%, var(--brawo-light));
 

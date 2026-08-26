@@ -162,6 +162,13 @@
   color: var(--brawo-dark-soft);
 }
 
+.brawo-admin .card,
+.brawo-admin .page-builder-block.card,
+.brawo-admin .repeater-row.card {
+  --bs-card-border-color: var(--brawo-border);
+  border-color: var(--brawo-border);
+}
+
 .brawo-admin .form-control,
 .brawo-admin .form-select {
   border-color: var(--brawo-border);
@@ -170,8 +177,9 @@
 
 .brawo-admin .form-control:focus,
 .brawo-admin .form-select:focus {
-  border-color: var(--brawo-accent-on-light);
-  box-shadow: none;
+  border-color: var(--brawo-border);
+  box-shadow: 1px 1px 0 1px var(--brawo-accent);
+  outline: none;
 }
 
 .brawo-admin .form-check-input:checked {
@@ -180,8 +188,9 @@
 }
 
 .brawo-admin .form-check-input:focus {
-  border-color: var(--brawo-accent-on-light);
-  box-shadow: none;
+  border-color: var(--brawo-border);
+  box-shadow: 0 0 0 1px var(--brawo-accent);
+  outline: none;
 }
 
 .brawo-admin .invalid-feedback,

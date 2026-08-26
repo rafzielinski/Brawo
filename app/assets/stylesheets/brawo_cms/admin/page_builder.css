@@ -53,12 +53,13 @@
   border: 1px solid var(--brawo-border);
   background-color: var(--brawo-light-soft);
   margin: 0.25rem 0;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .page-builder-block.is-focused {
-  border-color: var(--brawo-accent-on-light);
-  outline: 2px solid var(--brawo-accent-faint);
+  border-color: var(--brawo-border);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--brawo-accent);
 }
 
 .page-builder-block .drag-handle,
@@ -105,23 +106,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
 }
 
 .block-insert-zone-btn {
   opacity: 0;
+  z-index: 2;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  border: 1px dashed var(--brawo-chrome-faint);
-  background: var(--brawo-light-soft);
-  color: var(--brawo-dark-soft);
+  border: 1px dashed var(--brawo-border);
+  background: var(--brawo-border);
+  color: var(--brawo-light);
   line-height: 1;
   padding: 0;
   cursor: pointer;
-  transition: opacity 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: opacity 0.15s ease, border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
 
 .block-insert-zone:hover .block-insert-zone-btn,
@@ -129,14 +133,17 @@
   opacity: 1;
 }
 
-.block-insert-zone-btn:hover {
-  border-color: var(--brawo-accent-on-light);
-  color: var(--brawo-accent-on-light);
-  background: var(--brawo-accent-faint);
+.block-insert-zone-btn:hover,
+.block-insert-zone-btn:focus-visible {
+  background: var(--brawo-accent);
+  /* border-color: var(--brawo-accent); */
+  border-style: solid;
+  color: var(--brawo-on-accent);
 }
 
 .block-insert-zone::before {
   content: "";
+  z-index: 1;
   position: absolute;
   left: 0;
   right: 0;
@@ -230,7 +237,8 @@
 
 .page-builder-outline-item.is-active {
   background: var(--brawo-accent-faint);
-  border-color: var(--brawo-success-faint);
+  border-color: var(--brawo-border);
+  box-shadow: 0 0 0 1px var(--brawo-accent);
 }
 
 .outline-item-label {
