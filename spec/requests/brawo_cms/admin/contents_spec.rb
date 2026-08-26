@@ -100,6 +100,26 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
     end
   end
 
+  describe "PATCH /admin/contents/:id" do
+    let!(:article) { Article.create!(title: "Saved Article", slug: "saved-article", status: "draft") }
+
+    it "redirects back to edit with a notice" do
+      patch "/admin/admin/contents/#{article.id}",
+            params: { content_type: "article", content: { title: "Updated Article", slug: "saved-article", status: "draft" } }
+
+      expect(response).to redirect_to(%r{/admin/admin/contents/saved-article/edit\?content_type=article})
+      follow_redirect!
+      expect(response.body).to include(I18n.t("brawo.contents.flash.updated", label: "Article"))
+    end
+
+    it "re-renders edit when validation fails" do
+      patch "/admin/admin/contents/#{article.id}",
+            params: { content_type: "article", content: { title: "", slug: "saved-article", status: "draft" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   describe "GET /admin/contents/new" do
     it "does not render the admin mode toggle" do
       get "/admin/admin/contents/new", params: { content_type: "article" }

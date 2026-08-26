@@ -50,7 +50,7 @@ module BrawoCms
         )
 
         if result.success?
-          redirect_to admin_content_path(result.record, content_type: params[:content_type]),
+          redirect_to edit_admin_content_path(result.record, content_type: params[:content_type]),
                       notice: t('brawo.contents.flash.updated', label: @content_type_config[:label])
         else
           @content = result.record

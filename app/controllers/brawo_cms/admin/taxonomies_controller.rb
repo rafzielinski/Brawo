@@ -39,7 +39,7 @@ module BrawoCms
         )
 
         if result.success?
-          redirect_to admin_taxonomy_path(result.record, taxonomy_type: params[:taxonomy_type]),
+          redirect_to edit_admin_taxonomy_path(result.record, taxonomy_type: params[:taxonomy_type]),
                       notice: t('brawo.taxonomies.flash.updated', label: @taxonomy_type_config[:label])
         else
           @taxonomy = result.record

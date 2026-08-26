@@ -22,6 +22,26 @@ RSpec.describe "BrawoCms Admin Taxonomies", type: :request do
     end
   end
 
+  describe "PATCH /admin/taxonomies/:id" do
+    let!(:category) { Category.create!(name: "Saved Category", slug: "saved-category") }
+
+    it "redirects back to edit with a notice" do
+      patch "/admin/admin/taxonomies/#{category.id}",
+            params: { taxonomy_type: "category", taxonomy: { name: "Updated Category", slug: "saved-category" } }
+
+      expect(response).to redirect_to(%r{/admin/admin/taxonomies/saved-category/edit\?taxonomy_type=category})
+      follow_redirect!
+      expect(response.body).to include(I18n.t("brawo.taxonomies.flash.updated", label: "Category"))
+    end
+
+    it "re-renders edit when validation fails" do
+      patch "/admin/admin/taxonomies/#{category.id}",
+            params: { taxonomy_type: "category", taxonomy: { name: "", slug: "saved-category" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   describe "POST /admin/taxonomies" do
     it "re-renders new when validation fails" do
       post "/admin/admin/taxonomies", params: {
