@@ -136,3 +136,11 @@ en:
       item: Item %{number}
       add_row: Add Row
       empty_value: "-"
+      url_invalid: Enter a valid URL with a real domain (e.g. example.com).
+      email_invalid: Enter a valid email address.
+      color_picker:
+        choose: Choose color
+      icon_picker:
+        choose: Choose icon
+        search: Search icons…
+        none: None

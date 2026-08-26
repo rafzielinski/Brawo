@@ -3,6 +3,7 @@
  *= require brawo_cms/admin/variables
  *= require brawo_cms/admin/shell
  *= require brawo_cms/admin/bootstrap_overrides
+ *= require brawo_cms/coloris.min
  *= require brawo_cms/admin/icons
  *= require brawo_cms/admin/components
  *= require brawo_cms/admin/page_builder

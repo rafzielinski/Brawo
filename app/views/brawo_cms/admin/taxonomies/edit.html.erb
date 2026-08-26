@@ -1,5 +1,9 @@
 <%= render 'brawo_cms/admin/shared/page_header',
-           title: t('brawo.taxonomies.edit_title', label: @taxonomy_type_config[:label]) %>
+           title: t('brawo.taxonomies.edit_title', label: @taxonomy_type_config[:label]),
+           heading_class: 'brawo-page-heading',
+           toolbar: link_to(t('brawo.actions.back_to_list'),
+                             admin_taxonomies_path(taxonomy_type: @taxonomy_type),
+                             class: "btn btn-outline-secondary btn-sm") %>
 
 <div class="card">
   <div class="card-body">

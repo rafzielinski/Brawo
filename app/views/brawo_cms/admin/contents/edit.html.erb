@@ -1,6 +1,6 @@
 <%= render 'brawo_cms/admin/shared/page_header',
            title: t('brawo.contents.edit_title', label: @content_type_config[:label]),
-           heading_class: 'content-page-heading',
+           heading_class: 'brawo-page-heading',
            toolbar: link_to(t('brawo.actions.back_to_list'),
                              admin_contents_path(content_type: @content_type),
                              class: "btn btn-outline-secondary btn-sm") %>

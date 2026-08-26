@@ -5,6 +5,9 @@ module BrawoCms
       include FieldsHelper
       include IconsHelper
       include ToggleHelper
+      include ColorPickerHelper
+      include IconPickerHelper
+      include ValidatedFieldHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))
       end

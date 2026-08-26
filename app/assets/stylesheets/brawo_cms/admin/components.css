@@ -87,7 +87,15 @@
 
 /* Field layout uses Bootstrap row/col (see FieldWrapperHelper) */
 
-.content-page-heading {
+.brawo-page-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--brawo-dark);
+  margin: 0;
+}
+
+.brawo-page-heading {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--brawo-dark-soft);
@@ -417,6 +425,228 @@
 
 .brawo-field-toggle-row__control {
   flex-shrink: 0;
+}
+
+.brawo-color-picker {
+  position: relative;
+}
+
+.brawo-color-picker__anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.brawo-color-picker__choose-wrap {
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+}
+
+.brawo-color-picker__controls {
+  --brawo-color-picker-box-size: 5.5rem;
+  display: grid;
+  grid-template-columns: var(--brawo-color-picker-box-size) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem 0.75rem;
+  min-height: var(--brawo-color-picker-box-size);
+  align-items: stretch;
+}
+
+.brawo-color-picker__preview-box {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-sizing: border-box;
+  width: var(--brawo-color-picker-box-size);
+  height: var(--brawo-color-picker-box-size);
+  border: 1px solid var(--brawo-border);
+  border-radius: var(--brawo-radius-sm, 0.25rem);
+  background: var(--brawo-light-soft);
+}
+
+.brawo-color-picker__fields {
+  display: contents;
+}
+
+.brawo-color-picker__input {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.brawo-color-picker__choose {
+  width: 100%;
+  height: 100%;
+}
+
+/* Coloris — align with admin tokens */
+.brawo-admin .clr-picker {
+  z-index: 1060;
+  border-radius: 10px;
+  border: 1px solid var(--brawo-border);
+  background-color: var(--brawo-light);
+  box-shadow: 0 8px 24px color-mix(in oklch, var(--brawo-dark) 16%, transparent);
+}
+
+.brawo-admin .clr-picker input.clr-color {
+  border-color: var(--brawo-border);
+  background-color: var(--brawo-light-soft);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .clr-picker input.clr-color:focus {
+  border-color: var(--brawo-accent);
+  outline: none;
+}
+
+.brawo-admin .clr-clear,
+.brawo-admin .clr-close {
+  display: none;
+}
+
+.brawo-admin .clr-alpha,
+.brawo-admin .clr-hue {
+  width: calc(100% - 40px);
+}
+
+.brawo-color-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brawo-color-display__swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--brawo-radius-sm, 0.25rem);
+  border: 1px solid var(--brawo-dark-faint);
+  flex-shrink: 0;
+}
+
+.brawo-icon-picker__controls {
+  --brawo-icon-picker-box-size: 5.5rem;
+  display: grid;
+  grid-template-columns: var(--brawo-icon-picker-box-size) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem 0.75rem;
+  min-height: var(--brawo-icon-picker-box-size);
+  align-items: stretch;
+}
+
+.brawo-icon-picker__preview-box {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-sizing: border-box;
+  width: var(--brawo-icon-picker-box-size);
+  height: var(--brawo-icon-picker-box-size);
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  border: 1px solid var(--brawo-border);
+  border-radius: var(--brawo-radius-sm, 0.25rem);
+  background: var(--brawo-light-soft);
+  color: var(--brawo-dark);
+}
+
+.brawo-icon-picker__preview {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.brawo-icon-picker__preview-box .brawo-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 2.5rem;
+}
+
+.brawo-icon-picker__placeholder {
+  color: var(--brawo-dark-soft);
+  font-size: 0.6875rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.brawo-icon-picker__fields {
+  display: contents;
+}
+
+.brawo-icon-picker__input {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.brawo-icon-picker__choose {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+}
+
+.brawo-icon-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+  gap: 0.25rem;
+}
+
+.brawo-icon-picker__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--brawo-dark-faint);
+  border-radius: var(--brawo-radius-sm, 0.25rem);
+  background: var(--brawo-light);
+  color: var(--brawo-dark);
+  cursor: pointer;
+}
+
+.brawo-icon-picker__item:hover,
+.brawo-icon-picker__item.is-selected {
+  border-color: var(--brawo-accent);
+  background: var(--brawo-accent-faint);
+  color: var(--brawo-accent-on-light);
+}
+
+.brawo-icon-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brawo-icon-display__name {
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.875rem;
+}
+
+.brawo-validated-field .invalid-feedback {
+  margin-top: 0.25rem;
+}
+
+.brawo-url-field__group .input-group-text {
+  background-color: var(--brawo-light-strong);
+  border-color: var(--brawo-border);
+  color: var(--brawo-dark-soft);
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.875rem;
+}
+
+.brawo-url-field__group .brawo-validated-field__input.is-invalid {
+  z-index: 3;
 }
 
 .brawo-field-toggle-row__help {

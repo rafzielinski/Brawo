@@ -1,0 +1,10 @@
+<%# locals: required, disabled, input_field, invalid_message %>
+<div
+  class="brawo-validated-field brawo-email-field"
+  data-controller="validated-field"
+  data-validated-field-kind-value="email"
+  data-validated-field-required-value="<%= required %>"
+  data-validated-field-invalid-message-value="<%= invalid_message %>">
+  <%= input_field %>
+  <div class="invalid-feedback d-block" data-validated-field-target="feedback" hidden></div>
+</div>

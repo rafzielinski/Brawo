@@ -289,6 +289,42 @@ module BrawoCms
           choices = sub_field.choices.map { |c| c.is_a?(Array) ? c : [c, c] }
           select_tag(input_name, options_for_select(choices, field_value),
             options.merge(class: 'form-select'))
+        when :color
+          brawo_color_picker(
+            name: input_name,
+            value: field_value,
+            swatches: field_def[:swatches],
+            alpha: field_def[:alpha],
+            disabled: disabled,
+            input_html: options
+          )
+        when :icon
+          brawo_icon_picker(
+            name: input_name,
+            value: field_value,
+            variant: field_def[:variant] || :outline,
+            icons: field_def[:choices],
+            disabled: disabled,
+            input_html: options
+          )
+        when :url
+          brawo_url_field(
+            name: input_name,
+            value: field_value,
+            default_scheme: field_def[:default_scheme],
+            allowed_schemes: field_def[:allowed_schemes],
+            required: sub_field.required,
+            disabled: disabled,
+            input_html: options
+          )
+        when :email
+          brawo_email_field(
+            name: input_name,
+            value: field_value,
+            required: sub_field.required,
+            disabled: disabled,
+            input_html: options
+          )
         else
           text_field_tag(input_name, field_value, options)
         end

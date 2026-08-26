@@ -12,6 +12,8 @@ module BrawoCms
       app.config.assets.paths << root.join("app/assets/javascripts")
       app.config.assets.paths << root.join("app/javascript")
       app.config.assets.paths << root.join("app/assets/config")
+      app.config.assets.paths << root.join("app/assets/json")
+      app.config.assets.paths << root.join("vendor/assets/stylesheets")
       app.config.assets.paths << root.join("app/blocks")
       app.config.assets.precompile += %w[
         brawo_cms/admin.css
@@ -22,6 +24,10 @@ module BrawoCms
         brawo_cms/controllers/page_builder_controller.js
         brawo_cms/controllers/sortable_controller.js
         brawo_cms/controllers/repeater_controller.js
+        brawo_cms/controllers/color_picker_controller.js
+        brawo_cms/controllers/icon_picker_controller.js
+        brawo_cms/controllers/validated_field_controller.js
+        brawo_cms/bootstrap_icons.json
       ]
     end
 

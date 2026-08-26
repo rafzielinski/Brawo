@@ -1,0 +1,50 @@
+<%# locals: value, variant, icons, icons_url, disabled, input_field, picker_id %>
+<div
+  class="brawo-icon-picker"
+  data-controller="icon-picker"
+  data-icon-picker-variant-value="<%= variant %>"
+  data-icon-picker-icons-value="<%= icons.to_json %>"
+  data-icon-picker-icons-url-value="<%= icons_url %>"
+  data-icon-picker-none-label-value="<%= t('brawo.fields.icon_picker.none') %>">
+  <div class="brawo-icon-picker__controls">
+    <div class="brawo-icon-picker__preview-box" aria-hidden="true">
+      <span class="brawo-icon-picker__preview" data-icon-picker-target="preview">
+        <% if value.present? %>
+          <%= brawo_icon(value, variant: variant) %>
+        <% else %>
+          <span class="brawo-icon-picker__placeholder"><%= t('brawo.fields.icon_picker.none') %></span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="brawo-icon-picker__fields">
+      <%= input_field %>
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm brawo-icon-picker__choose"
+        data-action="icon-picker#openModal"
+        <%= "disabled" if disabled %>>
+        <%= t('brawo.fields.icon_picker.choose') %>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal fade brawo-icon-picker-modal" id="<%= picker_id %>" tabindex="-1" aria-hidden="true" data-icon-picker-target="modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= t('brawo.fields.icon_picker.choose') %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('brawo.layout.close') %>"></button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="search"
+            class="form-control mb-3"
+            placeholder="<%= t('brawo.fields.icon_picker.search') %>"
+            data-icon-picker-target="search">
+          <div class="brawo-icon-picker__grid" data-icon-picker-target="grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

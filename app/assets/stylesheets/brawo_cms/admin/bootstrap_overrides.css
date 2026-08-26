@@ -256,3 +256,28 @@
   background-color: var(--brawo-light-strong) !important;
   color: var(--brawo-dark-soft) !important;
 }
+
+.brawo-admin .modal-content {
+  background-color: var(--brawo-light);
+  border-color: var(--brawo-border);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .modal-header {
+  background-color: var(--brawo-light);
+  border-bottom-color: var(--brawo-border);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .modal-title {
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .modal-body {
+  background-color: var(--brawo-light);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .modal .btn-close {
+  filter: none;
+}

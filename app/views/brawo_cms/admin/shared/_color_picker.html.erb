@@ -1,0 +1,39 @@
+<%# locals: value, default_color, swatches, alpha, disabled, input_field, picker_id %>
+<div
+  class="brawo-color-picker"
+  id="<%= picker_id %>"
+  data-controller="color-picker"
+  data-color-picker-swatches-value="<%= swatches.to_json %>"
+  data-color-picker-alpha-value="<%= alpha %>"
+  data-color-picker-default-color-value="<%= default_color %>">
+  <div class="brawo-color-picker__controls">
+    <div
+      class="brawo-color-picker__preview-box"
+      data-color-picker-target="preview"
+      style="background-color: <%= value.presence || 'transparent' %>"
+      aria-hidden="true"></div>
+
+    <div class="brawo-color-picker__fields">
+      <%= input_field %>
+      <div class="brawo-color-picker__choose-wrap">
+        <input
+          type="text"
+          id="<%= picker_id %>_anchor"
+          class="brawo-color-picker__anchor"
+          value="<%= value %>"
+          data-color-picker-target="pickerInput"
+          tabindex="-1"
+          aria-hidden="true"
+          readonly
+          <%= "disabled" if disabled %>>
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm brawo-color-picker__choose"
+          data-action="color-picker#openPicker"
+          <%= "disabled" if disabled %>>
+          <%= t('brawo.fields.color_picker.choose') %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

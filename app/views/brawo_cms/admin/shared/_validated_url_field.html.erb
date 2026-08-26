@@ -1,0 +1,16 @@
+<%# locals: display_scheme, default_scheme, allowed_schemes, required, disabled, url_hidden_field, url_visible_field, invalid_message %>
+<div
+  class="brawo-validated-field brawo-url-field"
+  data-controller="validated-field"
+  data-validated-field-kind-value="url"
+  data-validated-field-required-value="<%= required %>"
+  data-validated-field-default-scheme-value="<%= default_scheme %>"
+  data-validated-field-allowed-schemes-value="<%= allowed_schemes.to_json %>"
+  data-validated-field-invalid-message-value="<%= invalid_message %>">
+  <%= url_hidden_field %>
+  <div class="input-group brawo-url-field__group">
+    <span class="input-group-text brawo-url-field__prefix" data-validated-field-target="prefix"><%= display_scheme %>://</span>
+    <%= url_visible_field %>
+  </div>
+  <div class="invalid-feedback d-block" data-validated-field-target="feedback" hidden></div>
+</div>
