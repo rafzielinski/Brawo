@@ -10,11 +10,13 @@ BrawoCms::Engine.routes.draw do
       resources :taxonomy_types, only: [:index, :show], param: :type
       resources :contents, only: [:index, :show, :create, :update, :destroy]
       resources :taxonomies, only: [:index, :show, :create, :update, :destroy]
+      resources :media, only: [:index, :show, :create, :update, :destroy]
     end
   end
 
   namespace :admin do
     root to: "dashboard#index"
+    resources :media, only: [:index, :show, :edit, :create, :update, :destroy]
     resources :contents do
       member do
         get :preview

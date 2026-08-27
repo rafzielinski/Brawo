@@ -1,0 +1,22 @@
+<%= render "brawo_cms/admin/shared/page_header",
+           title: t("brawo.media.edit_title"),
+           heading_class: "brawo-page-heading",
+           toolbar: link_to(t("brawo.actions.back_to_list"), admin_media_path, class: "btn btn-outline-secondary btn-sm") %>
+
+<div class="card">
+  <div class="card-body">
+    <% if @media.file.attached? %>
+      <div class="brawo-media-detail__preview mb-4">
+        <% if @media.image? %>
+          <%= image_tag brawo_media_image_url(@media, variant: :original), class: "brawo-media-detail__image", alt: @media.alt_text %>
+        <% else %>
+          <div class="brawo-media-card__file-icon brawo-media-detail__file-icon">
+            <i class="bi bi-file-earmark" aria-hidden="true"></i>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= render "form", media: @media, submit_label: t("brawo.actions.submit") %>
+  </div>
+</div>

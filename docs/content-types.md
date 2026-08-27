@@ -64,6 +64,7 @@ rails g brawo_cms:content_type Post author:string body:textarea
 | `:icon` | `choices:` optional subset, `variant: :outline` / `:fill` | Bootstrap Icons name (e.g. `pencil`) |
 | `:url` | `default_scheme: "https"`, `allowed_schemes: ["https", "http", "ftp"]` | full URL string |
 | `:email` | same as string | string |
+| `:media` | `accept: "image/*"` (MIME filter) | media library id (integer) |
 | `:taxonomy` | `taxonomy_type: :category` | taxonomy term id — see [Taxonomies](taxonomies.md) |
 | `:reference` | `model_class: "Product"` | array of ids |
 | `:repeater` | `sub_fields: [...]` | array of hashes (nestable) |

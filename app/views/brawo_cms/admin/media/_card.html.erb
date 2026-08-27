@@ -1,0 +1,24 @@
+<div class="brawo-media-card">
+  <div class="brawo-media-card__preview">
+    <% if media.file.attached? && media.image? %>
+      <%= image_tag brawo_media_image_url(media, variant: :thumb), class: "brawo-media-card__image", alt: media.alt_text %>
+    <% else %>
+      <div class="brawo-media-card__file-icon" aria-hidden="true">
+        <i class="bi bi-file-earmark"></i>
+      </div>
+    <% end %>
+  </div>
+  <div class="brawo-media-card__body">
+    <div class="brawo-media-card__title"><%= media.display_title %></div>
+    <% if media.filename.present? && media.display_title != media.filename %>
+      <div class="brawo-media-card__meta text-muted small"><%= media.filename %></div>
+    <% end %>
+    <div class="brawo-media-card__actions">
+      <%= link_to t("brawo.actions.view"), admin_medium_path(media), class: "btn btn-sm btn-outline-secondary" %>
+      <%= link_to t("brawo.actions.edit"), edit_admin_medium_path(media), class: "btn btn-sm btn-outline-primary" %>
+      <%= link_to t("brawo.actions.delete"), admin_medium_path(media),
+                  data: { turbo_method: :delete, turbo_confirm: t("brawo.actions.confirm_delete") },
+                  class: "btn btn-sm btn-outline-danger" %>
+    </div>
+  </div>
+</div>

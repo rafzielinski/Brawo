@@ -13,6 +13,7 @@ en:
       preview_loading: Loading preview…
     sidebar:
       dashboard: Dashboard
+      media: Media Library
       content_types: CONTENT TYPES
       taxonomies: TAXONOMIES
     dashboard:
@@ -104,11 +105,34 @@ en:
         prohibited:
           one: "%{count} error prohibited this taxonomy from being saved:"
           other: "%{count} errors prohibited this taxonomy from being saved:"
+    media:
+      index_title: Media Library
+      edit_title: Edit media
+      upload_heading: Upload file
+      upload: Upload
+      empty: No media files yet. Upload one above.
+      drag_drop: Drag and drop files here
+      drag_drop_hint: Upload one or many files. Each file is validated and uploaded separately.
+      upload_success: Uploaded
+      invalid_type: File type not allowed
+      filename: Filename
+      content_type: Content type
+      alt_text: Alt text
+      file: File
+      flash:
+        created: Media was successfully uploaded.
+        updated: Media was successfully updated.
+        deleted: Media was successfully deleted.
+      errors:
+        prohibited:
+          one: "%{count} error prohibited this media from being saved:"
+          other: "%{count} errors prohibited this media from being saved:"
     errors:
       content_type_not_found: Content type not found
       content_not_found: Content not found
       taxonomy_type_not_found: Taxonomy type not found
       taxonomy_not_found: Taxonomy not found
+      media_not_found: Media not found
     page_builder:
       default_label: Content
       structure: Structure
@@ -144,3 +168,11 @@ en:
         choose: Choose icon
         search: Search icons…
         none: None
+      media_picker:
+        choose: Choose media
+        search: Search media…
+        none: None
+        upload: Upload file
+        uploading: Uploading…
+        upload_failed: Upload failed. Try again.
+        remove: Remove

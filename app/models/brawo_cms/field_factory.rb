@@ -15,6 +15,7 @@ module BrawoCms
       icon: Fields::IconField,
       url: Fields::UrlField,
       email: Fields::EmailField,
+      media: Fields::MediaField,
       taxonomy: Fields::TaxonomyField,
       reference: Fields::ReferenceField,
       repeater: Fields::RepeaterField,

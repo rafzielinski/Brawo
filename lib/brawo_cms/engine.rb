@@ -27,6 +27,9 @@ module BrawoCms
         brawo_cms/controllers/color_picker_controller.js
         brawo_cms/controllers/icon_picker_controller.js
         brawo_cms/controllers/validated_field_controller.js
+        brawo_cms/controllers/media_picker_controller.js
+        brawo_cms/controllers/media_upload_controller.js
+        brawo_cms/media_upload.js
         brawo_cms/bootstrap_icons.json
       ]
     end

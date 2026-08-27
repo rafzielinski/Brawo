@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 7.1.0"
   spec.add_dependency "pg", "~> 1.5"
+  spec.add_dependency "image_processing", "~> 1.2"
 
   spec.add_development_dependency "rspec-rails", "~> 6.0"
   spec.add_development_dependency "rswag-api", "~> 2.16"

@@ -138,6 +138,30 @@ RSpec.configure do |config|
               description: { type: :string },
               fields: { type: :object, additionalProperties: true }
             }
+          },
+          media: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              title: { type: :string, nullable: true },
+              alt_text: { type: :string, nullable: true },
+              filename: { type: :string, nullable: true },
+              content_type: { type: :string, nullable: true },
+              byte_size: { type: :integer, nullable: true },
+              url: { type: :string, nullable: true },
+              thumbnail_url: { type: :string, nullable: true },
+              created_at: { type: :string, format: "date-time" },
+              updated_at: { type: :string, format: "date-time" }
+            },
+            required: %w[id created_at updated_at]
+          },
+          media_input: {
+            type: :object,
+            properties: {
+              title: { type: :string },
+              alt_text: { type: :string },
+              signed_id: { type: :string, description: "ActiveStorage direct upload signed blob id" }
+            }
           }
         }
       }

@@ -3,6 +3,10 @@
     <li class="nav-item">
       <%= link_to t('brawo.sidebar.dashboard'), admin_root_path, class: sidebar_link_class(dashboard_sidebar_active?) %>
     </li>
+
+    <li class="nav-item">
+      <%= link_to t('brawo.sidebar.media'), admin_media_path, class: sidebar_link_class(media_sidebar_active?) %>
+    </li>
     
     <li class="mt-3">
       <strong class="text-muted small sidebar-section-label"><%= t('brawo.sidebar.content_types') %></strong>

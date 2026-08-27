@@ -1,0 +1,81 @@
+<%# locals: value, accept, disabled, input_field, picker_id, selected_media, media_index_url %>
+<div
+  class="brawo-media-picker"
+  data-controller="media-picker"
+  data-media-picker-accept-value="<%= accept %>"
+  data-media-picker-media-index-url-value="<%= media_index_url %>"
+  data-media-picker-none-label-value="<%= t('brawo.fields.media_picker.none') %>"
+  data-media-picker-uploading-label-value="<%= t('brawo.fields.media_picker.uploading') %>"
+  data-media-picker-upload-failed-label-value="<%= t('brawo.fields.media_picker.upload_failed') %>"
+  data-media-picker-invalid-type-label-value="<%= t('brawo.media.invalid_type') %>"
+  data-media-picker-success-label-value="<%= t('brawo.media.upload_success') %>">
+  <div class="brawo-media-picker__controls">
+    <div class="brawo-media-picker__preview-box" aria-hidden="true">
+      <span class="brawo-media-picker__preview" data-media-picker-target="preview">
+        <% if selected_media&.file&.attached? && selected_media.image? %>
+          <%= image_tag brawo_media_image_url(selected_media, variant: :thumb), class: "brawo-media-picker__preview-image", alt: selected_media.alt_text %>
+        <% else %>
+          <span class="brawo-media-picker__placeholder"><%= t('brawo.fields.media_picker.none') %></span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="brawo-media-picker__fields">
+      <%= input_field %>
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm brawo-media-picker__choose"
+        data-action="media-picker#openModal"
+        <%= "disabled" if disabled %>>
+        <%= t('brawo.fields.media_picker.choose') %>
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-danger btn-sm brawo-media-picker__remove<%= value.present? ? "" : " d-none" %>"
+        data-media-picker-target="removeButton"
+        data-action="media-picker#clearMedia"
+        <%= "disabled" if disabled || value.blank? %>>
+        <%= t('brawo.fields.media_picker.remove') %>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal fade brawo-media-picker-modal" id="<%= picker_id %>" tabindex="-1" aria-hidden="true" data-media-picker-target="modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><%= t('brawo.fields.media_picker.choose') %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('brawo.layout.close') %>"></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="brawo-media-picker__upload"
+            data-media-picker-target="uploadZone"
+            data-action="click->media-picker#openFilePicker">
+            <div class="brawo-media-picker__upload-inner">
+              <p class="mb-1"><%= t('brawo.media.drag_drop') %></p>
+              <p class="text-muted small mb-2"><%= t('brawo.media.drag_drop_hint') %></p>
+              <label class="btn btn-outline-primary btn-sm mb-0">
+                <%= t('brawo.fields.media_picker.upload') %>
+                <input
+                  type="file"
+                  class="d-none"
+                  multiple
+                  accept="<%= accept %>"
+                  data-media-picker-target="fileInput"
+                  <%= "disabled" if disabled %>>
+              </label>
+            </div>
+            <div class="small text-muted mt-2" data-media-picker-target="uploadStatus"></div>
+          </div>
+          <input
+            type="search"
+            class="form-control mb-3"
+            placeholder="<%= t('brawo.fields.media_picker.search') %>"
+            data-media-picker-target="search">
+          <div class="brawo-media-picker__grid" data-media-picker-target="grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

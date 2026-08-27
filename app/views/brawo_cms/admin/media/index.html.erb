@@ -1,0 +1,56 @@
+<%= render "brawo_cms/admin/shared/page_header",
+           title: t("brawo.media.index_title"),
+           toolbar: nil %>
+
+<div
+  class="card mb-4"
+  data-controller="media-upload"
+  data-media-upload-media-index-url-value="<%= api_v1_media_path %>"
+  data-media-upload-accept-value="image/*,application/pdf"
+  data-media-upload-uploading-label-value="<%= t('brawo.fields.media_picker.uploading') %>"
+  data-media-upload-success-label-value="<%= t('brawo.media.upload_success') %>"
+  data-media-upload-failed-label-value="<%= t('brawo.fields.media_picker.upload_failed') %>"
+  data-media-upload-invalid-type-label-value="<%= t('brawo.media.invalid_type') %>"
+  data-media-upload-view-label-value="<%= t('brawo.actions.view') %>"
+  data-media-upload-edit-label-value="<%= t('brawo.actions.edit') %>">
+  <div class="card-body">
+    <h2 class="h5 mb-3"><%= t("brawo.media.upload_heading") %></h2>
+
+    <div
+      class="brawo-media-upload__zone"
+      data-media-upload-target="zone"
+      data-action="dragover->media-upload#dragOver dragleave->media-upload#dragLeave drop->media-upload#drop click->media-upload#openFilePicker">
+      <div class="brawo-media-upload__zone-inner">
+        <i class="bi bi-cloud-arrow-up brawo-media-upload__zone-icon" aria-hidden="true"></i>
+        <p class="mb-1"><%= t("brawo.media.drag_drop") %></p>
+        <p class="text-muted small mb-3"><%= t("brawo.media.drag_drop_hint") %></p>
+        <label class="btn btn-outline-primary btn-sm mb-0">
+          <%= t("brawo.fields.media_picker.upload") %>
+          <input
+            type="file"
+            class="d-none"
+            multiple
+            accept="image/*,application/pdf"
+            data-media-upload-target="fileInput"
+            data-action="change->media-upload#pickFiles">
+        </label>
+      </div>
+    </div>
+
+    <ul class="brawo-media-upload__log list-unstyled mb-0" data-media-upload-target="log" hidden></ul>
+  </div>
+</div>
+
+<% if @media_items.any? %>
+  <div class="brawo-media-grid" data-media-upload-target="grid">
+    <% @media_items.each do |item| %>
+      <%= render "card", media: item %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="brawo-media-grid d-none" data-media-upload-target="grid"></div>
+<% end %>
+
+<p class="brawo-empty-state text-muted<%= " d-none" if @media_items.any? %>" data-media-upload-target="emptyState">
+  <%= t("brawo.media.empty") %>
+</p>

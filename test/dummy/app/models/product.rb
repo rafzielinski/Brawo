@@ -56,6 +56,15 @@ class Product < BrawoCms::Content
         wrapper: {
           width: '50'
         } 
+      },
+      {
+        name: :featured_image,
+        type: :media,
+        label: 'Featured image',
+        accept: 'image/*',
+        wrapper: {
+          width: '50'
+        }
       }
     ]
 end

@@ -13,6 +13,7 @@ Engine mounted at `/admin` in host app:
 | `/admin/contents/new?content_type=article` | Create |
 | `/admin/contents/:id?content_type=article` | Show / edit / delete |
 | `/admin/taxonomies?taxonomy_type=category` | Taxonomy CRUD |
+| `/admin/media` | Media library |
 
 `content_type` / `taxonomy_type` query param selects which type to manage.
 
@@ -31,6 +32,16 @@ Special UIs:
 - `:reference` — multi-select from another content type
 - `:taxonomy` — dropdown of taxonomy terms
 - `:blocks` + `page_builder: true` — visual block editor
+
+## Media library
+
+Central file storage at `/admin/media` (sidebar **Media Library**). Upload images or documents once, reuse via `:media` fields.
+
+- **Admin:** `/admin/media` — grid, upload, edit title/alt text, delete
+- **API:** `/admin/api/v1/media` — same CRUD + `accept` and `q` filters on index
+- **Field:** `{ name: :hero_image, type: :media, accept: "image/*" }` stores a single media id in JSONB
+
+Host apps must run engine migrations (includes ActiveStorage tables). Configure `config/storage.yml` for production (e.g. S3). Image thumbnails require the `image_processing` gem and libvips or ImageMagick on the host.
 
 ## Status workflow
 

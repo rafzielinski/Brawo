@@ -325,6 +325,14 @@ module BrawoCms
             disabled: disabled,
             input_html: options
           )
+        when :media
+          brawo_media_picker(
+            name: input_name,
+            value: field_value,
+            accept: field_def[:accept],
+            disabled: disabled,
+            input_html: options
+          )
         else
           text_field_tag(input_name, field_value, options)
         end

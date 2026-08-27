@@ -8,6 +8,7 @@ module BrawoCms
       include ColorPickerHelper
       include IconPickerHelper
       include ValidatedFieldHelper
+      include MediaPickerHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))
       end
@@ -44,6 +45,10 @@ module BrawoCms
 
       def taxonomy_type_sidebar_active?(name)
         controller_name == 'taxonomies' && params[:taxonomy_type].to_s == name.to_s
+      end
+
+      def media_sidebar_active?
+        controller_name == 'media'
       end
 
       def previewable_content_edit?

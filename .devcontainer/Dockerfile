@@ -4,6 +4,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
   build-essential \
   git \
   libpq-dev \
+  libvips42 \
   nodejs \
   npm \
   sudo \

@@ -5,6 +5,7 @@ Run the bundled demo app (`test/dummy`) via Docker Compose or Dev Container.
 ## Prerequisites
 
 - Docker + Docker Compose
+- Image thumbnails need **libvips** in the `web` / devcontainer image (included in the project Dockerfiles). Rebuild after pulling Dockerfile changes: `docker-compose build` or Dev Container **Rebuild Container**.
 
 ## One-shot setup (recommended)
 
@@ -175,12 +176,18 @@ The project uses:
 
 If you still encounter port conflicts, modify the ports in `docker-compose.yml`.
 
-### Permission issues
+### Thumbnail / libvips errors
+
+If admin media thumbnails 500 with `Could not open library 'vips.so.42'`, install libvips in the image and rebuild:
 
 ```bash
-docker-compose exec web bash
-chmod +x test/dummy/bin/rails test/dummy/bin/rake
+docker-compose build --no-cache web
+docker-compose up -d
 ```
+
+Dev Container: **Rebuild Container** from the command palette. Then restart Rails.
+
+Existing uploads work after rebuild — first thumb request generates the variant (no re-upload needed).
 
 ## Next steps
 
