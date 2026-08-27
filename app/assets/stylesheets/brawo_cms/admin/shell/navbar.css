@@ -1,0 +1,83 @@
+/* Admin shell — navbar */
+
+.brawo-admin-navbar {
+  background-color: var(--brawo-chrome);
+  flex-shrink: 0;
+}
+
+.brawo-admin-navbar-layout {
+  display: flex;
+  gap: var(--brawo-admin-layout-gap);
+  align-items: center;
+  min-height: var(--brawo-admin-navbar-height);
+}
+
+.brawo-admin-navbar-sidebar {
+  flex: 0 0 var(--brawo-admin-sidebar-width);
+  padding: 0 0.25rem;
+}
+
+.brawo-admin-navbar-brand {
+  display: inline-block;
+  color: var(--brawo-accent-on-dark);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brawo-admin-navbar-brand:hover {
+  color: var(--brawo-light);
+}
+
+.brawo-admin-navbar-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem 0 0;
+}
+
+.brawo-admin-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.brawo-admin-navbar__back {
+  color: var(--brawo-chrome-faint);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brawo-admin-navbar__back:hover {
+  color: var(--brawo-light);
+}
+
+.brawo-admin-navbar__save {
+  white-space: nowrap;
+}
+
+/* Toggle chrome overrides — navbar consumes the field toggle widget */
+.brawo-admin-navbar .brawo-toggle--segmented .brawo-toggle__track {
+  background-color: color-mix(in oklch, var(--brawo-light) 10%, transparent);
+  border-color: var(--brawo-chrome-border);
+}
+
+.brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider {
+  background-color: var(--brawo-light-soft);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin-navbar .brawo-toggle--segmented.brawo-toggle--has-content .brawo-toggle__slider-content {
+  color: var(--brawo-dark);
+}
+
+.brawo-admin-navbar .brawo-toggle__segment-backdrop {
+  color: var(--brawo-chrome-faint);
+  opacity: 1;
+}

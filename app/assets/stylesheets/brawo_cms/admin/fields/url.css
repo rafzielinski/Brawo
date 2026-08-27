@@ -1,0 +1,13 @@
+/* URL field */
+
+.brawo-url-field__group .input-group-text {
+  background-color: var(--brawo-light-strong);
+  border-color: var(--brawo-border);
+  color: var(--brawo-dark-soft);
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.875rem;
+}
+
+.brawo-url-field__group .brawo-validated-field__input.is-invalid {
+  z-index: 3;
+}

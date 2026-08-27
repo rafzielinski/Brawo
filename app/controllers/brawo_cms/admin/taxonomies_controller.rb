@@ -27,7 +27,7 @@ module BrawoCms
                       notice: t('brawo.taxonomies.flash.created', label: @taxonomy_type_config[:label])
         else
           @taxonomy = result.record
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -43,7 +43,7 @@ module BrawoCms
                       notice: t('brawo.taxonomies.flash.updated', label: @taxonomy_type_config[:label])
         else
           @taxonomy = result.record
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

@@ -38,7 +38,7 @@ module BrawoCms
         else
           @content = result.record
           @slug_conflict = result.slug_conflict if result.slug_conflict?
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -54,7 +54,7 @@ module BrawoCms
                       notice: t('brawo.contents.flash.updated', label: @content_type_config[:label])
         else
           @content = result.record
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

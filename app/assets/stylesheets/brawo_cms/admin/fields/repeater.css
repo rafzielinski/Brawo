@@ -1,0 +1,45 @@
+/* Repeater field */
+
+.repeater-field {
+  margin-bottom: 1.5rem;
+}
+
+.repeater-field:last-child {
+  margin-bottom: 0;
+}
+
+.repeater-row {
+  position: relative;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  background-color: var(--brawo-light-soft);
+}
+
+.repeater-row .card-body {
+  padding: 1rem;
+}
+
+.repeater-add-btn {
+  margin-top: 0.5rem;
+}
+
+.repeater-remove-btn {
+  margin-top: 0.5rem;
+}
+
+.repeater-template {
+  display: none !important;
+}
+
+.repeater-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+  line-height: 1;
+  flex-shrink: 0;
+  color: var(--brawo-dark-soft);
+}
+
+.repeater-row.sortable-ghost {
+  opacity: 0.5;
+}

@@ -1,10 +1,23 @@
 /*
  * BrawoCMS Admin Theme (manifest)
  *= require brawo_cms/admin/variables
- *= require brawo_cms/admin/shell
+ *= require brawo_cms/admin/shell/layout
+ *= require brawo_cms/admin/shell/sidebar
+ *= require brawo_cms/admin/shell/stage
  *= require brawo_cms/admin/bootstrap_overrides
  *= require brawo_cms/coloris.min
  *= require brawo_cms/admin/icons
- *= require brawo_cms/admin/components
- *= require brawo_cms/admin/page_builder
+ *= require brawo_cms/admin/components/primitives
+ *= require brawo_cms/admin/components/content_meta
+ *= require brawo_cms/admin/fields/shared
+ *= require brawo_cms/admin/fields/toggle
+ *= require brawo_cms/admin/fields/color
+ *= require brawo_cms/admin/fields/icon
+ *= require brawo_cms/admin/fields/url
+ *= require brawo_cms/admin/fields/media
+ *= require brawo_cms/admin/fields/repeater
+ *= require brawo_cms/admin/shell/navbar
+ *= require brawo_cms/admin/page_builder/canvas
+ *= require brawo_cms/admin/page_builder/outline
+ *= require brawo_cms/admin/page_builder/responsive
  */

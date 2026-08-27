@@ -1,0 +1,9 @@
+/* Shared field layout and validation */
+
+.brawo-fields .brawo-field-wrapper:last-child {
+  margin-bottom: 0 !important;
+}
+
+.brawo-validated-field .invalid-feedback {
+  margin-top: 0.25rem;
+}

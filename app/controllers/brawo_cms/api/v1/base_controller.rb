@@ -30,7 +30,7 @@ module BrawoCms
         def error_status(result)
           case result.error_code
           when :not_found then :not_found
-          else :unprocessable_entity
+          else :unprocessable_content
           end
         end
       end

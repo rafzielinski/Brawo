@@ -1,0 +1,102 @@
+/* Content meta — title and slug edit panel */
+
+.content-meta-panel {
+  padding: 0.25rem 0 0.5rem;
+}
+
+.content-meta__title-row,
+.content-meta__slug-row {
+  margin-bottom: 0.35rem;
+}
+
+.content-meta__display {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.content-meta__title {
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--brawo-dark);
+}
+
+.content-meta__permalink {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--brawo-dark-soft);
+  text-decoration: none;
+}
+
+.content-meta__permalink:hover {
+  color: var(--brawo-accent-strong-on-light);
+  text-decoration: underline;
+}
+
+.content-meta__input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content-meta__input-row .form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.content-meta__edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.25rem;
+  width: auto;
+  height: auto;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius-xs);
+  background-color: var(--brawo-light-soft);
+  color: var(--brawo-dark-soft);
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--brawo-shadow-sm);
+  flex-shrink: 0;
+
+  .brawo-icon {
+    flex: 0 0 var(--brawo-icon-size-sm);
+    display: block;
+    width: var(--brawo-icon-size-sm);
+    height: var(--brawo-icon-size-sm);
+    font-size: var(--brawo-icon-size-sm);
+  }
+}
+
+.content-meta__edit:hover,
+.content-meta__edit:focus-visible {
+  gap: 0.25rem;
+  color: var(--brawo-accent-strong-on-light);
+  border-color: var(--brawo-border);
+  background-color: var(--brawo-light-strong);
+}
+
+.content-meta__edit-label {
+  font-size: 0.75rem;
+  line-height: 1;
+  width: auto;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 0.15s ease, opacity 0.15s ease;
+}
+
+.content-meta__edit:hover .content-meta__edit-label,
+.content-meta__edit:focus-visible .content-meta__edit-label {
+  max-width: 3rem;
+  opacity: 1;
+}
+
+.content-meta__edit--icon-only:hover,
+.content-meta__edit--icon-only:focus-visible {
+  gap: 0;
+}

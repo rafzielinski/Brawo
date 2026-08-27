@@ -6,8 +6,12 @@ alwaysApply: false
 
 # Admin CSS
 
+Full guide: [docs/development/admin-styling.md](../../docs/development/admin-styling.md)
+
 - Entry: `app/assets/stylesheets/brawo_cms/admin.css` imports layered partials under `admin/`.
-- Use `--brawo-*` variables from `_variables.css` before new hard-coded colors.
+- Use `--brawo-*` variables from `admin/variables.css` before new hard-coded colors.
 - Scope UI under `.brawo-admin`; do not override Bootstrap globally outside that wrapper.
-- Page builder styles belong in `_page_builder.css` only.
+- Field styles: `admin/fields/<type>.css` (one file per field type with custom CSS).
+- Page builder styles: `admin/page_builder/` only.
+- Shell chrome overrides (e.g. navbar toggle) go in `admin/shell/`, not field files.
 - Section header comments for major blocks; avoid long per-selector commentary.

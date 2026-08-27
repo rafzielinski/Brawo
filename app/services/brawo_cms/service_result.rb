@@ -28,7 +28,7 @@ module BrawoCms
       new(success: true, record: record, records: records)
     end
 
-    def self.failure(record: nil, errors: {}, error_code: :unprocessable_entity, slug_conflict: nil)
+    def self.failure(record: nil, errors: {}, error_code: :unprocessable_content, slug_conflict: nil)
       new(
         success: false,
         record: record,

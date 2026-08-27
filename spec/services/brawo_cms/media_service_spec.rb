@@ -13,7 +13,7 @@ RSpec.describe BrawoCms::MediaService do
 
   describe ".create" do
     it "creates media with an attached file" do
-      file = Rack::Test::UploadedFile.new(StringIO.new("image-bytes"), "image/png", original_filename: "hero.png")
+      file = ActiveStorageTestHelpers.uploaded_file(name: "hero.png")
 
       result = BrawoCms::MediaService.create(
         attributes: { title: "Hero", file: file }
@@ -41,6 +41,8 @@ RSpec.describe BrawoCms::MediaService do
 
   describe ".list" do
     it "filters by accept mime pattern" do
+      BrawoCms::Media.delete_all
+
       image = BrawoCms::Media.new(title: "Image")
       attach_file(image)
       image.save!

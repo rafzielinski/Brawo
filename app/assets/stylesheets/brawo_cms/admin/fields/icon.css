@@ -1,0 +1,101 @@
+/* Icon field */
+
+.brawo-icon-picker__controls {
+  --brawo-icon-picker-box-size: 5.5rem;
+  display: grid;
+  grid-template-columns: var(--brawo-icon-picker-box-size) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem 0.75rem;
+  min-height: var(--brawo-icon-picker-box-size);
+  align-items: stretch;
+}
+
+.brawo-icon-picker__preview-box {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-sizing: border-box;
+  width: var(--brawo-icon-picker-box-size);
+  height: var(--brawo-icon-picker-box-size);
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius-sm);
+  background: var(--brawo-light-soft);
+  color: var(--brawo-dark);
+}
+
+.brawo-icon-picker__preview {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.brawo-icon-picker__preview-box .brawo-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 2.5rem;
+}
+
+.brawo-icon-picker__placeholder {
+  color: var(--brawo-dark-soft);
+  font-size: 0.6875rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.brawo-icon-picker__fields {
+  display: contents;
+}
+
+.brawo-icon-picker__input {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.brawo-icon-picker__choose {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+}
+
+.brawo-icon-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+  gap: 0.25rem;
+}
+
+.brawo-icon-picker__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: var(--brawo-border-width) solid var(--brawo-dark-faint);
+  border-radius: var(--brawo-radius-sm);
+  background: var(--brawo-light);
+  color: var(--brawo-dark);
+  cursor: pointer;
+}
+
+.brawo-icon-picker__item:hover,
+.brawo-icon-picker__item.is-selected {
+  border-color: var(--brawo-accent);
+  background: var(--brawo-accent-faint);
+  color: var(--brawo-accent-on-light);
+}
+
+.brawo-icon-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brawo-icon-display__name {
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.875rem;
+}

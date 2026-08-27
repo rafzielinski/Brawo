@@ -38,7 +38,7 @@ RSpec.describe "BrawoCms Admin Taxonomies", type: :request do
       patch "/admin/admin/taxonomies/#{category.id}",
             params: { taxonomy_type: "category", taxonomy: { name: "", slug: "saved-category" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe "BrawoCms Admin Taxonomies", type: :request do
         taxonomy: { name: "", slug: "" }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

@@ -1,0 +1,108 @@
+/* Color field */
+
+.brawo-color-picker {
+  position: relative;
+}
+
+.brawo-color-picker__anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: var(--brawo-sr-only-size);
+  height: var(--brawo-sr-only-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.brawo-color-picker__choose-wrap {
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+}
+
+.brawo-color-picker__controls {
+  --brawo-color-picker-box-size: 5.5rem;
+  display: grid;
+  grid-template-columns: var(--brawo-color-picker-box-size) minmax(0, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem 0.75rem;
+  min-height: var(--brawo-color-picker-box-size);
+  align-items: stretch;
+}
+
+.brawo-color-picker__preview-box {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  box-sizing: border-box;
+  width: var(--brawo-color-picker-box-size);
+  height: var(--brawo-color-picker-box-size);
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius-sm);
+  background: var(--brawo-light-soft);
+}
+
+.brawo-color-picker__fields {
+  display: contents;
+}
+
+.brawo-color-picker__input {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.brawo-color-picker__choose {
+  width: 100%;
+  height: 100%;
+}
+
+/* Coloris — align with admin tokens */
+.brawo-admin .clr-picker {
+  z-index: 1060;
+  border-radius: var(--brawo-radius-lg);
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  background-color: var(--brawo-light);
+  box-shadow: var(--brawo-shadow-md);
+  overflow: hidden;
+}
+
+.brawo-admin .clr-picker input.clr-color {
+  border-color: var(--brawo-border);
+  background-color: var(--brawo-light-soft);
+  color: var(--brawo-dark);
+}
+
+.brawo-admin .clr-picker input.clr-color:focus {
+  border-color: var(--brawo-accent);
+  outline: none;
+}
+
+.brawo-admin .clr-clear,
+.brawo-admin .clr-close {
+  display: none;
+}
+
+.brawo-admin .clr-alpha,
+.brawo-admin .clr-hue {
+  width: calc(100% - var(--brawo-coloris-slider-inset));
+}
+
+.brawo-color-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brawo-color-display__swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--brawo-radius-sm);
+  border: var(--brawo-border-width) solid var(--brawo-dark-faint);
+  flex-shrink: 0;
+}

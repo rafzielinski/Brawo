@@ -72,6 +72,45 @@
 
   --brawo-disabled: color-mix(in oklch, var(--brawo-dark) 40%, var(--brawo-light));
 
+  /* Layout */
+  --brawo-admin-sidebar-width: 12.5rem;
+  --brawo-admin-navbar-height: 3.5rem;
+  --brawo-admin-layout-gap: 0.75rem;
+  --brawo-admin-chrome-inset: 0.25rem;
+  --brawo-admin-chrome-height: calc(var(--brawo-admin-chrome-inset) + 0.5rem + var(--brawo-admin-navbar-height));
+  --brawo-page-builder-outline-width: 17.5rem;
+  --brawo-page-builder-canvas-min-height: 7.5rem;
+  --brawo-page-builder-picker-width: 20rem;
+  --brawo-page-builder-picker-width-sm: 18.75rem;
+
+  /* Radius */
+  --brawo-radius-xs: 0.375rem;
+  --brawo-radius-sm: 0.25rem;
+  --brawo-radius-md: 0.4375rem;
+  --brawo-radius: 0.5rem;
+  --brawo-radius-lg: 0.625rem;
+  --brawo-radius-pill: 62.4375rem;
+
+  /* Borders & shadows */
+  --brawo-border-width: 1px;
+  --brawo-border-width-thick: 0.125rem;
+  --brawo-toggle-padding: 0.125rem;
+  --brawo-toggle-gap: 0.25rem;
+  --brawo-shadow-sm: 0 0.0625rem 0.125rem color-mix(in oklch, var(--brawo-dark) 4%, transparent);
+  --brawo-shadow-toggle: 0 0.0625rem 0.1875rem color-mix(in oklch, var(--brawo-dark) 18%, transparent),
+    0 0 0 var(--brawo-border-width) color-mix(in oklch, var(--brawo-dark) 4%, transparent);
+  --brawo-shadow-toggle-segmented: 0 0.0625rem 0.125rem color-mix(in oklch, var(--brawo-dark) 8%, transparent),
+    0 0.0625rem 0.1875rem color-mix(in oklch, var(--brawo-dark) 6%, transparent);
+  --brawo-shadow-md: 0 0.5rem 1.5rem color-mix(in oklch, var(--brawo-dark) 16%, transparent);
+  --brawo-shadow-preview: -0.375rem 0 1.5rem color-mix(in oklch, var(--brawo-dark) 18%, transparent);
+  --brawo-shadow-focus: 0 0 0 var(--brawo-border-width) var(--brawo-accent);
+  --brawo-shadow-focus-offset: var(--brawo-border-width) var(--brawo-border-width) 0 var(--brawo-border-width) var(--brawo-accent);
+  --brawo-coloris-slider-inset: 2.5rem;
+  --brawo-stage-perspective: 87.5rem;
+  --brawo-preview-translate-z: 2rem;
+  --brawo-preview-translate-z-back: -3rem;
+  --brawo-sr-only-size: 1px;
+
   /* Component sizing */
   --brawo-toggle-bean-size: 1.625rem;
   --brawo-toggle-bean-size-sm: 1.5rem;

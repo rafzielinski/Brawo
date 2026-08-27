@@ -6,6 +6,12 @@
 bundle exec rspec
 ```
 
+Run **one** suite at a time. Stray `rspec` processes (from aborted runs) can lock Postgres/Active Storage and make later examples—often the first `MediaService` upload—look hung. Clear them with:
+
+```bash
+pkill -f 'bin/rspec'
+```
+
 Specs boot the **dummy host app** (`test/dummy`) via `spec/rails_helper.rb`. `Rails.root` in specs points at the dummy, not the gem root.
 
 ## Layout

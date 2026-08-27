@@ -43,17 +43,18 @@ See [../blocks.md](../blocks.md).
 
 ## CSS
 
-Entry manifest: `app/assets/stylesheets/brawo_cms/admin.css` (Sprockets `require` chain).
+Entry manifest: `app/assets/stylesheets/brawo_cms/admin.css` (Sprockets `require` chain). Full styling guide: [admin-styling.md](admin-styling.md).
 
-| File | Contents |
+| Path | Contents |
 |------|----------|
 | `admin/variables.css` | `--brawo-*` design tokens |
-| `admin/shell.css` | Navbar, sidebar, main panel |
+| `admin/shell/` | Layout, sidebar, stage, navbar |
 | `admin/bootstrap_overrides.css` | Scoped `.brawo-admin` Bootstrap tweaks |
-| `admin/components.css` | Cards, tables, repeater layout |
-| `admin/page_builder.css` | Page builder + outline UI |
+| `admin/components/` | Status, cards, tables, content meta |
+| `admin/fields/` | One CSS file per field type with custom styles |
+| `admin/page_builder/` | Canvas, outline, responsive |
 
-New styles: add tokens first, scope under `.brawo-admin`, pick the file by feature area.
+New styles: add tokens first, scope under `.brawo-admin`, pick the file by feature area (see styling guide).
 
 ## JavaScript
 

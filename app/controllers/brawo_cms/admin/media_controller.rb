@@ -24,7 +24,7 @@ module BrawoCms
         else
           @media = result.record
           @media_items = ::BrawoCms::MediaService.list.records
-          render :index, status: :unprocessable_entity
+          render :index, status: :unprocessable_content
         end
       end
 
@@ -36,7 +36,7 @@ module BrawoCms
                       notice: t("brawo.media.flash.updated")
         else
           @media = result.record
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

@@ -1,0 +1,84 @@
+/* Page builder — outline panel */
+
+.page-builder-outline {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 8rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius);
+  background: var(--brawo-light-soft);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.page-builder-outline.is-collapsed {
+  transform: translateX(calc(100% + 1rem));
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
+.page-builder-outline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: var(--brawo-border-width) solid var(--brawo-border);
+  background: var(--brawo-light);
+}
+
+.page-builder-outline-close {
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0;
+  text-decoration: none;
+}
+
+.page-builder-outline-list {
+  overflow-y: auto;
+  padding: 0.5rem;
+  flex: 1;
+}
+
+.page-builder-outline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--brawo-radius-xs);
+  cursor: pointer;
+  border: var(--brawo-border-width) solid transparent;
+  margin-bottom: 0.25rem;
+}
+
+.page-builder-outline-item:hover {
+  background: var(--brawo-light);
+}
+
+.page-builder-outline-item.is-active {
+  background: var(--brawo-accent-faint);
+  border-color: var(--brawo-border);
+  box-shadow: var(--brawo-shadow-focus);
+}
+
+.page-builder-outline-item.sortable-ghost {
+  opacity: 0.5;
+}
+
+.outline-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+  line-height: 1;
+  flex-shrink: 0;
+  color: var(--brawo-dark-soft);
+}
+
+.outline-item-label {
+  min-width: 0;
+  flex: 1;
+}

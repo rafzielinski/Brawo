@@ -110,7 +110,7 @@
 
 .brawo-admin .btn {
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: var(--brawo-radius);
   padding: 0.4rem 0.9rem;
   box-shadow: none;
 }
@@ -119,7 +119,7 @@
   padding: 0.28rem 0.65rem;
   font-size: 0.8125rem;
   line-height: 1.35;
-  border-radius: 7px;
+  border-radius: var(--brawo-radius-md);
 }
 
 .brawo-admin .brawo-table__actions {
@@ -178,7 +178,7 @@
 .brawo-admin .form-control:focus,
 .brawo-admin .form-select:focus {
   border-color: var(--brawo-border);
-  box-shadow: 1px 1px 0 1px var(--brawo-accent);
+  box-shadow: var(--brawo-shadow-focus-offset);
   outline: none;
 }
 
@@ -189,7 +189,7 @@
 
 .brawo-admin .form-check-input:focus {
   border-color: var(--brawo-border);
-  box-shadow: 0 0 0 1px var(--brawo-accent);
+  box-shadow: var(--brawo-shadow-focus);
   outline: none;
 }
 

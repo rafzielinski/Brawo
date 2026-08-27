@@ -30,7 +30,7 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
         content: { title: "", slug: "", status: "draft" }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "shows a slug conflict modal for duplicate slugs" do
@@ -41,7 +41,7 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
         content: { title: "Second", slug: "hello", status: "draft" }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("slug-conflict-modal")
       expect(response.body).to include("hello-2")
       expect(response.body).to include("Go back and edit")
@@ -128,7 +128,7 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       patch "/admin/admin/contents/#{article.id}",
             params: { content_type: "article", content: { title: "", slug: "saved-article", status: "draft" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

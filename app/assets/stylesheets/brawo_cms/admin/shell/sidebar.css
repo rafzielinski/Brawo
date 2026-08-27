@@ -1,0 +1,39 @@
+/* Admin shell — sidebar */
+
+.sidebar {
+  position: static;
+  flex: 0 0 var(--brawo-admin-sidebar-width);
+  padding: 0.5rem 0 1rem;
+}
+
+.brawo-admin-sidebar {
+  height: 100%;
+  padding: 0.5rem 0.25rem;
+}
+
+.brawo-admin-sidebar .nav-link {
+  color: var(--brawo-chrome-faint);
+  border-radius: var(--brawo-radius-xs);
+  padding: 0.45rem 0.75rem;
+}
+
+.brawo-admin-sidebar .nav-link:hover {
+  color: var(--brawo-accent-on-dark);
+  background-color: color-mix(in oklch, var(--brawo-accent-on-dark) 10%, transparent);
+}
+
+.brawo-admin-sidebar .nav-link.active,
+.brawo-admin-sidebar .nav-pills .nav-link.active {
+  color: var(--brawo-on-accent);
+  background-color: var(--brawo-accent);
+}
+
+.brawo-admin-sidebar .sidebar-section-label {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: 0.15rem;
+}
+
+.brawo-admin-sidebar .text-muted {
+  color: var(--brawo-chrome-faint) !important;
+}

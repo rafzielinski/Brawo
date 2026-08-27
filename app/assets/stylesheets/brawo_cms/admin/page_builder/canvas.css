@@ -1,4 +1,4 @@
-/* Page builder UI */
+/* Page builder — canvas, blocks, toolbar */
 
 .page-builder {
   position: relative;
@@ -6,7 +6,7 @@
 
 .page-builder-layout {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr var(--brawo-page-builder-outline-width);
   gap: 1rem;
   align-items: start;
 }
@@ -46,11 +46,11 @@
 }
 
 .page-builder-canvas {
-  min-height: 120px;
+  min-height: var(--brawo-page-builder-canvas-min-height);
 }
 
 .page-builder-block {
-  border: 1px solid var(--brawo-border);
+  border: var(--brawo-border-width) solid var(--brawo-border);
   background-color: var(--brawo-light-soft);
   margin: 0.25rem 0;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -59,12 +59,10 @@
 .page-builder-block.is-focused {
   border-color: var(--brawo-border);
   outline: none;
-  box-shadow: 0 0 0 1px var(--brawo-accent);
+  box-shadow: var(--brawo-shadow-focus);
 }
 
-.page-builder-block .drag-handle,
-.outline-drag-handle,
-.repeater-drag-handle {
+.page-builder-block .drag-handle {
   display: inline-flex;
   align-items: center;
   cursor: grab;
@@ -74,17 +72,15 @@
   color: var(--brawo-dark-soft);
 }
 
-.page-builder-block.sortable-ghost,
-.page-builder-outline-item.sortable-ghost,
-.repeater-row.sortable-ghost {
+.page-builder-block.sortable-ghost {
   opacity: 0.5;
 }
 
 .page-builder-block-header {
   padding: 0.625rem 1rem;
   background-color: var(--brawo-light);
-  border-bottom: 1px solid var(--brawo-border);
-  border-radius: 7px 7px 0 0;
+  border-bottom: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius-md) var(--brawo-radius-md) 0 0;
   min-height: 2.5rem;
 }
 
@@ -119,7 +115,7 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  border: 1px dashed var(--brawo-border);
+  border: var(--brawo-border-width) dashed var(--brawo-border);
   background: var(--brawo-border);
   color: var(--brawo-light);
   line-height: 1;
@@ -136,7 +132,6 @@
 .block-insert-zone-btn:hover,
 .block-insert-zone-btn:focus-visible {
   background: var(--brawo-accent);
-  /* border-color: var(--brawo-accent); */
   border-style: solid;
   color: var(--brawo-on-accent);
 }
@@ -148,7 +143,7 @@
   left: 0;
   right: 0;
   top: 50%;
-  border-top: 1px dashed transparent;
+  border-top: var(--brawo-border-width) dashed transparent;
   transition: border-color 0.15s ease;
 }
 
@@ -174,90 +169,5 @@
 }
 
 .page-builder-picker {
-  width: min(320px, 90vw);
-}
-
-.page-builder-outline {
-  position: sticky;
-  top: 1rem;
-  max-height: calc(100vh - 8rem);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--brawo-border);
-  border-radius: 8px;
-  background: var(--brawo-light-soft);
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.page-builder-outline.is-collapsed {
-  transform: translateX(calc(100% + 1rem));
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-}
-
-.page-builder-outline-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--brawo-border);
-  background: var(--brawo-light);
-}
-
-.page-builder-outline-close {
-  font-size: 1.25rem;
-  line-height: 1;
-  padding: 0;
-  text-decoration: none;
-}
-
-.page-builder-outline-list {
-  overflow-y: auto;
-  padding: 0.5rem;
-  flex: 1;
-}
-
-.page-builder-outline-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.5rem 0.6rem;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  margin-bottom: 0.25rem;
-}
-
-.page-builder-outline-item:hover {
-  background: var(--brawo-light);
-}
-
-.page-builder-outline-item.is-active {
-  background: var(--brawo-accent-faint);
-  border-color: var(--brawo-border);
-  box-shadow: 0 0 0 1px var(--brawo-accent);
-}
-
-.outline-item-label {
-  min-width: 0;
-  flex: 1;
-}
-
-@media (max-width: 992px) {
-  .page-builder-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .page-builder-outline {
-    position: fixed;
-    right: 0;
-    top: 4rem;
-    bottom: 1rem;
-    width: min(300px, 85vw);
-    z-index: 1040;
-    max-height: none;
-  }
+  width: min(var(--brawo-page-builder-picker-width), 90vw);
 }
