@@ -4,6 +4,7 @@ module BrawoCms
       include ApplicationHelper
       include ReorderMenuHelper
       include SidePanelHelper
+      include CollapsibleHelper
       include BrawoCms::ErbFileRenderer
 
       PAGE_BUILDER_SIDE_PANEL_ID = "page-builder-side-panel"
@@ -66,6 +67,9 @@ module BrawoCms
               button_tag(t('brawo.page_builder.structure'), type: 'button',
                 class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
                 data: { action: 'page-builder#openPanel', panel_section: 'structure' }) +
+                button_tag(t('brawo.collapsible.collapse_all'), type: 'button',
+                  class: 'btn btn-outline-secondary btn-sm',
+                  data: { action: 'page-builder#toggleAllBlocksCollapse', page_builder_target: 'collapseAllBtn' }) +
                 button_tag(type: 'button', class: 'btn btn-primary btn-sm',
                   data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
                   t('brawo.page_builder.add_block')
@@ -131,7 +135,7 @@ module BrawoCms
           action: "click->page-builder-side-panel#focusBlock"
         }) do
           content_tag(:span, brawo_drag_handle,
-            class: "page-builder-structure-item__handle",
+            class: "page-builder-structure-item__handle brawo-icon-btn",
             title: t("brawo.page_builder.drag_to_reorder")) +
             content_tag(:span, class: "page-builder-structure-item__label") do
               content_tag(:strong, label)
@@ -160,7 +164,9 @@ module BrawoCms
       def page_builder_translations
         {
           insert_block: t('brawo.page_builder.insert_block'),
-          drag_to_reorder: t('brawo.page_builder.drag_to_reorder')
+          drag_to_reorder: t('brawo.page_builder.drag_to_reorder'),
+          collapse_all: t('brawo.collapsible.collapse_all'),
+          expand_all: t('brawo.collapsible.expand_all')
         }
       end
 
@@ -174,6 +180,7 @@ module BrawoCms
         return '' unless type_config
 
         content_tag(:div, class: 'page-builder-block card', data: {
+          controller: 'collapsible',
           block_type: block_type,
           block_label: type_config[:label],
           block_index: index
@@ -196,6 +203,7 @@ module BrawoCms
       def render_block_template(form, field_name, type_name, config)
         content_tag(:div, class: 'page-builder-template', data: { block_type: type_name }) do
           content_tag(:div, class: 'page-builder-block card', data: {
+            controller: 'collapsible',
             block_type: type_name,
             block_label: config[:label],
             block_index: 'INDEX'
@@ -214,10 +222,11 @@ module BrawoCms
       def block_header(label, index)
         content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2',
           data: { action: 'click->page-builder#toggleBlockFocus' }) do
-          content_tag(:span, brawo_drag_handle(class: 'text-muted'), class: 'drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
+          content_tag(:span, brawo_drag_handle, class: 'drag-handle brawo-icon-btn', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, label, class: 'page-builder-block-type') +
             content_tag(:span, '', class: 'flex-grow-1') +
-            render_block_menu(index)
+            render_block_menu(index) +
+            brawo_collapsible_toggle
         end
       end
 
@@ -227,7 +236,9 @@ module BrawoCms
           remove_action: 'page-builder#removeBlock',
           extra_before_remove: [
             { label: t('brawo.page_builder.add_block_above'), action: 'page-builder#openPickerRelative', data: { insert_offset: 0, panel_section: 'add' } },
-            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1, panel_section: 'add' } }
+            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1, panel_section: 'add' } },
+            { label: t('brawo.collapsible.collapse'), action: 'collapsible#collapse' },
+            { label: t('brawo.collapsible.expand'), action: 'collapsible#expand' }
           ]
         )
       end
@@ -350,25 +361,31 @@ module BrawoCms
         base_name = input_name
 
         content_tag(:div, class: 'repeater-field', data: {
-          controller: 'repeater',
+          controller: 'collapsible repeater',
           repeater_field_name_value: repeater_name,
           action: 'sortable:sorted->repeater#reindex'
         }) do
-          content_tag(:label, field_def[:label] || repeater_name.to_s.humanize, class: 'form-label') +
-            content_tag(:div, class: 'repeater-items', data: {
-              controller: 'sortable',
-              sortable_handle_value: '.repeater-drag-handle'
-            }) do
-              rows = field_value.each_with_index.map do |item, idx|
-                render_block_repeater_row(field_def, base_name, item, idx, disabled: disabled)
-              end
-              template = content_tag(:div, class: 'repeater-template') do
-                render_block_repeater_row(field_def, base_name, {}, 'INDEX', disabled: disabled)
-              end
-              safe_join(rows) + template
-            end +
-            button_tag(t('brawo.page_builder.add_row'), type: 'button', class: 'btn btn-sm btn-outline-secondary mt-2',
-              disabled: disabled, data: { action: 'repeater#addRow' })
+          content_tag(:div, class: 'repeater-field-header d-flex align-items-center gap-2',
+            data: { action: 'click->collapsible#toggleHeader' }) do
+            brawo_collapsible_toggle +
+              content_tag(:span, field_def[:label] || repeater_name.to_s.humanize, class: 'form-label mb-0 flex-grow-1')
+          end +
+            content_tag(:div, class: 'repeater-field-body') do
+              content_tag(:div, class: 'repeater-items', data: {
+                controller: 'sortable',
+                sortable_handle_value: '.repeater-drag-handle'
+              }) do
+                rows = field_value.each_with_index.map do |item, idx|
+                  render_block_repeater_row(field_def, base_name, item, idx, disabled: disabled)
+                end
+                template = content_tag(:div, class: 'repeater-template') do
+                  render_block_repeater_row(field_def, base_name, {}, 'INDEX', disabled: disabled)
+                end
+                safe_join(rows) + template
+              end +
+                button_tag(t('brawo.page_builder.add_row'), type: 'button', class: 'btn btn-sm btn-outline-secondary mt-2',
+                  disabled: disabled, data: { action: 'repeater#addRow' })
+            end
         end
       end
 
@@ -386,19 +403,23 @@ module BrawoCms
           end
         end
 
-        content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
-          content_tag(:div, class: 'card-body') do
-            content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              content_tag(:span, brawo_drag_handle(class: 'text-muted'), class: 'repeater-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
-                content_tag(:span, '', class: 'flex-grow-1') +
-                render_item_actions_dropdown(
-                  move_action: 'repeater#moveRow',
-                  remove_action: 'repeater#removeRow',
-                  disabled: disabled
-                )
-            end +
+        row_label = index.to_s == 'INDEX' ? t('brawo.fields.item', number: 'N') : t('brawo.fields.item', number: index.to_i + 1)
+
+        content_tag(:div, class: 'repeater-row card mb-2', data: { controller: 'collapsible', index: index }) do
+          content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2',
+            data: { action: 'click->collapsible#toggleHeader' }) do
+            brawo_collapsible_toggle +
+              content_tag(:span, brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: t('brawo.page_builder.drag_to_reorder')) +
+              content_tag(:span, row_label, class: 'repeater-row-label small text-muted flex-grow-1') +
+              render_item_actions_dropdown(
+                move_action: 'repeater#moveRow',
+                remove_action: 'repeater#removeRow',
+                disabled: disabled
+              )
+          end +
+            content_tag(:div, class: 'card-body') do
               content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) { safe_join(fields_html) }
-          end
+            end
         end
       end
     end

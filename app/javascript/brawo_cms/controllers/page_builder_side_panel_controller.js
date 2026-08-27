@@ -56,7 +56,7 @@ export default class extends Controller {
       item.dataset.action = "click->page-builder-side-panel#focusBlock"
 
       item.innerHTML = `
-        <span class="page-builder-structure-item__handle" title="${this.escapeHtml(this.pageBuilderOutlet.translation("drag_to_reorder"))}"><i class="bi bi-grip-vertical brawo-icon" aria-hidden="true"></i></span>
+        <span class="page-builder-structure-item__handle brawo-icon-btn" title="${this.escapeHtml(this.pageBuilderOutlet.translation("drag_to_reorder"))}"><i class="bi bi-grip-vertical brawo-icon" aria-hidden="true"></i></span>
         <span class="page-builder-structure-item__label">
           <strong>${this.escapeHtml(label)}</strong>
         </span>

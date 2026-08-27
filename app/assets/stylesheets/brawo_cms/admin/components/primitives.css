@@ -49,6 +49,54 @@
   margin-top: 1.25rem;
 }
 
+.brawo-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--brawo-radius-xs);
+  background: transparent;
+  color: var(--brawo-dark-soft);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.brawo-icon-btn:hover,
+.brawo-icon-btn:focus-visible {
+  background-color: var(--brawo-dark-faint);
+  color: var(--brawo-dark-soft);
+}
+
+.brawo-icon-btn:disabled,
+.brawo-icon-btn.disabled,
+.brawo-icon-btn:disabled:hover,
+.brawo-icon-btn.disabled:hover {
+  opacity: 0.45;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.brawo-icon-btn .bi {
+  pointer-events: none;
+}
+
+.drag-handle.brawo-icon-btn,
+.repeater-drag-handle.brawo-icon-btn,
+.page-builder-structure-item__handle.brawo-icon-btn {
+  cursor: grab;
+}
+
+.drag-handle.brawo-icon-btn:active,
+.repeater-drag-handle.brawo-icon-btn:active {
+  cursor: grabbing;
+}
+
 .table-responsive {
   margin-top: 1.25rem;
 }

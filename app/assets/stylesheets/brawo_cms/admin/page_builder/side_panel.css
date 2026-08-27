@@ -43,16 +43,6 @@
   opacity: 0.5;
 }
 
-.page-builder-structure-item__handle {
-  display: inline-flex;
-  align-items: center;
-  cursor: grab;
-  user-select: none;
-  line-height: 1;
-  flex-shrink: 0;
-  color: var(--brawo-dark-soft);
-}
-
 .page-builder-structure-item__label {
   min-width: 0;
   flex: 1;

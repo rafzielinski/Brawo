@@ -51,23 +51,13 @@
   box-shadow: var(--brawo-shadow-focus);
 }
 
-.page-builder-block .drag-handle {
-  display: inline-flex;
-  align-items: center;
-  cursor: grab;
-  user-select: none;
-  line-height: 1;
-  flex-shrink: 0;
-  color: var(--brawo-dark-soft);
-}
-
 .page-builder-block.sortable-ghost {
   opacity: 0.5;
 }
 
 .page-builder-block-header {
-  padding: 0.625rem 1rem;
-  background-color: var(--brawo-light);
+  padding: 0.5rem;
+  background-color: var(--brawo-light-strong);
   border-bottom: var(--brawo-border-width) solid var(--brawo-border);
   border-radius: var(--brawo-radius-md) var(--brawo-radius-md) 0 0;
   min-height: 2.5rem;
@@ -77,7 +67,7 @@
 .page-builder-block-type {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--brawo-dark-soft);
+  color: var(--brawo-dark);
 }
 
 .page-builder-block-menu .dropdown-menu,

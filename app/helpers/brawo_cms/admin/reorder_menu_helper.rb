@@ -4,7 +4,7 @@ module BrawoCms
       include ApplicationHelper
       def render_item_actions_dropdown(move_action:, remove_action:, disabled: false, extra_before_remove: [])
         content_tag(:div, class: 'dropdown item-actions-menu') do
-          button_tag(type: 'button', class: 'btn btn-sm btn-light',
+          button_tag(type: 'button', class: 'brawo-icon-btn',
             disabled: disabled,
             data: { bs_toggle: 'dropdown' }, aria: { expanded: 'false' }) do
             brawo_icon(:three_dots)

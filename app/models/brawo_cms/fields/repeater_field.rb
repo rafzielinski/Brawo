@@ -41,25 +41,35 @@ module BrawoCms
         form_object_name = form.object_name.to_s
         
         helper.content_tag(:div, class: 'repeater-field', data: {
-          controller: 'repeater',
+          controller: 'collapsible repeater',
           repeater_field_name_value: @name,
           action: 'sortable:sorted->repeater#reindex'
         }) do
-          helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items", data: {
-            controller: 'sortable',
-            sortable_handle_value: '.repeater-drag-handle'
-          }) do
-            items_html = current_value.each_with_index.map do |item, index|
-              render_repeater_row(form, item, index, helper, form_object_name)
-            end
-            template_html = helper.content_tag(:div, class: 'repeater-template', style: 'display: none;') do
-              render_repeater_row(form, {}, 'INDEX', helper, form_object_name)
-            end
-            helper.safe_join(items_html) + template_html
-          end +
-          helper.content_tag(:button, I18n.t('brawo.fields.add_row'), type: 'button',
-                            class: 'btn btn-sm btn-outline-secondary mt-2',
-                            data: { action: 'repeater#addRow' })
+          header = helper.content_tag(:div, class: 'repeater-field-header d-flex align-items-center gap-2',
+            data: { action: 'click->collapsible#toggleHeader' }) do
+            helper.brawo_collapsible_toggle +
+              helper.content_tag(:span, @label, class: 'form-label mb-0 flex-grow-1')
+          end
+
+          body = helper.content_tag(:div, class: 'repeater-field-body') do
+            helper.content_tag(:div, class: 'repeater-items', id: "repeater_#{@name}_items", data: {
+              controller: 'sortable',
+              sortable_handle_value: '.repeater-drag-handle'
+            }) do
+              items_html = current_value.each_with_index.map do |item, index|
+                render_repeater_row(form, item, index, helper, form_object_name)
+              end
+              template_html = helper.content_tag(:div, class: 'repeater-template', style: 'display: none;') do
+                render_repeater_row(form, {}, 'INDEX', helper, form_object_name)
+              end
+              helper.safe_join(items_html) + template_html
+            end +
+            helper.content_tag(:button, I18n.t('brawo.fields.add_row'), type: 'button',
+                              class: 'btn btn-sm btn-outline-secondary mt-2',
+                              data: { action: 'repeater#addRow' })
+          end
+
+          header + body
         end
       end
 
@@ -107,57 +117,59 @@ module BrawoCms
       def render_repeater_row(form, item_data, index, helper, form_object_name)
         item_data ||= {}
         item_data = item_data.with_indifferent_access if item_data.respond_to?(:with_indifferent_access)
-        
-        helper.content_tag(:div, class: 'repeater-row card mb-2', data: { index: index }) do
-          helper.content_tag(:div, class: 'card-body') do
-            header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2 mb-2') do
-              helper.content_tag(:span, helper.brawo_drag_handle(class: 'text-muted'), class: 'repeater-drag-handle', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
-                helper.content_tag(:span, '', class: 'flex-grow-1') +
-                helper.render_item_actions_dropdown(
-                  move_action: 'repeater#moveRow',
-                  remove_action: 'repeater#removeRow'
-                )
-            end
 
-            fields_html = @sub_fields.map do |sub_field_def|
-              sub_field = BrawoCms::FieldFactory.build(sub_field_def)
-              # Prepend form object name to field name (e.g., "content[faq_items][0][question]")
-              field_name = "#{form_object_name}[#{@name}][#{index}][#{sub_field.name}]"
-              field_value = item_data[sub_field.name.to_s] || item_data[sub_field.name.to_sym]
-              
-              # Create a temporary object to hold the field value for rendering
-              temp_object = OpenStruct.new(fields: { sub_field.name.to_s => field_value })
-              
-              helper.content_tag(:div, **helper.field_wrapper_attrs(sub_field_def)) do
-                # Add required indicator to label
-                label_text = sub_field.label
-                label_text += ' <span class="text-danger">*</span>'.html_safe if sub_field.required
-                
-                if sub_field.type == :boolean || sub_field.type == :checkbox
-                  helper.content_tag(:div, class: "brawo-field-toggle-row") do
-                    label = helper.label_tag(field_name, label_text.html_safe, class: "brawo-field-toggle-row__label", for: nil)
-                    control = helper.brawo_toggle(
-                      name: field_name,
-                      checked: field_value,
-                      input_html: {
-                        options: sub_field.required ? { "aria-required" => "true" } : {}
-                      }
-                    )
-                    label + helper.content_tag(:div, class: "brawo-field-toggle-row__control") { control }
-                  end
-                else
-                  label = helper.label_tag(field_name, label_text, class: 'form-label')
-                  input = render_nested_field_input(form, sub_field, field_name, temp_object, helper)
-                  label + input
-                end
+        fields_html = @sub_fields.map do |sub_field_def|
+          sub_field = BrawoCms::FieldFactory.build(sub_field_def)
+          field_name = "#{form_object_name}[#{@name}][#{index}][#{sub_field.name}]"
+          field_value = item_data[sub_field.name.to_s] || item_data[sub_field.name.to_sym]
+
+          temp_object = OpenStruct.new(fields: { sub_field.name.to_s => field_value })
+
+          helper.content_tag(:div, **helper.field_wrapper_attrs(sub_field_def)) do
+            label_text = sub_field.label
+            label_text += ' <span class="text-danger">*</span>'.html_safe if sub_field.required
+
+            if sub_field.type == :boolean || sub_field.type == :checkbox
+              helper.content_tag(:div, class: "brawo-field-toggle-row") do
+                label = helper.label_tag(field_name, label_text.html_safe, class: "brawo-field-toggle-row__label", for: nil)
+                control = helper.brawo_toggle(
+                  name: field_name,
+                  checked: field_value,
+                  input_html: {
+                    options: sub_field.required ? { "aria-required" => "true" } : {}
+                  }
+                )
+                label + helper.content_tag(:div, class: "brawo-field-toggle-row__control") { control }
               end
+            else
+              label = helper.label_tag(field_name, label_text, class: 'form-label')
+              input = render_nested_field_input(form, sub_field, field_name, temp_object, helper)
+              label + input
             end
-            
-            header +
+          end
+        end
+
+        row_label = index.to_s == 'INDEX' ? I18n.t('brawo.fields.item', number: 'N') : I18n.t('brawo.fields.item', number: index.to_i + 1)
+
+        helper.content_tag(:div, class: 'repeater-row card mb-2', data: { controller: 'collapsible', index: index }) do
+          header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2',
+            data: { action: 'click->collapsible#toggleHeader' }) do
+            helper.brawo_collapsible_toggle +
+              helper.content_tag(:span, helper.brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
+              helper.content_tag(:span, row_label, class: 'repeater-row-label small text-muted flex-grow-1') +
+              helper.render_item_actions_dropdown(
+                move_action: 'repeater#moveRow',
+                remove_action: 'repeater#removeRow'
+              )
+          end
+
+          fields_body = helper.content_tag(:div, class: 'card-body') do
             helper.content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) do
               helper.safe_join(fields_html)
             end
           end
+
+          header + fields_body
         end
       end
 

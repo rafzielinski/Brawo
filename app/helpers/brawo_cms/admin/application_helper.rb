@@ -9,6 +9,7 @@ module BrawoCms
       include IconPickerHelper
       include ValidatedFieldHelper
       include MediaPickerHelper
+      include CollapsibleHelper
       def brawo_format_date(date)
         date.strftime(t('brawo.formats.date'))
       end

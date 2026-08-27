@@ -1,0 +1,48 @@
+/* Collapsible sections — blocks, repeaters */
+
+.collapsible-toggle .bi {
+  transition: transform 0.15s ease;
+}
+
+.is-collapsed > .page-builder-block-header .collapsible-toggle .bi,
+.is-collapsed > .repeater-row-header .collapsible-toggle .bi,
+.is-collapsed > .repeater-field-header .collapsible-toggle .bi {
+  transform: rotate(-90deg);
+}
+
+.is-collapsed.page-builder-block > .card-body,
+.is-collapsed.repeater-row > .card-body,
+.is-collapsed.repeater-field > .repeater-field-body {
+  display: none;
+}
+
+.is-collapsed.page-builder-block > .page-builder-block-header,
+.is-collapsed.repeater-row > .repeater-row-header {
+  border-bottom: none;
+  border-radius: var(--brawo-radius-md);
+}
+
+.repeater-field-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0;
+  cursor: pointer;
+}
+
+.repeater-field-header .form-label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.repeater-row-header {
+  padding: 0.625rem 1rem;
+  background-color: var(--brawo-light);
+  border-bottom: var(--brawo-border-width) solid var(--brawo-border);
+  border-radius: var(--brawo-radius-md) var(--brawo-radius-md) 0 0;
+  min-height: 2.5rem;
+}
+
+.repeater-row-label {
+  font-weight: 600;
+}

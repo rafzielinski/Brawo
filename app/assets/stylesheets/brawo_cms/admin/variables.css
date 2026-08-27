@@ -106,7 +106,8 @@
   --brawo-shadow-preview: -0.375rem 0 1.5rem color-mix(in oklch, var(--brawo-dark) 18%, transparent);
   --brawo-shadow-side-panel: -0.25rem 0 1.25rem color-mix(in oklch, var(--brawo-dark) 14%, transparent);
   --brawo-shadow-focus: 0 0 0 var(--brawo-border-width) var(--brawo-accent);
-  --brawo-shadow-focus-offset: var(--brawo-border-width) var(--brawo-border-width) 0 var(--brawo-border-width) var(--brawo-accent);
+  --brawo-shadow-focus-offset: 0 0 0 var(--brawo-border-width) var(--brawo-accent);
+  /* --brawo-shadow-focus-offset: var(--brawo-border-width) var(--brawo-border-width) 0 var(--brawo-border-width) var(--brawo-accent); */
   --brawo-coloris-slider-inset: 2.5rem;
   --brawo-stage-perspective: 87.5rem;
   --brawo-preview-translate-z: 2rem;

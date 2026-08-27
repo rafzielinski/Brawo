@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["canvas"]
+  static targets = ["canvas", "collapseAllBtn"]
   static values = {
     fieldName: String,
     formPrefix: String,
@@ -277,6 +277,7 @@ export default class extends Controller {
 
   toggleBlockFocus(event) {
     if (event.target.closest(".drag-handle")) return
+    if (event.target.closest(".collapsible-toggle")) return
     if (event.target.closest(".dropdown, .dropdown-menu, .item-actions-menu")) return
 
     const block = event.currentTarget.closest(".page-builder-block")
@@ -358,6 +359,30 @@ export default class extends Controller {
 
     const count = this.canvasTarget.querySelectorAll(":scope > .page-builder-block").length
     empty.classList.toggle("is-hidden", count > 0)
+  }
+
+  toggleAllBlocksCollapse(event) {
+    event.preventDefault()
+
+    const blocks = this.canvasBlocks()
+    if (blocks.length === 0) return
+
+    const allCollapsed = blocks.every((block) => block.classList.contains("is-collapsed"))
+    blocks.forEach((block) => {
+      block.classList.toggle("is-collapsed", !allCollapsed)
+      this.syncCollapsibleToggle(block)
+    })
+
+    if (this.hasCollapseAllBtnTarget) {
+      this.collapseAllBtnTarget.textContent = allCollapsed
+        ? this.translation("collapse_all")
+        : this.translation("expand_all")
+    }
+  }
+
+  syncCollapsibleToggle(element) {
+    const toggle = element.querySelector(".collapsible-toggle")
+    if (toggle) toggle.setAttribute("aria-expanded", !element.classList.contains("is-collapsed"))
   }
 
   translation(key, replacements = {}) {

@@ -151,6 +151,12 @@ en:
       faq_items: "%{title} (%{count} items)"
       faq_default_title: FAQ
       add_row: Add Row
+    collapsible:
+      toggle: Toggle section
+      collapse: Collapse
+      expand: Expand
+      collapse_all: Collapse all
+      expand_all: Expand all
     reorder:
       move_up: Move up
       move_down: Move down
