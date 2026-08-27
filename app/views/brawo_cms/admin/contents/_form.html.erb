@@ -2,7 +2,7 @@
               url: content.persisted? ? admin_content_path(content, content_type: @content_type) : admin_contents_path(content_type: @content_type),
               scope: :content,
               local: true,
-              html: { data: { slug_conflict_form: true } }) do |form| %>
+              html: { id: (content.persisted? ? "brawo-content-form" : nil), data: { slug_conflict_form: true } }) do |form| %>
   <% if content.new_record? %>
     <%= hidden_field_tag :accept_adjusted_slug, "0", id: "accept_adjusted_slug" %>
   <% end %>

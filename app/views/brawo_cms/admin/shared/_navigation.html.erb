@@ -1,30 +1,43 @@
-<nav class="navbar navbar-dark brawo-admin-navbar">
-  <div class="container-fluid d-flex align-items-center">
-    <%= link_to t('brawo.navigation.brand'), admin_root_path, class: "navbar-brand" %>
+<header class="brawo-admin-navbar">
+  <div class="brawo-admin-navbar-layout">
+    <div class="brawo-admin-navbar-sidebar">
+      <%= link_to t('brawo.navigation.brand'), admin_root_path, class: "brawo-admin-navbar-brand" %>
+    </div>
 
-    <% if previewable_content_edit? %>
-      <div class="ms-auto">
-        <%= brawo_toggle(
-          state: "edit",
-          off_state: "edit",
-          on_state: "preview",
-          off: {
-            icon: brawo_toggle_pen_icon,
-            aria_label: t("brawo.navigation.modes.edit")
-          },
-          on: {
-            icon: brawo_toggle_eye_icon,
-            aria_label: t("brawo.navigation.modes.preview")
-          },
-          size: :sm,
-          html: {
-            data: {
-              admin_mode_target: "modeToggle",
-              action: "toggle:change->admin-mode#setModeFromToggle"
+    <div class="brawo-admin-navbar-content">
+      <% if previewable_content_edit? %>
+        <%= link_to t('brawo.actions.back_to_list'),
+                    admin_contents_path(content_type: @content_type),
+                    class: "brawo-admin-navbar__back" %>
+
+        <div class="brawo-admin-navbar-actions">
+          <%= brawo_toggle(
+            state: "edit",
+            off_state: "edit",
+            on_state: "preview",
+            off: {
+              icon: brawo_toggle_pen_icon,
+              aria_label: t("brawo.navigation.modes.edit")
+            },
+            on: {
+              icon: brawo_toggle_eye_icon,
+              aria_label: t("brawo.navigation.modes.preview")
+            },
+            size: :sm,
+            html: {
+              data: {
+                admin_mode_target: "modeToggle",
+                action: "toggle:change->admin-mode#setModeFromToggle"
+              }
             }
-          }
-        ) %>
-      </div>
-    <% end %>
+          ) %>
+          <button type="submit"
+                  form="brawo-content-form"
+                  class="btn btn-primary btn-sm brawo-admin-navbar__save">
+            <%= t('brawo.actions.submit') %>
+          </button>
+        </div>
+      <% end %>
+    </div>
   </div>
-</nav>
+</header>

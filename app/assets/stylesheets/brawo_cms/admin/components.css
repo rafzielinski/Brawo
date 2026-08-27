@@ -63,6 +63,10 @@
   margin-bottom: 1.5rem;
 }
 
+.repeater-field:last-child {
+  margin-bottom: 0;
+}
+
 .repeater-row {
   position: relative;
   border: 1px solid var(--brawo-border);
@@ -409,6 +413,10 @@
 .brawo-admin-navbar .brawo-toggle__segment-backdrop {
   color: var(--brawo-chrome-faint);
   opacity: 1;
+}
+
+.brawo-fields .brawo-field-wrapper:last-child {
+  margin-bottom: 0 !important;
 }
 
 .brawo-field-toggle-row {

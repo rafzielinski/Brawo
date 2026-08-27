@@ -86,6 +86,18 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       expect(response.body).to include('data-admin-mode-target="modeToggle"')
       expect(response.body).not_to include('data-toggle-disabled-on-value="true"')
     end
+
+    it "renders save and back to list in the navbar" do
+      get "/admin/admin/contents/#{article.id}/edit", params: { content_type: "article" }
+
+      expect(response.body).to include("brawo-admin-navbar")
+      expect(response.body).to include("brawo-admin-navbar-sidebar")
+      expect(response.body).to include("brawo-admin-navbar-content")
+      expect(response.body).to include('class="brawo-admin-navbar__back"')
+      expect(response.body).to include('form="brawo-content-form"')
+      expect(response.body).to include('id="brawo-content-form"')
+      expect(response.body).not_to include('brawo-form-actions')
+    end
   end
 
   describe "GET /admin/contents/:id/preview" do
