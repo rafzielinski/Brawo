@@ -39,6 +39,7 @@ module BrawoCms
     # Render form input for this field
     def render_input(form, object, helper: nil)
       field_options = default_input_options.merge(@options)
+      field_options[:helper] = helper if helper
       render_input_field(form, field_options, object)
     end
 

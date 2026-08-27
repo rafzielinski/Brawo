@@ -9,6 +9,7 @@
  *= require brawo_cms/admin/icons
  *= require brawo_cms/admin/components/primitives
  *= require brawo_cms/admin/components/content_meta
+ *= require brawo_cms/admin/components/side_panel
  *= require brawo_cms/admin/fields/shared
  *= require brawo_cms/admin/fields/toggle
  *= require brawo_cms/admin/fields/color
@@ -18,6 +19,5 @@
  *= require brawo_cms/admin/fields/repeater
  *= require brawo_cms/admin/shell/navbar
  *= require brawo_cms/admin/page_builder/canvas
- *= require brawo_cms/admin/page_builder/outline
- *= require brawo_cms/admin/page_builder/responsive
+ *= require brawo_cms/admin/page_builder/side_panel
  */

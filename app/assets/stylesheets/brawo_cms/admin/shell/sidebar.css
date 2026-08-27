@@ -1,8 +1,14 @@
 /* Admin shell — sidebar */
 
-.sidebar {
-  position: static;
-  flex: 0 0 var(--brawo-admin-sidebar-width);
+.brawo-admin-sidebar-rail {
+  position: fixed;
+  z-index: 20;
+  top: var(--brawo-admin-chrome-height);
+  left: var(--brawo-admin-chrome-inset);
+  bottom: 0;
+  width: var(--brawo-admin-sidebar-width);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0.5rem 0 1rem;
 }
 

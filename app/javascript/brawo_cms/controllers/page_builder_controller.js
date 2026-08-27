@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["canvas", "picker", "outline", "outlinePanel"]
+  static targets = ["canvas"]
   static values = {
     fieldName: String,
     formPrefix: String,
@@ -11,20 +11,27 @@ export default class extends Controller {
   connect() {
     this.insertPosition = 0
     this.relativeBlock = null
-    if (this.hasPickerTarget && window.bootstrap) {
-      this.picker = new bootstrap.Offcanvas(this.pickerTarget)
-    }
-    this.outlineOpen = false
+    this.panelSection = "add"
     this.updateEmptyState()
-    this.refreshOutline()
+    this.syncPanelOutline()
+  }
+
+  openPanel(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (event.currentTarget.dataset.insertPosition !== undefined) {
+      this.insertPosition = parseInt(event.currentTarget.dataset.insertPosition, 10) || 0
+    }
+
+    this.panelSection = event.currentTarget.dataset.panelSection || "add"
+    this.relativeBlock = null
+    this.clearBlockFocus()
+    this.adminSidePanel()?.open({ section: this.panelSection })
   }
 
   openPicker(event) {
-    event.preventDefault()
-    event.stopPropagation()
-    this.relativeBlock = null
-    this.insertPosition = parseInt(event.currentTarget.dataset.insertPosition, 10) || 0
-    this.showPicker()
+    this.openPanel(event)
   }
 
   openPickerRelative(event) {
@@ -34,35 +41,9 @@ export default class extends Controller {
     const offset = parseInt(event.currentTarget.dataset.insertOffset, 10) || 0
     this.relativeBlock = block
     this.insertPosition = parseInt(block.dataset.blockIndex, 10) + offset
-    this.showPicker()
-  }
-
-  showPicker() {
-    if (this.picker) {
-      this.picker.show()
-    } else if (this.hasPickerTarget) {
-      this.pickerTarget.classList.add("show")
-    }
-  }
-
-  closePicker(event) {
-    if (event) event.preventDefault()
-    if (this.picker) {
-      this.picker.hide()
-    } else if (this.hasPickerTarget) {
-      this.pickerTarget.classList.remove("show")
-    }
-  }
-
-  closePickerOnEscape(event) {
-    if (event.key === "Escape") this.closePicker()
-  }
-
-  pickBlockType(event) {
-    event.preventDefault()
-    const blockType = event.currentTarget.dataset.blockType
-    this.insertBlockAt(this.insertPosition, blockType)
-    this.closePicker()
+    this.panelSection = event.currentTarget.dataset.panelSection || "add"
+    this.clearBlockFocus()
+    this.adminSidePanel()?.open({ section: this.panelSection })
   }
 
   insertBlockAt(position, blockType) {
@@ -84,10 +65,8 @@ export default class extends Controller {
     }
 
     this.rebuildCanvasStructure()
-    this.focusBlockElement(clone)
-    requestAnimationFrame(() => {
-      void clone.offsetWidth
-    })
+    const block = this.findBlockByIndex(String(position))
+    if (block) this.scrollBlockIntoView(block)
   }
 
   removeBlock(event) {
@@ -95,6 +74,7 @@ export default class extends Controller {
     const block = event.currentTarget.closest(".page-builder-block")
     if (!block) return
 
+    if (block.classList.contains("is-focused")) this.clearBlockFocus()
     block.remove()
     this.rebuildCanvasStructure()
   }
@@ -112,7 +92,6 @@ export default class extends Controller {
     blocks.splice(index, 1)
     blocks.splice(targetIndex, 0, block)
     this.rebuildCanvasWithBlocks(blocks)
-    this.focusBlockElement(block)
   }
 
   targetIndex(index, count, direction) {
@@ -131,20 +110,42 @@ export default class extends Controller {
   }
 
   reindex() {
-    this.rebuildCanvasStructure()
+    if (!this.hasCanvasTarget) return
+
+    const blocks = [...this.canvasTarget.querySelectorAll(":scope > .page-builder-block")]
+    blocks.forEach((block, index) => this.assignIndex(block, index))
+    this.renumberInsertZones()
+    this.updateAddBarPositions(blocks.length)
+    this.syncPanelOutline()
   }
 
-  reindexFromOutline() {
-    if (!this.hasOutlineTarget || !this.hasCanvasTarget) return
+  currentInsertPosition() {
+    return this.insertPosition
+  }
 
-    const blocks = [...this.outlineTarget.querySelectorAll(".page-builder-outline-item")]
-      .map((item) => {
-        const index = item.dataset.blockIndex
-        return this.canvasTarget.querySelector(`.page-builder-block[data-block-index="${index}"]`)
-      })
+  reindexFromOutline(outlineEl) {
+    if (!outlineEl || !this.hasCanvasTarget) return
+
+    const blocks = [...outlineEl.querySelectorAll(".page-builder-structure-item")]
+      .map((item) => this.findBlockByIndex(item.dataset.blockIndex))
       .filter(Boolean)
 
     this.rebuildCanvasWithBlocks(blocks)
+  }
+
+  findBlockByIndex(index) {
+    if (!this.hasCanvasTarget) return null
+    return this.canvasTarget.querySelector(`.page-builder-block[data-block-index="${index}"]`)
+  }
+
+  canvasBlocks() {
+    if (!this.hasCanvasTarget) return []
+    return [...this.canvasTarget.querySelectorAll(":scope > .page-builder-block")]
+  }
+
+  activeBlockIndex() {
+    const active = this.element.querySelector(".page-builder-block.is-focused")
+    return active ? active.dataset.blockIndex : null
   }
 
   rebuildCanvasStructure() {
@@ -171,7 +172,6 @@ export default class extends Controller {
       fragment.appendChild(this.createInsertZone(index + 1))
     })
 
-    const templates = this.element.querySelector(".page-builder-templates")
     canvas.innerHTML = ""
     canvas.appendChild(fragment)
 
@@ -179,7 +179,27 @@ export default class extends Controller {
 
     this.updateAddBarPositions(blocks.length)
     this.updateEmptyState()
-    this.refreshOutline()
+    this.syncPanelOutline()
+    this.refreshCanvasSortable()
+  }
+
+  renumberInsertZones() {
+    if (!this.hasCanvasTarget) return
+
+    let position = 0
+    this.canvasTarget.querySelectorAll(":scope > .block-insert-zone").forEach((zone) => {
+      zone.dataset.insertPosition = String(position)
+      const btn = zone.querySelector(".block-insert-zone-btn")
+      if (btn) btn.dataset.insertPosition = String(position)
+      position += 1
+    })
+  }
+
+  refreshCanvasSortable() {
+    if (!this.hasCanvasTarget) return
+
+    const controller = this.application.getControllerForElementAndIdentifier(this.canvasTarget, "sortable")
+    controller?.reconnect()
   }
 
   createInsertZone(position) {
@@ -192,8 +212,9 @@ export default class extends Controller {
     btn.className = "block-insert-zone-btn"
     btn.title = this.translation("insert_block")
     btn.innerHTML = `<i class="bi bi-plus-lg brawo-icon brawo-icon--sm" aria-hidden="true"></i>`
-    btn.dataset.action = "page-builder#openPicker"
+    btn.dataset.action = "page-builder#openPanel"
     btn.dataset.insertPosition = position
+    btn.dataset.panelSection = "add"
 
     zone.appendChild(btn)
     return zone
@@ -236,72 +257,97 @@ export default class extends Controller {
     })
   }
 
-  refreshOutline() {
-    if (!this.hasOutlineTarget || !this.hasCanvasTarget) return
-
-    const canvas = this.canvasTarget
-    const blocks = [...canvas.querySelectorAll(":scope > .page-builder-block")]
-    const list = this.outlineTarget
-    list.innerHTML = ""
-
-    blocks.forEach((block, index) => {
-      const label = block.dataset.blockLabel || block.dataset.blockType
-
-      const item = document.createElement("li")
-      item.className = "page-builder-outline-item"
-      item.dataset.blockIndex = index
-
-      item.innerHTML = `
-        <span class="outline-drag-handle" title="${this.escapeHtml(this.translation("drag_to_reorder"))}"><i class="bi bi-grip-vertical brawo-icon" aria-hidden="true"></i></span>
-        <span class="outline-item-label">
-          <strong>${this.escapeHtml(label)}</strong>
-        </span>
-      `
-
-      item.addEventListener("click", (event) => {
-        if (event.target.closest(".outline-drag-handle")) return
-        this.focusBlockElement(block)
-      })
-
-      list.appendChild(item)
-    })
+  syncPanelOutline() {
+    this.pageBuilderSidePanel()?.syncOutline()
   }
 
-  focusBlock(event) {
-    const item = event.currentTarget.closest(".page-builder-outline-item")
-    if (!item || !this.hasCanvasTarget) return
+  adminSidePanel() {
+    const panel = document.getElementById("page-builder-side-panel")
+    if (!panel) return null
 
-    const index = item.dataset.blockIndex
-    const block = this.canvasTarget.querySelector(`.page-builder-block[data-block-index="${index}"]`)
+    return this.application.getControllerForElementAndIdentifier(panel, "admin-side-panel")
+  }
+
+  pageBuilderSidePanel() {
+    const panel = document.getElementById("page-builder-side-panel")
+    if (!panel) return null
+
+    return this.application.getControllerForElementAndIdentifier(panel, "page-builder-side-panel")
+  }
+
+  toggleBlockFocus(event) {
+    if (event.target.closest(".drag-handle")) return
+    if (event.target.closest(".dropdown, .dropdown-menu, .item-actions-menu")) return
+
+    const block = event.currentTarget.closest(".page-builder-block")
     if (block) this.focusBlockElement(block)
   }
 
-  focusBlockElement(block) {
+  clearFocus(event) {
+    if (!this.element.contains(event.target)) return
+    if (event.target.closest(".page-builder-block")) return
+    if (event.target.closest("#page-builder-side-panel")) return
+
+    this.clearBlockFocus()
+  }
+
+  clearFocusOnEscape(event) {
+    if (event.key !== "Escape") return
+    if (document.getElementById("page-builder-side-panel")?.classList.contains("is-open")) return
+
+    this.clearBlockFocus()
+  }
+
+  clearBlockFocus() {
+    const hadFocus = this.element.querySelector(".page-builder-block.is-focused")
+    if (!hadFocus) return
+
     this.element.querySelectorAll(".page-builder-block.is-focused").forEach((el) => {
       el.classList.remove("is-focused")
     })
-    this.element.querySelectorAll(".page-builder-outline-item.is-active").forEach((el) => {
-      el.classList.remove("is-active")
-    })
-
-    block.classList.add("is-focused")
-    block.scrollIntoView({ behavior: "smooth", block: "center" })
-
-    const index = block.dataset.blockIndex
-    const outlineItem = this.hasOutlineTarget
-      ? this.outlineTarget.querySelector(`.page-builder-outline-item[data-block-index="${index}"]`)
-      : null
-    if (outlineItem) outlineItem.classList.add("is-active")
+    this.syncPanelOutline()
   }
 
-  toggleOutline() {
-    if (!this.hasOutlinePanelTarget) return
-    this.outlineOpen = !this.outlineOpen
-    this.outlinePanelTarget.classList.toggle("is-collapsed", !this.outlineOpen)
-    this.element.classList.toggle("outline-collapsed", !this.outlineOpen)
+  focusBlockElement(block) {
+    const alreadyFocused = block.classList.contains("is-focused")
 
-    const btn = this.element.querySelector(".page-builder-structure-btn")
-    if (btn) btn.classList.toggle("active", this.outlineOpen)
+    this.element.querySelectorAll(".page-builder-block.is-focused").forEach((el) => {
+      el.classList.remove("is-focused")
+    })
+
+    if (alreadyFocused) {
+      this.syncPanelOutline()
+      return
+    }
+
+    block.classList.add("is-focused")
+    this.scrollBlockIntoView(block)
+    this.syncPanelOutline()
+  }
+
+  scrollBlockIntoView(block) {
+    const container = block.closest(".brawo-admin-main")
+    if (!container) {
+      block.scrollIntoView({ behavior: "smooth", block: "start" })
+      return
+    }
+
+    const offset = this.focusScrollOffset()
+    const blockTop = block.getBoundingClientRect().top
+    const containerTop = container.getBoundingClientRect().top
+    const targetScroll = container.scrollTop + (blockTop - containerTop) - offset
+
+    container.scrollTo({ top: targetScroll, behavior: "smooth" })
+  }
+
+  focusScrollOffset() {
+    const root = getComputedStyle(document.documentElement)
+    const raw = root.getPropertyValue("--brawo-page-builder-focus-scroll-offset").trim()
+    if (!raw) return 12
+
+    const value = parseFloat(raw)
+    if (raw.endsWith("rem")) return value * parseFloat(root.fontSize)
+    return value
   }
 
   updateEmptyState() {
@@ -312,12 +358,6 @@ export default class extends Controller {
 
     const count = this.canvasTarget.querySelectorAll(":scope > .page-builder-block").length
     empty.classList.toggle("is-hidden", count > 0)
-  }
-
-  escapeHtml(text) {
-    const div = document.createElement("div")
-    div.textContent = text
-    return div.innerHTML
   }
 
   translation(key, replacements = {}) {

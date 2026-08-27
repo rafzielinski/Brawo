@@ -3,24 +3,30 @@ module BrawoCms
     module PageBuilderHelper
       include ApplicationHelper
       include ReorderMenuHelper
+      include SidePanelHelper
       include BrawoCms::ErbFileRenderer
+
+      PAGE_BUILDER_SIDE_PANEL_ID = "page-builder-side-panel"
 
       def render_page_builder(form, field_name, blocks, label: nil, available_blocks: BrawoCms.block_types)
         blocks = Array(blocks)
         @available_blocks = available_blocks
 
-        content_tag(:div, class: 'page-builder outline-collapsed', data: {
+        if respond_to?(:content_for)
+          content_for(:admin_side_panel) do
+            render_page_builder_side_panel(blocks, available_block_types)
+          end
+        end
+
+        content_tag(:div, class: 'page-builder', data: {
           controller: 'page-builder',
           page_builder_field_name_value: field_name,
           page_builder_form_prefix_value: form.object_name,
           page_builder_translations_value: page_builder_translations.to_json,
-          action: 'sortable:sorted->page-builder#reindex keydown@window->page-builder#closePickerOnEscape'
+          action: 'sortable:sorted->page-builder#reindex click->page-builder#clearFocus keydown@window->page-builder#clearFocusOnEscape'
         }) do
           safe_join([
-            content_tag(:div, class: 'page-builder-layout') do
-              render_canvas_area(form, field_name, blocks, label: label) + render_outline_panel(blocks)
-            end,
-            render_block_picker,
+            render_canvas_area(form, field_name, blocks, label: label),
             render_templates(form, field_name)
           ])
         end
@@ -59,9 +65,9 @@ module BrawoCms
             content_tag(:div, class: 'page-builder-toolbar-actions') do
               button_tag(t('brawo.page_builder.structure'), type: 'button',
                 class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
-                data: { action: 'page-builder#toggleOutline' }) +
+                data: { action: 'page-builder#openPanel', panel_section: 'structure' }) +
                 button_tag(type: 'button', class: 'btn btn-primary btn-sm',
-                  data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
+                  data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
                   t('brawo.page_builder.add_block')
                 end
             end
@@ -71,7 +77,7 @@ module BrawoCms
       def render_add_block_button(position, insert_at)
         content_tag(:div, class: "page-builder-add-bar page-builder-add-bar--#{position}") do
           button_tag(type: 'button', class: 'btn btn-outline-secondary btn-sm',
-            data: { action: 'page-builder#openPicker', insert_position: insert_at }) do
+            data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
             t('brawo.page_builder.add_block')
           end
         end
@@ -81,63 +87,62 @@ module BrawoCms
         content_tag(:div, class: 'block-insert-zone', data: { insert_position: position }) do
           content_tag(:button, brawo_icon(:plus_lg, size: :sm), type: 'button', class: 'block-insert-zone-btn',
             title: t('brawo.page_builder.insert_block'),
-            data: { action: 'page-builder#openPicker', insert_position: position })
+            data: { action: 'page-builder#openPanel', insert_position: position, panel_section: 'add' })
         end
       end
 
-      def render_block_picker
-        content_tag(:div, class: 'page-builder-picker offcanvas offcanvas-end', tabindex: '-1',
-          data: { page_builder_target: 'picker' }) do
-          content_tag(:div, class: 'offcanvas-header') do
-            content_tag(:h5, t('brawo.page_builder.choose_block_type'), class: 'offcanvas-title') +
-              button_tag(type: 'button', class: 'btn-close',
-                data: { action: 'page-builder#closePicker' }, aria: { label: t('brawo.layout.close') }) {}
-          end +
-            content_tag(:div, class: 'offcanvas-body') do
-              content_tag(:div, class: 'd-grid gap-2') do
-                safe_join(available_block_types.map do |type_name, config|
-                  button_tag(config[:label], type: 'button', class: 'btn btn-outline-secondary text-start',
-                    data: { action: 'page-builder#pickBlockType', block_type: type_name })
-                end)
-              end
-            end
-        end
+      def render_page_builder_side_panel(blocks, block_types)
+        content = BrawoCms::Admin::BaseController.render(
+          partial: "brawo_cms/admin/page_builder/side_panel_content",
+          locals: {
+            blocks: blocks,
+            outline_items: render_structure_items(blocks),
+            block_buttons: render_block_type_buttons(block_types)
+          },
+          formats: [:html]
+        )
+
+        render_admin_side_panel(
+          id: PAGE_BUILDER_SIDE_PANEL_ID,
+          title: t("brawo.page_builder.panel_title"),
+          content: content,
+          controllers: "admin-side-panel page-builder-side-panel",
+          data: { "page-builder-side-panel-page-builder-outlet": ".page-builder" }
+        )
       end
 
-      def render_outline_panel(blocks)
-        content_tag(:aside, class: 'page-builder-outline is-collapsed', data: { page_builder_target: 'outlinePanel' }) do
-          content_tag(:div, class: 'page-builder-outline-header') do
-            content_tag(:h6, t('brawo.page_builder.structure'), class: 'mb-0') +
-              button_tag(type: 'button', class: 'btn btn-sm btn-link page-builder-outline-close',
-                data: { action: 'page-builder#toggleOutline' }, aria: { label: t('brawo.page_builder.close_panel') }) do
-                brawo_icon(:x_lg, size: :sm)
-              end
-          end +
-            content_tag(:ul, class: 'page-builder-outline-list list-unstyled mb-0',
-              data: { controller: 'sortable', sortable_handle_value: '.outline-drag-handle',
-                action: 'sortable:sorted->page-builder#reindexFromOutline',
-                page_builder_target: 'outline' }) do
-              safe_join(blocks.each_with_index.map do |block, index|
-                render_outline_item(block, index)
-              end)
-            end
-        end
+      def render_structure_items(blocks)
+        safe_join(blocks.each_with_index.map { |block, index| render_structure_item(block, index) })
       end
 
-      def render_outline_item(block, index)
+      def render_block_type_buttons(block_types)
+        safe_join(block_types.map do |type_name, config|
+          button_tag(config[:label], type: "button", class: "btn btn-outline-secondary text-start",
+            data: { action: "page-builder-side-panel#pickBlockType", block_type: type_name })
+        end)
+      end
+
+      def render_structure_item(block, index)
         block = block.with_indifferent_access
-        block_type = block[:type]
-        label = block_type_label(block_type)
+        label = block_type_label(block[:type])
 
-        content_tag(:li, class: 'page-builder-outline-item', data: {
+        content_tag(:li, class: "page-builder-structure-item", data: {
           block_index: index,
-          action: 'click->page-builder#focusBlock'
+          action: "click->page-builder-side-panel#focusBlock"
         }) do
-          content_tag(:span, brawo_drag_handle, class: 'outline-drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
-            content_tag(:span, class: 'outline-item-label') do
+          content_tag(:span, brawo_drag_handle,
+            class: "page-builder-structure-item__handle",
+            title: t("brawo.page_builder.drag_to_reorder")) +
+            content_tag(:span, class: "page-builder-structure-item__label") do
               content_tag(:strong, label)
             end
         end
+      end
+
+      private :render_structure_items, :render_block_type_buttons, :render_structure_item
+
+      def render_page_builder_panel(blocks, block_types)
+        render_page_builder_side_panel(blocks, block_types)
       end
 
       def render_templates(form, field_name)
@@ -207,7 +212,8 @@ module BrawoCms
       end
 
       def block_header(label, index)
-        content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2') do
+        content_tag(:div, class: 'page-builder-block-header d-flex align-items-center gap-2',
+          data: { action: 'click->page-builder#toggleBlockFocus' }) do
           content_tag(:span, brawo_drag_handle(class: 'text-muted'), class: 'drag-handle', title: t('brawo.page_builder.drag_to_reorder')) +
             content_tag(:span, label, class: 'page-builder-block-type') +
             content_tag(:span, '', class: 'flex-grow-1') +
@@ -220,8 +226,8 @@ module BrawoCms
           move_action: 'page-builder#moveBlock',
           remove_action: 'page-builder#removeBlock',
           extra_before_remove: [
-            { label: t('brawo.page_builder.add_block_above'), action: 'page-builder#openPickerRelative', data: { insert_offset: 0 } },
-            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1 } }
+            { label: t('brawo.page_builder.add_block_above'), action: 'page-builder#openPickerRelative', data: { insert_offset: 0, panel_section: 'add' } },
+            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1, panel_section: 'add' } }
           ]
         )
       end

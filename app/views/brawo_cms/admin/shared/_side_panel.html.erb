@@ -1,0 +1,30 @@
+<%# locals: id, title, content, controllers, data %>
+<div id="<%= id %>"
+  class="brawo-admin-side-panel"
+  data-controller="<%= controllers %>"
+  <% data.each do |key, value| %>
+  data-<%= key.to_s.dasherize %>="<%= value %>"
+  <% end %>
+  aria-hidden="true">
+  <button type="button"
+    class="brawo-admin-side-panel__backdrop"
+    data-action="admin-side-panel#close"
+    tabindex="-1"
+    aria-hidden="true"></button>
+
+  <aside class="brawo-admin-side-panel__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="<%= id %>-title">
+    <header class="brawo-admin-side-panel__header">
+      <h5 class="brawo-admin-side-panel__title" id="<%= id %>-title" data-admin-side-panel-target="title"><%= title %></h5>
+      <button type="button" class="btn-close"
+        data-action="admin-side-panel#close"
+        aria-label="<%= t('brawo.layout.close') %>"></button>
+    </header>
+
+    <div class="brawo-admin-side-panel__body">
+      <%= content %>
+    </div>
+  </aside>
+</div>

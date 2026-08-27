@@ -135,7 +135,9 @@ en:
       media_not_found: Media not found
     page_builder:
       default_label: Content
+      panel_title: Blocks
       structure: Structure
+      outline_empty: No blocks yet. Add one below.
       add_block: Add block
       add_block_above: Add block above
       add_block_below: Add block below

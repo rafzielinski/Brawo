@@ -14,17 +14,10 @@ body.brawo-admin {
 .brawo-admin-shell {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   padding-top: 0.5rem;
+  margin-left: calc(var(--brawo-admin-sidebar-width) + var(--brawo-admin-layout-gap));
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-
-.brawo-admin-layout {
-  display: flex;
-  flex: 1;
-  gap: var(--brawo-admin-layout-gap);
-  align-items: stretch;
-  min-height: 0;
   overflow: hidden;
 }

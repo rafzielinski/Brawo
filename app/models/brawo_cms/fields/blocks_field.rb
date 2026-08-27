@@ -5,11 +5,23 @@ module BrawoCms
         current_value = get_value(object) || []
         current_value = Array(current_value) unless current_value.is_a?(Array)
 
-        helper = ActionController::Base.helpers
-        helper.extend(BrawoCms::Admin::PageBuilderHelper)
+        helper = page_builder_view_helper(options)
         available_blocks = BrawoCms.blocks_for(object.content_type_name.to_sym)
         helper.render_page_builder(form, @name, current_value, label: @label, available_blocks: available_blocks)
       end
+
+      private
+
+      def page_builder_view_helper(options)
+        helper = options[:helper]
+        return helper if helper&.respond_to?(:render_page_builder)
+
+        ActionController::Base.helpers.tap do |view_helper|
+          view_helper.extend(BrawoCms::Admin::PageBuilderHelper)
+        end
+      end
+
+      public
 
       def format_value(value)
         return empty_display_value unless value.present?

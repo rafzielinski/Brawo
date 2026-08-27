@@ -1,0 +1,96 @@
+/* Admin shell — side panel overlay */
+
+.brawo-admin-side-panel {
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.brawo-admin-side-panel.is-open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.brawo-admin-side-panel__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: var(--brawo-side-panel-backdrop);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.brawo-admin-side-panel.is-open .brawo-admin-side-panel__backdrop {
+  opacity: 1;
+}
+
+.brawo-admin-side-panel__dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(var(--brawo-side-panel-width), 90vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--brawo-light);
+  color: var(--brawo-dark);
+  border-top-left-radius: var(--brawo-radius);
+  box-shadow: var(--brawo-shadow-side-panel);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  overflow: hidden;
+}
+
+.brawo-admin-side-panel.is-open .brawo-admin-side-panel__dialog {
+  opacity: 1;
+}
+
+.brawo-admin-side-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: var(--brawo-border-width) solid var(--brawo-border);
+  background: var(--brawo-light);
+  flex-shrink: 0;
+}
+
+.brawo-admin-side-panel__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.brawo-admin-side-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 1.25rem 1.25rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+  min-height: 0;
+}
+
+.brawo-admin-side-panel__section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brawo-dark-soft);
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 62rem) {
+  .brawo-admin-side-panel__dialog {
+    width: min(var(--brawo-side-panel-width-sm), 85vw);
+  }
+}

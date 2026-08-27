@@ -18,48 +18,48 @@
         data-admin-mode-preview-url-value="<%= admin_preview_url %>">
     <%= render 'brawo_cms/admin/shared/navigation' %>
 
+    <aside class="brawo-admin-sidebar-rail" aria-label="<%= t('brawo.navigation.panel') %>">
+      <%= render 'brawo_cms/admin/shared/sidebar' %>
+    </aside>
+
     <div class="brawo-admin-shell">
-      <div class="brawo-admin-layout">
-        <div class="sidebar">
-          <%= render 'brawo_cms/admin/shared/sidebar' %>
-        </div>
-
-        <div class="brawo-admin-stage">
-          <main class="brawo-admin-main">
-            <% if notice %>
-              <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                <%= notice %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
-              </div>
-            <% end %>
-
-            <% if alert %>
-              <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <%= alert %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
-              </div>
-            <% end %>
-
-            <%= yield %>
-          </main>
-
-          <main class="brawo-admin-preview"
-                data-admin-mode-target="preview"
-                aria-hidden="true">
-            <div class="brawo-admin-preview__loader"
-                 data-admin-mode-target="loader"
-                 aria-hidden="true">
-              <span class="brawo-admin-preview__dots" aria-hidden="true">
-                <span></span><span></span><span></span>
-              </span>
-              <span class="visually-hidden"><%= t('brawo.navigation.preview_loading') %></span>
+      <div class="brawo-admin-stage">
+        <main class="brawo-admin-main">
+          <% if notice %>
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+              <%= notice %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
             </div>
-            <iframe title="<%= t('brawo.navigation.modes.preview') %>"
-                    data-admin-mode-target="frame"
-                    src="about:blank"></iframe>
-          </main>
-        </div>
+          <% end %>
+
+          <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+              <%= alert %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('brawo.layout.close') %>"></button>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </main>
+
+        <main class="brawo-admin-preview"
+              data-admin-mode-target="preview"
+              aria-hidden="true">
+          <div class="brawo-admin-preview__loader"
+               data-admin-mode-target="loader"
+               aria-hidden="true">
+            <span class="brawo-admin-preview__dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
+            <span class="visually-hidden"><%= t('brawo.navigation.preview_loading') %></span>
+          </div>
+          <iframe title="<%= t('brawo.navigation.modes.preview') %>"
+                  data-admin-mode-target="frame"
+                  src="about:blank"></iframe>
+        </main>
       </div>
     </div>
+
+    <%= content_for?(:admin_side_panel) ? yield(:admin_side_panel) : "" %>
   </body>
 </html>

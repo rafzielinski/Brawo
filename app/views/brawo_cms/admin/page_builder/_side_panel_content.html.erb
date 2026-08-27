@@ -1,0 +1,28 @@
+<%# locals: blocks, outline_items, block_buttons %>
+<section class="brawo-admin-side-panel__section"
+  data-admin-side-panel-target="section"
+  data-section="structure"
+  data-title="<%= t('brawo.page_builder.structure') %>"
+  hidden>
+  <p class="text-muted small page-builder-structure-empty<%= blocks.any? ? ' d-none' : '' %>"
+    data-page-builder-side-panel-target="outlineEmpty">
+    <%= t('brawo.page_builder.outline_empty') %>
+  </p>
+  <ul class="page-builder-structure-list list-unstyled mb-0"
+    data-controller="sortable"
+    data-sortable-handle-value=".page-builder-structure-item__handle"
+    data-action="sortable:sorted->page-builder-side-panel#reindexFromOutline"
+    data-page-builder-side-panel-target="outline">
+    <%= outline_items %>
+  </ul>
+</section>
+
+<section class="brawo-admin-side-panel__section"
+  data-admin-side-panel-target="section"
+  data-section="add"
+  data-title="<%= t('brawo.page_builder.add_block') %>"
+  hidden>
+  <div class="page-builder-block-types d-grid gap-2">
+    <%= block_buttons %>
+  </div>
+</section>

@@ -22,6 +22,8 @@ module BrawoCms
         brawo_cms/controllers/application.js
         brawo_cms/controllers/index.js
         brawo_cms/controllers/page_builder_controller.js
+        brawo_cms/controllers/admin_side_panel_controller.js
+        brawo_cms/controllers/page_builder_side_panel_controller.js
         brawo_cms/controllers/sortable_controller.js
         brawo_cms/controllers/repeater_controller.js
         brawo_cms/controllers/color_picker_controller.js
