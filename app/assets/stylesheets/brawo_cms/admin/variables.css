@@ -15,6 +15,10 @@
  */
 
 :root {
+  /* Primitive neutrals — fixed */
+  --brawo-white: oklch(1 0 0);
+  --brawo-black: oklch(0 0 0);
+
   /* Primitive — host-editable */
   --brawo-accent: oklch(83.905% 0.16629 157.184);
 
@@ -42,7 +46,7 @@
   --brawo-chrome-border: color-mix(in oklch, var(--brawo-light) 38%, transparent);
 
   /* Light surfaces */
-  --brawo-light-soft: color-mix(in oklch, var(--brawo-light) 92%, white);
+  --brawo-light-soft: color-mix(in oklch, var(--brawo-light) 50%, var(--brawo-white));
   --brawo-light-strong: color-mix(in oklch, var(--brawo-dark) 6%, var(--brawo-light));
 
   /* Dark text */
@@ -126,47 +130,8 @@
 
 @supports not (color: oklch(from red l c h)) {
   :root {
-    --brawo-light: color-mix(in oklch, var(--brawo-accent) 5%, white);
-    --brawo-dark: color-mix(in oklch, var(--brawo-accent) 22%, black);
-    --brawo-chrome: color-mix(in oklch, var(--brawo-dark) 65%, black);
+    --brawo-light: color-mix(in oklch, var(--brawo-accent) 5%, var(--brawo-white));
+    --brawo-dark: color-mix(in oklch, var(--brawo-accent) 22%, var(--brawo-black));
+    --brawo-chrome: color-mix(in oklch, var(--brawo-dark) 65%, var(--brawo-black));
   }
-}
-
-:root {
-  /* Legacy aliases */
-  --brawo-main: var(--brawo-dark);
-  --brawo-inverse: var(--brawo-light);
-  --brawo-bg: var(--brawo-chrome);
-  --brawo-text: var(--brawo-dark);
-  --brawo-text-on-dark: var(--brawo-light);
-  --brawo-muted: var(--brawo-dark-soft);
-  --brawo-muted-light: var(--brawo-chrome-faint);
-  --brawo-border-dark: var(--brawo-chrome-border);
-  --brawo-dark-muted: var(--brawo-dark-soft);
-  --brawo-dark-subtle: var(--brawo-dark-faint);
-  --brawo-light-raised: var(--brawo-light-soft);
-  --brawo-light-sunken: var(--brawo-light-strong);
-  --brawo-chrome-elevated: var(--brawo-chrome-soft);
-  --brawo-chrome-muted: var(--brawo-chrome-faint);
-  --brawo-accent-subtle: var(--brawo-accent-faint);
-  --brawo-accent-on-main: var(--brawo-accent-on-light);
-  --brawo-accent-on-inverse: var(--brawo-accent-on-dark);
-  --brawo-on-chrome: var(--brawo-light);
-  --brawo-on-light: var(--brawo-dark);
-  --brawo-on-light-muted: var(--brawo-dark-soft);
-  --brawo-on-chrome-muted: var(--brawo-chrome-faint);
-  --brawo-success-bg: var(--brawo-success-soft);
-  --brawo-success-border: var(--brawo-success-faint);
-  --brawo-warning-bg: var(--brawo-warning-soft);
-  --brawo-warning-border: var(--brawo-warning-faint);
-  --brawo-error-bg: var(--brawo-error-soft);
-  --brawo-error-border: var(--brawo-error-faint);
-  --brawo-info-bg: var(--brawo-info-soft);
-  --brawo-info-border: var(--brawo-info-faint);
-  --brawo-green: var(--brawo-accent);
-  --brawo-green-dark: var(--brawo-accent-strong-on-light);
-  --brawo-green-light: var(--brawo-accent-faint);
-  --brawo-yellow: var(--brawo-accent-on-dark);
-  --brawo-yellow-dark: var(--brawo-warning-strong);
-  --brawo-yellow-light: var(--brawo-warning-soft);
 }

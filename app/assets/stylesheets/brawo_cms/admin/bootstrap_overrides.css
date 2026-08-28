@@ -172,13 +172,14 @@
 .brawo-admin .form-control,
 .brawo-admin .form-select {
   border-color: var(--brawo-border);
-  background-color: var(--brawo-light-soft);
+  background-color: var(--brawo-white);
 }
 
 .brawo-admin .form-control:focus,
 .brawo-admin .form-select:focus {
   border-color: var(--brawo-border);
   box-shadow: var(--brawo-shadow-focus-offset);
+  background-color: var(--brawo-white);
   outline: none;
 }
 

@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   toggleHeader(event) {
-    if (event.target.closest(".collapsible-toggle, .repeater-drag-handle, .drag-handle, .dropdown, .dropdown-menu, .item-actions-menu")) {
+    if (event.target.closest(".collapsible-toggle, .repeater-drag-handle, .drag-handle, .dropdown, .dropdown-menu, .item-actions-menu, .repeater-collapse-all-btn")) {
       return
     }
 

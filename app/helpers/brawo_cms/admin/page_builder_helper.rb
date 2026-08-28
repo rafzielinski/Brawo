@@ -44,7 +44,7 @@ module BrawoCms
             }) do
               safe_join(build_canvas_children(form, field_name, blocks))
             end,
-            render_add_block_button('bottom', blocks.size),
+            render_bottom_toolbar(blocks.size),
             content_tag(:p, t('brawo.page_builder.empty'),
               class: "text-muted page-builder-empty text-center py-4#{' is-hidden' if blocks.any?}")
           ])
@@ -63,29 +63,32 @@ module BrawoCms
       def render_toolbar(label, insert_at)
         content_tag(:div, class: 'page-builder-toolbar') do
           content_tag(:h5, label.presence || t('brawo.page_builder.default_label'), class: 'page-builder-title mb-0') +
-            content_tag(:div, class: 'page-builder-toolbar-actions') do
-              button_tag(t('brawo.page_builder.structure'), type: 'button',
-                class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
-                data: { action: 'page-builder#openPanel', panel_section: 'structure' }) +
-                button_tag(t('brawo.collapsible.collapse_all'), type: 'button',
-                  class: 'btn btn-outline-secondary btn-sm',
-                  data: { action: 'page-builder#toggleAllBlocksCollapse', page_builder_target: 'collapseAllBtn' }) +
-                button_tag(type: 'button', class: 'btn btn-primary btn-sm',
-                  data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
-                  t('brawo.page_builder.add_block')
-                end
+            render_page_builder_toolbar_actions(insert_at)
+        end
+      end
+
+      def render_bottom_toolbar(insert_at)
+        content_tag(:div, class: 'page-builder-toolbar page-builder-toolbar--bottom') do
+          render_page_builder_toolbar_actions(insert_at)
+        end
+      end
+
+      def render_page_builder_toolbar_actions(insert_at)
+        content_tag(:div, class: 'page-builder-toolbar-actions') do
+          button_tag(t('brawo.page_builder.structure'), type: 'button',
+            class: 'btn btn-outline-secondary btn-sm page-builder-structure-btn',
+            data: { action: 'page-builder#openPanel', panel_section: 'structure' }) +
+            button_tag(t('brawo.collapsible.collapse_all'), type: 'button',
+              class: 'btn btn-outline-secondary btn-sm',
+              data: { action: 'page-builder#toggleAllBlocksCollapse', page_builder_target: 'collapseAllBtn' }) +
+            button_tag(type: 'button', class: 'btn btn-primary btn-sm',
+              data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
+              t('brawo.page_builder.add_block')
             end
         end
       end
 
-      def render_add_block_button(position, insert_at)
-        content_tag(:div, class: "page-builder-add-bar page-builder-add-bar--#{position}") do
-          button_tag(type: 'button', class: 'btn btn-outline-secondary btn-sm',
-            data: { action: 'page-builder#openPanel', insert_position: insert_at, panel_section: 'add' }) do
-            t('brawo.page_builder.add_block')
-          end
-        end
-      end
+      private :render_page_builder_toolbar_actions
 
       def render_insert_zone(position)
         content_tag(:div, class: 'block-insert-zone', data: { insert_position: position }) do
@@ -363,12 +366,14 @@ module BrawoCms
         content_tag(:div, class: 'repeater-field', data: {
           controller: 'collapsible repeater',
           repeater_field_name_value: repeater_name,
+          repeater_translations_value: brawo_collapsible_translations.to_json,
           action: 'sortable:sorted->repeater#reindex'
         }) do
           content_tag(:div, class: 'repeater-field-header d-flex align-items-center gap-2',
             data: { action: 'click->collapsible#toggleHeader' }) do
-            brawo_collapsible_toggle +
-              content_tag(:span, field_def[:label] || repeater_name.to_s.humanize, class: 'form-label mb-0 flex-grow-1')
+            content_tag(:span, field_def[:label] || repeater_name.to_s.humanize, class: 'form-label mb-0 flex-grow-1') +
+              brawo_repeater_collapse_all_btn(disabled: disabled) +
+              brawo_collapsible_toggle
           end +
             content_tag(:div, class: 'repeater-field-body') do
               content_tag(:div, class: 'repeater-items', data: {
@@ -408,14 +413,14 @@ module BrawoCms
         content_tag(:div, class: 'repeater-row card mb-2', data: { controller: 'collapsible', index: index }) do
           content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2',
             data: { action: 'click->collapsible#toggleHeader' }) do
-            brawo_collapsible_toggle +
-              content_tag(:span, brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: t('brawo.page_builder.drag_to_reorder')) +
+            content_tag(:span, brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: t('brawo.page_builder.drag_to_reorder')) +
               content_tag(:span, row_label, class: 'repeater-row-label small text-muted flex-grow-1') +
               render_item_actions_dropdown(
                 move_action: 'repeater#moveRow',
                 remove_action: 'repeater#removeRow',
                 disabled: disabled
-              )
+              ) +
+              brawo_collapsible_toggle
           end +
             content_tag(:div, class: 'card-body') do
               content_tag(:div, class: BrawoCms::Admin::FieldWrapperHelper::FIELD_ROW_CLASS) { safe_join(fields_html) }

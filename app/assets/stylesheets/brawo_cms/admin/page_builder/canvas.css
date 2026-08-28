@@ -28,10 +28,10 @@
   margin-left: auto;
 }
 
-.page-builder-add-bar {
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem 0;
+.page-builder-toolbar--bottom {
+  justify-content: flex-end;
+  margin-bottom: 0;
+  margin-top: 0.25rem;
 }
 
 .page-builder-canvas {

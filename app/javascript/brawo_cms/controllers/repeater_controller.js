@@ -1,8 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["collapseAllBtn"]
+
   static values = {
-    fieldName: String
+    fieldName: String,
+    translations: Object
+  }
+
+  connect() {
+    this.updateCollapseAllBtn()
   }
 
   addRow(event) {
@@ -124,5 +131,45 @@ export default class extends Controller {
         this.updateRowIndex(row, currentIndex, index)
       }
     })
+  }
+
+  toggleAllRowsCollapse(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const rows = this.repeaterRows()
+    if (rows.length === 0) return
+
+    const allCollapsed = rows.every((row) => row.classList.contains("is-collapsed"))
+    rows.forEach((row) => {
+      row.classList.toggle("is-collapsed", !allCollapsed)
+      this.syncCollapsibleToggle(row)
+    })
+
+    this.updateCollapseAllBtn()
+  }
+
+  repeaterRows() {
+    return [...this.element.querySelectorAll(".repeater-items .repeater-row:not(.repeater-template)")]
+  }
+
+  syncCollapsibleToggle(element) {
+    const toggle = element.querySelector(".collapsible-toggle")
+    if (toggle) toggle.setAttribute("aria-expanded", !element.classList.contains("is-collapsed"))
+  }
+
+  updateCollapseAllBtn() {
+    if (!this.hasCollapseAllBtnTarget) return
+
+    const rows = this.repeaterRows()
+    const allCollapsed = rows.length > 0 && rows.every((row) => row.classList.contains("is-collapsed"))
+
+    this.collapseAllBtnTarget.textContent = allCollapsed
+      ? this.translation("expand_all")
+      : this.translation("collapse_all")
+  }
+
+  translation(key) {
+    return this.hasTranslationsValue ? this.translationsValue[key] || "" : ""
   }
 }

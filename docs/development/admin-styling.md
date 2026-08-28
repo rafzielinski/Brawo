@@ -98,10 +98,6 @@ Inline shadows should use `color-mix(in oklch, var(--brawo-dark) N%, transparent
 - **Breakpoints:** `62rem` (not `992px`)
 - **Allowed px exceptions:** `--brawo-border-width`, `--brawo-sr-only-size` in `variables.css` only; 3D `translateZ` values use rem tokens
 
-## Legacy aliases
-
-`variables.css` defines deprecated aliases (`--brawo-main`, `--brawo-green`, `--brawo-bg`, `--brawo-info-bg`, etc.) for backward compatibility. **Do not use them in new CSS** — prefer the canonical names above.
-
 ## Bootstrap bridge
 
 [`bootstrap_overrides.css`](../../app/assets/stylesheets/brawo_cms/admin/bootstrap_overrides.css) maps Bootstrap variables to `--brawo-*` under `.brawo-admin`. Prefer Bootstrap utility classes for simple forms; add custom CSS only when Bootstrap defaults are insufficient.

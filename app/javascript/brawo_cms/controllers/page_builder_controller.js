@@ -221,8 +221,8 @@ export default class extends Controller {
   }
 
   updateAddBarPositions(count) {
-    const topBtn = this.element.querySelector(".page-builder-toolbar [data-insert-position]")
-    const bottomBtn = this.element.querySelector(".page-builder-add-bar--bottom [data-insert-position]")
+    const topBtn = this.element.querySelector(".page-builder-toolbar:not(.page-builder-toolbar--bottom) [data-insert-position]")
+    const bottomBtn = this.element.querySelector(".page-builder-toolbar--bottom [data-insert-position]")
     if (topBtn) topBtn.dataset.insertPosition = "0"
     if (bottomBtn) bottomBtn.dataset.insertPosition = String(count)
   }
@@ -374,9 +374,13 @@ export default class extends Controller {
     })
 
     if (this.hasCollapseAllBtnTarget) {
-      this.collapseAllBtnTarget.textContent = allCollapsed
+      const label = allCollapsed
         ? this.translation("collapse_all")
         : this.translation("expand_all")
+
+      this.collapseAllBtnTargets.forEach((btn) => {
+        btn.textContent = label
+      })
     }
   }
 

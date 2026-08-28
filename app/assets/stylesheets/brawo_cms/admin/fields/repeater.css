@@ -2,6 +2,17 @@
 
 .repeater-field {
   margin-bottom: 1.5rem;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  background-color: var(--brawo-white);
+  border-radius: var(--brawo-radius-md);
+}
+
+.repeater-field-body {
+  padding: 1rem;
+}
+
+.repeater-collapse-all-btn {
+  flex-shrink: 0;
 }
 
 .repeater-field:last-child {
@@ -11,7 +22,7 @@
 .repeater-row {
   position: relative;
   border: var(--brawo-border-width) solid var(--brawo-border);
-  background-color: var(--brawo-light-soft);
+  background-color: var(--brawo-white);
 }
 
 .repeater-row .card-body {

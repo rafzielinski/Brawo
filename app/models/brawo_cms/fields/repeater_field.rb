@@ -43,12 +43,14 @@ module BrawoCms
         helper.content_tag(:div, class: 'repeater-field', data: {
           controller: 'collapsible repeater',
           repeater_field_name_value: @name,
+          repeater_translations_value: helper.brawo_collapsible_translations.to_json,
           action: 'sortable:sorted->repeater#reindex'
         }) do
           header = helper.content_tag(:div, class: 'repeater-field-header d-flex align-items-center gap-2',
             data: { action: 'click->collapsible#toggleHeader' }) do
-            helper.brawo_collapsible_toggle +
-              helper.content_tag(:span, @label, class: 'form-label mb-0 flex-grow-1')
+            helper.content_tag(:span, @label, class: 'form-label mb-0 flex-grow-1') +
+              helper.brawo_repeater_collapse_all_btn +
+              helper.brawo_collapsible_toggle
           end
 
           body = helper.content_tag(:div, class: 'repeater-field-body') do
@@ -154,13 +156,13 @@ module BrawoCms
         helper.content_tag(:div, class: 'repeater-row card mb-2', data: { controller: 'collapsible', index: index }) do
           header = helper.content_tag(:div, class: 'repeater-row-header d-flex align-items-center gap-2',
             data: { action: 'click->collapsible#toggleHeader' }) do
-            helper.brawo_collapsible_toggle +
-              helper.content_tag(:span, helper.brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
+            helper.content_tag(:span, helper.brawo_drag_handle, class: 'repeater-drag-handle brawo-icon-btn', title: I18n.t('brawo.page_builder.drag_to_reorder')) +
               helper.content_tag(:span, row_label, class: 'repeater-row-label small text-muted flex-grow-1') +
               helper.render_item_actions_dropdown(
                 move_action: 'repeater#moveRow',
                 remove_action: 'repeater#removeRow'
-              )
+              ) +
+              helper.brawo_collapsible_toggle
           end
 
           fields_body = helper.content_tag(:div, class: 'card-body') do

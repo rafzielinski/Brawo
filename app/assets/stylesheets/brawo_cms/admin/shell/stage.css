@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   perspective: var(--brawo-stage-perspective);
-  background-color: var(--brawo-light);
+  background-color: var(--brawo-light-strong);
   color: var(--brawo-dark);
   border-radius: var(--brawo-radius) 0 0 0;
 }
@@ -26,6 +26,10 @@
   transform: scale(1) translateZ(0);
   transform-origin: center center;
   transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s 0.1s ease;
+}
+
+.brawo-admin-main .card {
+  background-color: var(--brawo-white);
 }
 
 .brawo-admin--preview .brawo-admin-main {
