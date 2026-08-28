@@ -1,15 +1,7 @@
-<%= render 'brawo_cms/admin/shared/page_header',
-           title: t('brawo.contents.new_title', label: @content_type_config[:label]),
-           heading_class: 'brawo-page-heading' %>
-
-<div class="card">
-  <div class="card-body">
-    <% if @content_type_config[:page_builder] %>
-      <%= render 'page_builder_form', content: @content %>
-    <% else %>
-      <%= render 'form', content: @content %>
-    <% end %>
-  </div>
-</div>
+<% if @content_type_config[:page_builder] %>
+  <%= render 'page_builder_form', content: @content %>
+<% else %>
+  <%= render 'form', content: @content %>
+<% end %>
 
 <%= render 'slug_conflict_modal', conflict: @slug_conflict if @slug_conflict.present? %>

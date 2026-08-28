@@ -1,0 +1,72 @@
+<div class="card content-header-fields">
+  <div class="card-body">
+    <% if content.new_record? %>
+      <div class="mb-3">
+        <%= form.label :title, t('brawo.attributes.title'), class: "form-label" %>
+        <%= form.text_field :title, class: "form-control form-control-lg", required: true %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :slug, t('brawo.attributes.slug'), class: "form-label" %>
+        <%= form.text_field :slug, class: "form-control" %>
+        <small class="form-text text-muted"><%= t('brawo.hints.slug_from_title') %></small>
+      </div>
+    <% else %>
+      <div class="content-meta__title-row"
+           data-controller="inline-edit"
+           data-inline-edit-open-value="<%= content.errors[:title].any? %>">
+        <div class="content-meta__display" data-inline-edit-target="display">
+          <span class="content-meta__title"><%= content.title %></span>
+          <%= content_meta_edit_button %>
+        </div>
+        <div class="content-meta__input d-none" data-inline-edit-target="input">
+          <div class="content-meta__input-row">
+            <%= form.text_field :title, class: "form-control form-control-lg", required: true, aria: { label: t('brawo.attributes.title') } %>
+            <%= content_meta_cancel_button %>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-meta__slug-row"
+           data-controller="inline-edit"
+           data-inline-edit-open-value="<%= content.errors[:slug].any? %>">
+        <div class="content-meta__display" data-inline-edit-target="display">
+          <%= link_to content.slug,
+                      content_public_path(content, content_type: @content_type),
+                      class: "content-meta__permalink",
+                      target: "_blank",
+                      rel: "noopener" %>
+          <%= content_meta_edit_button %>
+        </div>
+        <div class="content-meta__input d-none" data-inline-edit-target="input">
+          <div class="content-meta__input-row">
+            <%= form.text_field :slug, class: "form-control", aria: { label: t('brawo.attributes.slug') } %>
+            <%= content_meta_cancel_button %>
+          </div>
+          <small class="form-text text-muted"><%= t('brawo.hints.slug_edit') %></small>
+        </div>
+      </div>
+    <% end %>
+
+    <hr class="my-4">
+
+    <div class="row g-3 content-header-fields__meta">
+      <div class="col-md-4">
+        <%= form.label :status, t('brawo.attributes.status'), class: "form-label" %>
+        <%= form.select :status, brawo_status_options, {}, class: "form-select" %>
+      </div>
+      <div class="col-md-4">
+        <%= form.label :published_at, t('brawo.attributes.published_at'), class: "form-label" %>
+        <%= form.datetime_local_field :published_at, class: "form-control" %>
+      </div>
+    </div>
+
+    <% if @content_type_config[:header_fields].present? %>
+      <div class="row g-3 content-header-fields__custom">
+        <% @content_type_config[:header_fields].each do |field| %>
+          <%= render_wrapped_field(form, field, content, render_input: :render_field_input) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

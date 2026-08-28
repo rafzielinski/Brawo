@@ -41,13 +41,17 @@ module BrawoCms
       hash.slice(*@base_keys).stringify_keys
     end
 
+    def all_custom_fields
+      (@type_config[:fields] || []) + (@type_config[:header_fields] || [])
+    end
+
     def field_permits
       permitted_fields = []
       array_fields = {}
       repeater_field_names = []
       blocks_field_names = []
 
-      (@type_config[:fields] || []).each do |field|
+      all_custom_fields.each do |field|
         case field[:type]
         when :reference
           array_fields[field[:name]] = []
@@ -162,7 +166,7 @@ module BrawoCms
       field_def = field_def_override || if parent_field_def
         parent_field_def[:sub_fields]&.find { |f| f[:name].to_s == repeater_name.to_s }
       else
-        @type_config[:fields].find { |f| f[:name].to_s == repeater_name.to_s }
+        all_custom_fields.find { |f| f[:name].to_s == repeater_name.to_s }
       end
 
       return [] unless field_def

@@ -122,7 +122,8 @@ Entry manifest: [`admin.css`](../../app/assets/stylesheets/brawo_cms/admin.css).
 | `admin/bootstrap_overrides.css` | Bootstrap → `--brawo-*` mapping |
 | `admin/icons.css` | Icon sizing |
 | `admin/components/primitives.css` | Status, cards, tables, page titles |
-| `admin/components/content_meta.css` | Title/slug edit panel |
+| `admin/components/content_meta.css` | Inline title/slug edit |
+| `admin/components/content_header_fields.css` | Header fields card |
 | `admin/fields/shared.css` | Field wrappers, validation |
 | `admin/fields/toggle.css` | Boolean toggle widget |
 | `admin/fields/color.css` | Color picker + Coloris |

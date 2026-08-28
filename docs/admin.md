@@ -23,7 +23,9 @@ Auto-populated from `BrawoCms.content_types` and `BrawoCms.taxonomy_types`. New 
 
 ## Content form
 
-**Base fields:** title, slug, description, status (`draft` / `published` / `archived`).
+**Base fields:** title, slug, description, status (`draft` / `published` / `archived`), and `published_at` appear at the top of the form. Title, slug, status, and published date sit in one header card; description and custom fields sit below.
+
+**Header fields:** optional per-type fields (`header_fields` in the DSL) render in that same header card — see [content-types.md](content-types.md).
 
 **Custom fields:** rendered dynamically from field definitions via `FieldFactory` → appropriate input widget per type.
 
@@ -51,7 +53,7 @@ Host apps must run engine migrations (includes ActiveStorage tables). Configure 
 | `published` | Visible via `.published` scope |
 | `archived` | Hidden from public queries |
 
-Set `status` to `published` for public visibility. Optional `published_at` column exists on the model but is not exposed in the default admin form.
+Set `status` to `published` for public visibility. Set `published_at` in the admin form to record when content was published.
 
 ## Layout & assets
 

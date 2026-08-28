@@ -68,11 +68,14 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       get "/admin/admin/contents/#{article.id}/edit", params: { content_type: "article" }
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include("content-header-fields")
       expect(response.body).to include("content-meta")
       expect(response.body).to include("Editable Article")
       expect(response.body).to include("editable-article")
       expect(response.body).to include('data-controller="inline-edit"')
+      expect(response.body).to include('name="content[published_at]"')
       expect(response.body).not_to include('name="content[title]" class="form-control" required="required"')
+      expect(response.body).not_to include("brawo-page-heading")
     end
 
     it "renders the admin mode toggle with preview enabled" do

@@ -12,18 +12,11 @@
                error_heading: t('brawo.contents.errors.prohibited', count: content.errors.count) %>
   <% end %>
 
-  <% if content.persisted? %>
-    <div class="content-meta-panel">
-      <%= render 'title_slug_fields', form: form, content: content %>
-    </div>
+  <%= render 'header_fields_area', form: form, content: content %>
 
-    <div class="card">
-      <div class="card-body">
-        <%= render 'standard_form_body', form: form, content: content %>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <%= render 'standard_form_body', form: form, content: content %>
     </div>
-  <% else %>
-    <%= render 'title_slug_fields', form: form, content: content %>
-    <%= render 'standard_form_body', form: form, content: content %>
-  <% end %>
+  </div>
 <% end %>

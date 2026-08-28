@@ -16,9 +16,8 @@ module BrawoCms
         BrawoCms.register_content_type(name, self, options)
 
         # Define field accessors
-        if options[:fields].present?
-          define_field_accessors(options[:fields])
-        end
+        custom_fields = (options[:fields] || []) + (options[:header_fields] || [])
+        define_field_accessors(custom_fields) if custom_fields.present?
 
         # Set default scope to filter by type
         default_scope { where(type: self.name) }

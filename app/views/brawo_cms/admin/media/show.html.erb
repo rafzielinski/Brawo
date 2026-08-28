@@ -1,6 +1,5 @@
 <%= render "brawo_cms/admin/shared/page_header",
            title: @media.display_title,
-           heading_class: "brawo-page-heading",
            toolbar: safe_join([
              link_to(t("brawo.actions.edit"), edit_admin_medium_path(@media), class: "btn btn-outline-primary btn-sm"),
              link_to(t("brawo.actions.back_to_list"), admin_media_path, class: "btn btn-outline-secondary btn-sm")

@@ -23,4 +23,8 @@ RSpec.describe "BrawoCms content type registration", type: :model do
   it "records page_builder flag when set" do
     expect(BrawoCms.content_types[:page][:page_builder]).to be true
   end
+
+  it "stores header_fields on the registry entry" do
+    expect(BrawoCms.content_types[:article][:header_fields]).to eq([])
+  end
 end

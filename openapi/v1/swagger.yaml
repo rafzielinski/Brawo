@@ -149,6 +149,98 @@ paths:
       responses:
         '204':
           description: content deleted
+  "/admin/api/v1/media":
+    get:
+      summary: List media
+      tags:
+      - Media
+      parameters:
+      - name: accept
+        in: query
+        required: false
+        description: MIME filter (e.g. image/*)
+        schema:
+          type: string
+      - name: q
+        in: query
+        required: false
+        description: Search title or filename
+        schema:
+          type: string
+      responses:
+        '200':
+          description: media found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/media"
+    post:
+      summary: Create media
+      tags:
+      - Media
+      parameters: []
+      responses:
+        '201':
+          description: media created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/media"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                media:
+                  "$ref": "#/components/schemas/media_input"
+  "/admin/api/v1/media/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show media
+      tags:
+      - Media
+      responses:
+        '200':
+          description: media found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/media"
+    patch:
+      summary: Update media
+      tags:
+      - Media
+      parameters: []
+      responses:
+        '200':
+          description: media updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/media"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                media:
+                  "$ref": "#/components/schemas/media_input"
+    delete:
+      summary: Delete media
+      tags:
+      - Media
+      responses:
+        '204':
+          description: media deleted
   "/admin/api/v1/taxonomies":
     parameters:
     - name: taxonomy_type
@@ -338,6 +430,23 @@ components:
           items:
             "$ref": "#/components/schemas/field_definition"
           nullable: true
+        wrapper:
+          type: object
+          nullable: true
+          properties:
+            width:
+              type: string
+              description: Field width percentage for tablet+ (default 100)
+            class:
+              type: string
+              description: Extra CSS class on field wrapper
+            attr:
+              oneOf:
+              - type: object
+                additionalProperties:
+                  type: string
+              - type: string
+                description: HTML attributes string, e.g. data-foo="bar"
       required:
       - name
       - type
@@ -353,10 +462,15 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/field_definition"
+        header_fields:
+          type: array
+          items:
+            "$ref": "#/components/schemas/field_definition"
       required:
       - type
       - label
       - fields
+      - header_fields
     content:
       type: object
       properties:
@@ -464,3 +578,49 @@ components:
         fields:
           type: object
           additionalProperties: true
+    media:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          nullable: true
+        alt_text:
+          type: string
+          nullable: true
+        filename:
+          type: string
+          nullable: true
+        content_type:
+          type: string
+          nullable: true
+        byte_size:
+          type: integer
+          nullable: true
+        url:
+          type: string
+          nullable: true
+        thumbnail_url:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - created_at
+      - updated_at
+    media_input:
+      type: object
+      properties:
+        title:
+          type: string
+        alt_text:
+          type: string
+        signed_id:
+          type: string
+          description: ActiveStorage direct upload signed blob id

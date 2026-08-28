@@ -50,6 +50,8 @@ rails g brawo_cms:content_type Post author:string body:textarea
 | `published_at` | Publish timestamp |
 | `fields` | JSONB — all custom fields |
 
+Base attributes `title`, `slug`, `status`, and `published_at` render in a header card at the top of the admin content form. Additional fields can be placed in that same card via `header_fields` (see below).
+
 ## Field types
 
 | Type | Options | Stores |
@@ -101,8 +103,13 @@ content_type :page,
   page_builder: true,           # visual block editor
   allowed_blocks: [:heading, :text],  # optional filter
   excluded_blocks: [:faq],      # optional filter
+  header_fields: [              # optional — extra fields in the header card
+    { name: :seo_title, type: :string, label: "SEO title" }
+  ],
   fields: [...]
 ```
+
+`header_fields` use the same field definition format as `fields`. They render inside the header card alongside title, slug, status, and published date. Values are stored in JSONB `fields` like regular custom fields.
 
 ## Full example
 

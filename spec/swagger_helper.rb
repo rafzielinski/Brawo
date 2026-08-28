@@ -85,9 +85,13 @@ RSpec.configure do |config|
               fields: {
                 type: :array,
                 items: { "$ref" => "#/components/schemas/field_definition" }
+              },
+              header_fields: {
+                type: :array,
+                items: { "$ref" => "#/components/schemas/field_definition" }
               }
             },
-            required: %w[type label fields]
+            required: %w[type label fields header_fields]
           },
           content: {
             type: :object,

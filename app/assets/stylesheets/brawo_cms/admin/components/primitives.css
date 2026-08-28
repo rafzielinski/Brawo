@@ -114,11 +114,3 @@
   color: var(--brawo-dark);
   margin: 0;
 }
-
-.brawo-page-heading {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--brawo-dark-soft);
-  letter-spacing: 0.01em;
-  margin: 0;
-}

@@ -1,8 +1,4 @@
-/* Content meta — title and slug edit panel */
-
-.content-meta-panel {
-  padding: 0.25rem 0 0.5rem;
-}
+/* Content meta — inline title and slug edit */
 
 .content-meta__title-row,
 .content-meta__slug-row {

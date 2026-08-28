@@ -9,7 +9,8 @@ module BrawoCms
       {
         type: @name.to_s,
         label: @config[:label],
-        fields: @config[:fields] || []
+        fields: @config[:fields] || [],
+        header_fields: @config[:header_fields] || []
       }
     end
   end

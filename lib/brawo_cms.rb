@@ -33,6 +33,7 @@ module BrawoCms
       self.content_types[name.to_sym] = {
         class: klass,
         fields: options[:fields] || [],
+        header_fields: options[:header_fields] || [],
         label: options[:label] || name.to_s.titleize,
         page_builder: options[:page_builder] || false,
         allowed_blocks: normalize_block_list(options[:allowed_blocks]),

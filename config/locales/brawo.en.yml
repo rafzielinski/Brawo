@@ -57,6 +57,7 @@ en:
       slug: Slug
       description: Description
       status: Status
+      published_at: Date published
       name: Name
     hints:
       slug_from_title: Leave blank to auto-generate from title

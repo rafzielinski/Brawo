@@ -1,0 +1,13 @@
+/* Content header fields — single card for base attributes */
+
+.content-header-fields {
+  margin-bottom: 1rem;
+}
+
+.content-header-fields__meta {
+  margin-top: 1rem;
+}
+
+.content-header-fields__custom {
+  margin-top: 0.5rem;
+}
