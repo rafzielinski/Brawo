@@ -23,11 +23,13 @@ Auto-populated from `BrawoCms.content_types` and `BrawoCms.taxonomy_types`. New 
 
 ## Content form
 
-**Base fields:** title, slug, description, status (`draft` / `published` / `archived`), and `published_at` appear at the top of the form. Title, slug, status, and published date sit in one header card; description and custom fields sit below.
+**Base fields:** title, slug, status (`draft` / `published` / `archived`), and `published_at` appear in a header card at the top of the form. Type-specific fields from the DSL render below in tabs when more than one tab is configured.
 
 **Header fields:** optional per-type fields (`header_fields` in the DSL) render in that same header card — see [content-types.md](content-types.md).
 
-**Custom fields:** rendered dynamically from field definitions via `FieldFactory` → appropriate input widget per type.
+**Field tabs:** use `tabs:` for tabbed fields. Put main fields in `{ key: :content, fields: [...] }`. With only `fields:`, the form renders a single card. Add `{ seo: true }` inside `tabs:` for the built-in SEO tab.
+
+**Fields:** rendered dynamically from field definitions via `FieldFactory` → appropriate input widget per type.
 
 Special UIs:
 - `:repeater` — add/remove rows, supports nesting

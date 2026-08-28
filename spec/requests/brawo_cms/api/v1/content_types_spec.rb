@@ -19,6 +19,8 @@ RSpec.describe "BrawoCms API v1 - Content Types", type: :request do
         run_test! do |response|
           types = JSON.parse(response.body)
           expect(types.map { |t| t["type"] }).to include("article")
+          article = types.find { |t| t["type"] == "article" }
+          expect(article["tabs"].map { |tab| tab["key"] }).to eq(%w[content seo])
         end
       end
     end

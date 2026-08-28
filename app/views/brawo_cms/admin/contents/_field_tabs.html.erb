@@ -1,0 +1,41 @@
+<% tabs = content_type_field_tabs(@content_type_config) %>
+<% return unless content_type_show_tabs?(@content_type_config) %>
+
+<% active_key = active_field_tab_key(tabs, content) %>
+
+<div class="content-field-tabs">
+  <ul class="nav nav-tabs content-field-tabs__nav" role="tablist">
+    <% tabs.each do |tab| %>
+      <% active = tab[:key] == active_key %>
+      <li class="nav-item" role="presentation">
+        <button type="button"
+                class="nav-link<%= ' active' if active %><%= ' has-errors' if field_tab_has_errors?(tab, content) %>"
+                id="content-tab-<%= tab[:key] %>-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#content-tab-<%= tab[:key] %>"
+                role="tab"
+                aria-controls="content-tab-<%= tab[:key] %>"
+                aria-selected="<%= active %>">
+          <%= field_tab_label(tab) %>
+        </button>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="card content-field-tabs__card">
+    <div class="card-body">
+      <div class="tab-content content-field-tabs__panes">
+        <% tabs.each do |tab| %>
+          <% active = tab[:key] == active_key %>
+          <div class="tab-pane fade<%= ' show active' if active %>"
+               id="content-tab-<%= tab[:key] %>"
+               role="tabpanel"
+               aria-labelledby="content-tab-<%= tab[:key] %>-tab"
+               tabindex="0">
+            <%= render_field_group(form, tab[:fields] || [], content, render_input: :render_field_input) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

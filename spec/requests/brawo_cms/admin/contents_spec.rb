@@ -101,6 +101,72 @@ RSpec.describe "BrawoCms Admin Contents", type: :request do
       expect(response.body).to include('id="brawo-content-form"')
       expect(response.body).not_to include('brawo-form-actions')
     end
+
+    it "renders content and SEO tabs when fields are in the content tab" do
+      get "/admin/admin/contents/#{article.id}/edit", params: { content_type: "article" }
+
+      expect(response.body).not_to include("content-fields-card")
+      expect(response.body).to include("content-field-tabs__nav")
+      expect(response.body).to include("Content")
+      expect(response.body).to include('name="content[author]"')
+      expect(response.body).to include("SEO")
+      expect(response.body).to include('name="content[meta_title]"')
+    end
+  end
+
+  describe "GET /admin/contents/:id/edit product" do
+    let!(:product) { Product.create!(title: "Sample Product", slug: "sample-product", status: "draft") }
+
+    it "renders content and settings tabs" do
+      get "/admin/admin/contents/#{product.id}/edit", params: { content_type: "product" }
+
+      expect(response.body).not_to include("content-fields-card")
+      expect(response.body).to include("content-field-tabs__nav")
+      expect(response.body).to include("Product Details")
+      expect(response.body).to include('name="content[price]"')
+      expect(response.body).to include("Settings")
+      expect(response.body).not_to include("SEO")
+      expect(response.body).not_to include('name="content[meta_title]"')
+    end
+  end
+
+  describe "GET /admin/contents/new product" do
+    it "does not render tabs when only fields are configured" do
+      article_type = Class.new(BrawoCms::Content) do
+        include BrawoCms::ContentTypeable
+
+        content_type :tabless,
+          label: "Tabless",
+          fields: [{ name: :note, type: :string, label: "Note" }]
+      end
+      stub_const("Tabless", article_type)
+
+      get "/admin/admin/contents/new", params: { content_type: "tabless" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("content-field-tabs__nav")
+      expect(response.body).to include('name="content[note]"')
+    end
+
+    it "renders tabs when only tabs are configured" do
+      tabbed_type = Class.new(BrawoCms::Content) do
+        include BrawoCms::ContentTypeable
+
+        content_type :tabbed_only,
+          label: "Tabbed Only",
+          tabs: [
+            { key: :main, label: "Main", fields: [{ name: :note, type: :string, label: "Note" }] }
+          ]
+      end
+      stub_const("TabbedOnly", tabbed_type)
+
+      get "/admin/admin/contents/new", params: { content_type: "tabbed_only" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("content-field-tabs__nav")
+      expect(response.body).to include("Main")
+      expect(response.body).to include('name="content[note]"')
+    end
   end
 
   describe "GET /admin/contents/:id/preview" do

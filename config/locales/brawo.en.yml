@@ -73,6 +73,8 @@ en:
       published: Published
       archived: Archived
     sections:
+      content: Content
+      seo: SEO
       custom_fields: Custom Fields
     formats:
       date: "%B %d, %Y"

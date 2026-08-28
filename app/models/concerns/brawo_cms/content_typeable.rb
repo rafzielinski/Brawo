@@ -12,11 +12,14 @@ module BrawoCms
         @content_type_name = name
         @content_type_options = options
 
-        # Register with BrawoCms
         BrawoCms.register_content_type(name, self, options)
 
-        # Define field accessors
-        custom_fields = (options[:fields] || []) + (options[:header_fields] || [])
+        config = BrawoCms.content_types[name.to_sym]
+        custom_fields = BrawoCms::ContentTypeTabs.all_fields(
+          config[:tabs],
+          header_fields: config[:header_fields],
+          fields: config[:top_level_fields]
+        )
         define_field_accessors(custom_fields) if custom_fields.present?
 
         # Set default scope to filter by type

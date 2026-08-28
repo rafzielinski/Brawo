@@ -10,6 +10,7 @@
  *= require brawo_cms/admin/components/primitives
  *= require brawo_cms/admin/components/content_meta
  *= require brawo_cms/admin/components/content_header_fields
+ *= require brawo_cms/admin/components/field_tabs
  *= require brawo_cms/admin/components/side_panel
  *= require brawo_cms/admin/components/collapsible
  *= require brawo_cms/admin/fields/shared

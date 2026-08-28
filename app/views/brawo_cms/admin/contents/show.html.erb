@@ -17,17 +17,6 @@
       </div>
     </div>
 
-    <% if @content.description.present? %>
-      <div class="row mb-3">
-        <div class="col-12">
-          <strong><%= t('brawo.attributes.description') %>:</strong>
-          <p><%= @content.description %></p>
-        </div>
-      </div>
-    <% end %>
-
-    <h5 class="mt-4 mb-3"><%= t('brawo.sections.custom_fields') %></h5>
-    
     <% @content_type_config[:fields].each do |field| %>
       <div class="row mb-3">
         <div class="col-md-3">

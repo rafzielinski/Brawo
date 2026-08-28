@@ -1,12 +1,5 @@
-<div class="mb-3">
-  <%= form.label :description, t('brawo.attributes.description'), class: "form-label" %>
-  <%= form.text_area :description, class: "form-control", rows: 3 %>
-</div>
-
-<hr class="my-4">
-<h5 class="mb-3"><%= t('brawo.sections.custom_fields') %></h5>
-
-<%= render_field_group(form, @content_type_config[:fields], content, render_input: :render_field_input) %>
+<%= render 'fields_card', form: form, content: content %>
+<%= render 'field_tabs', form: form, content: content %>
 
 <% unless content.persisted? %>
   <div class="brawo-form-actions">

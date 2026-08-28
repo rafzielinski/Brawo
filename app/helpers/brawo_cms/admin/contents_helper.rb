@@ -1,6 +1,35 @@
 module BrawoCms
   module Admin
     module ContentsHelper
+      def content_type_field_tabs(config)
+        config[:tabs] || []
+      end
+
+      def content_type_show_tabs?(config)
+        config[:show_tabs] == true
+      end
+
+      def field_tab_label(tab)
+        tab[:label].presence || I18n.t("brawo.sections.#{tab[:key]}", default: tab[:key].to_s.titleize)
+      end
+
+      def active_field_tab_key(tabs, content)
+        error_keys = content.errors.attribute_names.map(&:to_s)
+
+        tabs.each do |tab|
+          field_names = (tab[:fields] || []).map { |field| field[:name].to_s }
+          return tab[:key] if (error_keys & field_names).any?
+        end
+
+        tabs.first&.dig(:key)
+      end
+
+      def field_tab_has_errors?(tab, content)
+        error_keys = content.errors.attribute_names.map(&:to_s)
+        field_names = (tab[:fields] || []).map { |field| field[:name].to_s }
+        (error_keys & field_names).any?
+      end
+
       def content_public_path(content, content_type:)
         slug = content.slug
         return "#" if slug.blank?

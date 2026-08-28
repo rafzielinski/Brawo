@@ -458,6 +458,25 @@ components:
           type: string
         label:
           type: string
+        seo:
+          type: boolean
+        tabs:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              label:
+                type: string
+                nullable: true
+              fields:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/field_definition"
+            required:
+            - key
+            - fields
         fields:
           type: array
           items:
@@ -482,9 +501,6 @@ components:
           type: string
           nullable: true
         slug:
-          type: string
-          nullable: true
-        description:
           type: string
           nullable: true
         status:
@@ -519,8 +535,6 @@ components:
         title:
           type: string
         slug:
-          type: string
-        description:
           type: string
         status:
           type: string

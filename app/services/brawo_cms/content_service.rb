@@ -1,6 +1,6 @@
 module BrawoCms
   class ContentService
-    BASE_KEYS = %i[title slug description status published_at].freeze
+    BASE_KEYS = %i[title slug status published_at].freeze
 
     class << self
       def list(type:)

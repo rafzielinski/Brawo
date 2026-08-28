@@ -1,13 +1,5 @@
-<div class="mb-3">
-  <%= form.label :description, t('brawo.attributes.description'), class: "form-label" %>
-  <%= form.text_area :description, class: "form-control", rows: 2 %>
-</div>
-
-<% @content_type_config[:fields].each do |field| %>
-<% if field[:type] == :blocks %>
-  <%= render_field_input(form, field, content) %>
-<% end %>
-<% end %>
+<%= render 'fields_card', form: form, content: content, blocks_only: true %>
+<%= render 'field_tabs', form: form, content: content %>
 
 <% unless content.persisted? %>
   <div class="brawo-form-actions">

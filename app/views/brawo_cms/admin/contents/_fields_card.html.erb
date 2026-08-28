@@ -1,0 +1,15 @@
+<% fields = @content_type_config[:top_level_fields] || [] %>
+<% blocks_only = local_assigns.fetch(:blocks_only, false) %>
+<% return if fields.blank? %>
+
+<div class="card content-fields-card<%= ' content-fields-card--with-tabs' if content_type_show_tabs?(@content_type_config) %>">
+  <div class="card-body">
+    <% if blocks_only %>
+      <% fields.select { |field| field[:type].to_sym == :blocks }.each do |field| %>
+        <%= render_field_input(form, field, content) %>
+      <% end %>
+    <% else %>
+      <%= render_field_group(form, fields, content, render_input: :render_field_input) %>
+    <% end %>
+  </div>
+</div>

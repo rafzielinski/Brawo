@@ -1,0 +1,55 @@
+.brawo-admin .content-fields-card--with-tabs {
+  margin-bottom: 1rem;
+}
+
+.brawo-admin .content-field-tabs {
+  position: relative;
+}
+
+.brawo-admin .content-field-tabs__nav {
+  position: relative;
+  z-index: 2;
+  margin-bottom: calc(-1 * var(--brawo-border-width));
+  border-bottom: 0;
+}
+
+.brawo-admin .content-field-tabs__nav .nav-link {
+  position: relative;
+  z-index: 1;
+  color: var(--brawo-text-muted);
+  margin-bottom: 0;
+  font-weight: 600;
+  border: var(--brawo-border-width) solid var(--brawo-border);
+  margin-right: -1px;
+}
+
+.brawo-admin .content-field-tabs__nav .nav-link:not(.active):hover {
+  background: var(--brawo-dark-faint);
+  border: var(--brawo-border-width) solid var(--brawo-border);
+}
+
+.brawo-admin .content-field-tabs__nav .nav-link.active {
+  z-index: 3;
+  color: var(--brawo-text);
+  background-color: var(--brawo-white);
+  border-color: var(--brawo-border) var(--brawo-border) var(--brawo-white);
+}
+
+.brawo-admin .content-field-tabs__nav .nav-link.has-errors {
+  color: var(--bs-danger);
+}
+
+.brawo-admin .content-field-tabs__card {
+  position: relative;
+  z-index: 1;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.brawo-admin .content-field-tabs__card > .card-body {
+  padding-top: 1rem;
+}
+
+.brawo-admin .content-field-tabs__panes > .tab-pane.active {
+  display: block;
+}

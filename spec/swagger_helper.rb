@@ -82,6 +82,22 @@ RSpec.configure do |config|
             properties: {
               type: { type: :string },
               label: { type: :string },
+              seo: { type: :boolean },
+              tabs: {
+                type: :array,
+                items: {
+                  type: :object,
+                  properties: {
+                    key: { type: :string },
+                    label: { type: :string, nullable: true },
+                    fields: {
+                      type: :array,
+                      items: { "$ref" => "#/components/schemas/field_definition" }
+                    }
+                  },
+                  required: %w[key fields]
+                }
+              },
               fields: {
                 type: :array,
                 items: { "$ref" => "#/components/schemas/field_definition" }
@@ -100,7 +116,6 @@ RSpec.configure do |config|
               content_type: { type: :string },
               title: { type: :string, nullable: true },
               slug: { type: :string, nullable: true },
-              description: { type: :string, nullable: true },
               status: { type: :string, enum: %w[draft published archived] },
               published_at: { type: :string, format: "date-time", nullable: true },
               fields: { type: :object, additionalProperties: true },
@@ -114,7 +129,6 @@ RSpec.configure do |config|
             properties: {
               title: { type: :string },
               slug: { type: :string },
-              description: { type: :string },
               status: { type: :string, enum: %w[draft published archived] },
               published_at: { type: :string, format: "date-time", nullable: true },
               fields: { type: :object, additionalProperties: true }

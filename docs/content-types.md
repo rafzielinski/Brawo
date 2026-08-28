@@ -45,10 +45,11 @@ rails g brawo_cms:content_type Post author:string body:textarea
 |--------|---------|
 | `title` | Required display title |
 | `slug` | URL slug, auto-generated from title |
-| `description` | Short summary |
 | `status` | `draft` / `published` / `archived` |
 | `published_at` | Publish timestamp |
 | `fields` | JSONB — all custom fields |
+
+Use custom fields (e.g. `:textarea` for a summary) for type-specific content like excerpts or descriptions.
 
 Base attributes `title`, `slug`, `status`, and `published_at` render in a header card at the top of the admin content form. Additional fields can be placed in that same card via `header_fields` (see below).
 
@@ -104,12 +105,54 @@ content_type :page,
   allowed_blocks: [:heading, :text],  # optional filter
   excluded_blocks: [:faq],      # optional filter
   header_fields: [              # optional — extra fields in the header card
-    { name: :seo_title, type: :string, label: "SEO title" }
+    { name: :hero_tagline, type: :string, label: "Tagline" }
   ],
-  fields: [...]
+  fields: [...],                 # flat fields when tabs are not used
+  tabs: [                        # tabbed fields — put main fields in a Content tab
+    { key: :content, fields: [...] },
+    { seo: true },
+    { key: :settings, label: "Settings", fields: [...] }
+  ]
 ```
 
 `header_fields` use the same field definition format as `fields`. They render inside the header card alongside title, slug, status, and published date. Values are stored in JSONB `fields` like regular custom fields.
+
+### Field tabs
+
+- **`fields` only** — flat field list in a card, no tab bar
+- **`tabs`** — tab bar always shows. Put main fields in a `{ key: :content, fields: [...] }` tab (label defaults to `"Content"`; override with `label:`)
+- **`fields` + `tabs`** — still supported: top-level `fields` render in a separate card above tabs. Prefer the Content tab convention instead
+- **`{ seo: true }`** inside `tabs:` — built-in SEO tab. Override with `{ seo: true, label: "Search", fields: [...] }`
+- **Custom tabs** — `{ key:, label:, fields: }`. Reserved: use `{ seo: true }` for SEO, not `key: :seo`
+
+```ruby
+# Flat fields
+content_type :note, fields: [...]
+
+# Content + SEO tabs (preferred when using tabs)
+content_type :article,
+  tabs: [
+    { key: :content, fields: [...] },
+    { seo: true }
+  ]
+
+# Multiple tabs
+content_type :product,
+  tabs: [
+    { key: :content, label: "Product Details", fields: [...] },
+    { key: :settings, label: "Settings", fields: [...] }
+  ]
+```
+
+Default SEO tab fields (stored in JSONB `fields`):
+
+| Field | Type |
+|-------|------|
+| `meta_title` | `:string` |
+| `meta_description` | `:textarea` |
+| `og_image` | `:media` |
+| `canonical_url` | `:url` |
+| `noindex` | `:boolean` |
 
 ## Full example
 
@@ -119,16 +162,19 @@ class Article < BrawoCms::Content
 
   content_type :article,
     label: "Article",
-    fields: [
-      { name: :author, type: :string, label: "Author" },
-      { name: :body, type: :textarea, label: "Body" },
-      { name: :featured, type: :boolean, label: "Featured" },
-      { name: :category_id, type: :taxonomy, taxonomy_type: :category, label: "Category" },
-      { name: :related_products, type: :reference, model_class: "Product", label: "Related" },
-      { name: :faq_items, type: :repeater, label: "FAQ", sub_fields: [
-        { name: :question, type: :string },
-        { name: :answer, type: :textarea }
-      ]}
+    tabs: [
+      { key: :content, fields: [
+        { name: :author, type: :string, label: "Author" },
+        { name: :body, type: :textarea, label: "Body" },
+        { name: :featured, type: :boolean, label: "Featured" },
+        { name: :category_id, type: :taxonomy, taxonomy_type: :category, label: "Category" },
+        { name: :related_products, type: :reference, model_class: "Product", label: "Related" },
+        { name: :faq_items, type: :repeater, label: "FAQ", sub_fields: [
+          { name: :question, type: :string },
+          { name: :answer, type: :textarea }
+        ]}
+      ]},
+      { seo: true }
     ]
 end
 ```

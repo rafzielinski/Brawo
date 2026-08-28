@@ -1,5 +1,6 @@
 require "brawo_cms/version"
 require "brawo_cms/blocks"
+require "brawo_cms/content_type_tabs"
 require "brawo_cms/routing"
 require "brawo_cms/engine"
 
@@ -30,12 +31,18 @@ module BrawoCms
     end
 
     def register_content_type(name, klass, options = {})
+      tabs = ContentTypeTabs.build(options)
+
       self.content_types[name.to_sym] = {
         class: klass,
-        fields: options[:fields] || [],
+        tabs: tabs,
+        top_level_fields: options[:fields] || [],
+        fields: options[:fields].presence || ContentTypeTabs.content_tab_fields(tabs),
         header_fields: options[:header_fields] || [],
         label: options[:label] || name.to_s.titleize,
         page_builder: options[:page_builder] || false,
+        show_tabs: ContentTypeTabs.show_tabs?(options),
+        seo: ContentTypeTabs.seo_enabled?(tabs),
         allowed_blocks: normalize_block_list(options[:allowed_blocks]),
         excluded_blocks: normalize_block_list(options[:excluded_blocks])
       }
@@ -91,7 +98,11 @@ module BrawoCms
     end
 
     def blocks_field?(config)
-      (config[:fields] || []).any? { |field| field[:type].to_sym == :blocks }
+      ContentTypeTabs.all_fields(
+        config[:tabs] || [],
+        fields: config[:top_level_fields],
+        header_fields: config[:header_fields]
+      ).any? { |field| field[:type].to_sym == :blocks }
     end
 
     def filtered_block_types(config)

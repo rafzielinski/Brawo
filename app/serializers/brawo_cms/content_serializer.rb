@@ -11,7 +11,6 @@ module BrawoCms
         content_type: @content_type.to_s,
         title: @content.title,
         slug: @content.slug,
-        description: @content.description,
         status: @content.status,
         published_at: @content.published_at,
         fields: @content.fields || {},

@@ -42,7 +42,11 @@ module BrawoCms
     end
 
     def all_custom_fields
-      (@type_config[:fields] || []) + (@type_config[:header_fields] || [])
+      BrawoCms::ContentTypeTabs.all_fields(
+        @type_config[:tabs] || [],
+        header_fields: @type_config[:header_fields],
+        fields: @type_config[:top_level_fields]
+      )
     end
 
     def field_permits
