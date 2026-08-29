@@ -119,6 +119,17 @@ export default class extends Controller {
     this.syncPanelOutline()
   }
 
+  sortBlocks() {
+    if (!this.hasCanvasTarget) return
+
+    const blocks = this.canvasBlocks()
+    blocks.forEach((block) => {
+      block.classList.remove("sortable-ghost", "sortable-chosen", "sortable-drag")
+      block.style.removeProperty("display")
+    })
+    this.rebuildCanvasWithBlocks(blocks)
+  }
+
   currentInsertPosition() {
     return this.insertPosition
   }

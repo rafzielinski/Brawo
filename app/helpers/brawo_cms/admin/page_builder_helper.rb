@@ -24,7 +24,7 @@ module BrawoCms
           page_builder_field_name_value: field_name,
           page_builder_form_prefix_value: form.object_name,
           page_builder_translations_value: page_builder_translations.to_json,
-          action: 'sortable:sorted->page-builder#reindex click->page-builder#clearFocus keydown@window->page-builder#clearFocusOnEscape'
+          action: 'sortable:sorted->page-builder#sortBlocks click->page-builder#clearFocus keydown@window->page-builder#clearFocusOnEscape'
         }) do
           safe_join([
             render_canvas_area(form, field_name, blocks, label: label),

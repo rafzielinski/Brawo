@@ -7,11 +7,15 @@ export default class extends Controller {
   }
 
   connect() {
+    this.canvasDragging = false
+    this.canvasSafetyActive = false
+    this.boundCanvasDragSafety = this.handleCanvasDragSafety.bind(this)
     this.createSortable()
   }
 
   disconnect() {
     this.destroySortable()
+    this.removeCanvasDragSafety()
   }
 
   reconnect() {
@@ -46,6 +50,12 @@ export default class extends Controller {
     } else if (isCanvas) {
       options.filter = ".block-insert-zone, .repeater-field, .repeater-items, .repeater-row"
       options.cancel = "input,textarea,button,select,option,.repeater-field,.repeater-items,.repeater-row,.repeater-drag-handle"
+      options.bubbleScroll = true
+      options.scrollSensitivity = 60
+      options.scrollSpeed = 12
+      options.onStart = (evt) => this.onCanvasDragStart(evt)
+      options.onEnd = (evt) => this.onCanvasDragEnd(evt)
+      this.addCanvasDragSafety()
     } else if (!isStructureList) {
       options.filter = ".block-insert-zone"
     }
@@ -66,5 +76,66 @@ export default class extends Controller {
 
     const controller = this.application.getControllerForElementAndIdentifier(canvas, "sortable")
     controller?.sortable?.option("disabled", disabled)
+  }
+
+  addCanvasDragSafety() {
+    if (this.canvasSafetyActive) return
+
+    document.addEventListener("pointerup", this.boundCanvasDragSafety, true)
+    document.addEventListener("pointercancel", this.boundCanvasDragSafety, true)
+    this.canvasSafetyActive = true
+  }
+
+  removeCanvasDragSafety() {
+    if (!this.canvasSafetyActive) return
+
+    document.removeEventListener("pointerup", this.boundCanvasDragSafety, true)
+    document.removeEventListener("pointercancel", this.boundCanvasDragSafety, true)
+    this.canvasSafetyActive = false
+  }
+
+  onCanvasDragStart(evt) {
+    this.canvasDragging = true
+    this.setCanvasDragImage(evt)
+  }
+
+  onCanvasDragEnd() {
+    this.canvasDragging = false
+    this.cleanupCanvasDragState()
+    this.dispatch("sorted", { bubbles: true })
+  }
+
+  handleCanvasDragSafety() {
+    if (!this.element.classList.contains("page-builder-canvas")) return
+
+    requestAnimationFrame(() => {
+      if (!this.canvasDragging) return
+
+      this.canvasDragging = false
+      this.cleanupCanvasDragState()
+      this.dispatch("sorted", { bubbles: true })
+    })
+  }
+
+  setCanvasDragImage(evt) {
+    const block = evt.item
+    const event = evt.originalEvent
+    if (!event?.dataTransfer || block.getBoundingClientRect().height < 320) return
+
+    const header = block.querySelector(".page-builder-block-header")
+    if (!header) return
+
+    const preview = header.cloneNode(true)
+    preview.style.cssText = `position:fixed;left:-9999px;top:0;width:${block.getBoundingClientRect().width}px;pointer-events:none;`
+    document.body.appendChild(preview)
+    event.dataTransfer.setDragImage(preview, event.offsetX, event.offsetY)
+    requestAnimationFrame(() => preview.remove())
+  }
+
+  cleanupCanvasDragState() {
+    this.element.querySelectorAll(".page-builder-block").forEach((block) => {
+      block.classList.remove("sortable-ghost", "sortable-chosen", "sortable-drag")
+      if (block.style.display === "none") block.style.removeProperty("display")
+    })
   }
 }
