@@ -1,5 +1,10 @@
 /* Shared field layout and validation */
 
+.brawo-fields .brawo-field-wrapper {
+    min-width: 15rem;
+    flex: 1 1 auto;
+}
+
 .brawo-fields .brawo-field-wrapper:last-child {
   margin-bottom: 0 !important;
 }

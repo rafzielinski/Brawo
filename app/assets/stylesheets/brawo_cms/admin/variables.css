@@ -23,7 +23,7 @@
   --brawo-accent: oklch(83.905% 0.16629 157.184);
 
   /* Light + dark — derived from accent (same hue family) */
-  --brawo-light: oklch(from var(--brawo-accent) 0.97 calc(c * 0.06) h);
+  --brawo-light: oklch(from var(--brawo-accent) 0.98 calc(c * 0.05) h);
   --brawo-dark: oklch(from var(--brawo-accent) 0.28 calc(c * 0.35) h);
 
   /* Text on accent-filled controls */
@@ -47,7 +47,7 @@
 
   /* Light surfaces */
   --brawo-light-soft: color-mix(in oklch, var(--brawo-light) 50%, var(--brawo-white));
-  --brawo-light-strong: color-mix(in oklch, var(--brawo-dark) 6%, var(--brawo-light));
+  --brawo-light-strong: color-mix(in oklch, var(--brawo-dark) 5%, var(--brawo-light));
 
   /* Dark text */
   --brawo-dark-soft: color-mix(in oklch, var(--brawo-dark) 65%, var(--brawo-light));

@@ -29,12 +29,21 @@ class Product < BrawoCms::Content
           { name: :featured_product, type: :boolean, label: 'Featured' },
           { name: :availability, type: :select, label: 'Availability', choices: [['In Stock', 'in_stock'], ['Out of Stock', 'out_of_stock'], ['Pre-order', 'preorder']] },
           {
+            name: :featured_image,
+            type: :media,
+            label: 'Featured image',
+            accept: 'image/*',
+            wrapper: {
+              width: '33.333'
+            }
+          },
+          {
             name: :accent_color,
             type: :color,
             label: 'Accent color',
             swatches: ['#48BB78', '#4299E1'],
             wrapper: {
-              width: '50'
+              width: '33.333'
             }
           },
           { name: :badge_icon,
@@ -42,7 +51,7 @@ class Product < BrawoCms::Content
             label: 'Badge icon',
             help_text: 'Icon for the badge',
             wrapper: {
-              width: '50'
+              width: '33.333'
             }
           },
           { name: :product_url,
@@ -57,15 +66,6 @@ class Product < BrawoCms::Content
             type: :email,
             label: 'Contact email',
             help_text: 'Email for the contact',
-            wrapper: {
-              width: '50'
-            }
-          },
-          {
-            name: :featured_image,
-            type: :media,
-            label: 'Featured image',
-            accept: 'image/*',
             wrapper: {
               width: '50'
             }
