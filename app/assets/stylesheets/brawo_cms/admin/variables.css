@@ -20,15 +20,14 @@
   --brawo-black: oklch(0 0 0);
 
   /* Primitive — host-editable */
-  /* --brawo-accent: oklch(83.905% 0.16629 157.184); */
-  --brawo-accent: oklch(47.88% 0.29516 264.373);
+  --brawo-accent: oklch(83.905% 0.16629 157.184);
 
   /* Light + dark — derived from accent (same hue family) */
   --brawo-light: oklch(from var(--brawo-accent) 0.97 calc(c * 0.06) h);
   --brawo-dark: oklch(from var(--brawo-accent) 0.28 calc(c * 0.35) h);
 
   /* Text on accent-filled controls */
-  --brawo-on-accent: var(--brawo-light);
+  --brawo-on-accent: var(--brawo-dark);
 
   /* Accent fg on surfaces */
   --brawo-accent-on-light: color-mix(in oklch, var(--brawo-accent) 50%, var(--brawo-dark));

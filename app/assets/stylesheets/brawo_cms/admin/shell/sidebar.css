@@ -18,14 +18,14 @@
 }
 
 .brawo-admin-sidebar .nav-link {
-  color: var(--brawo-chrome-faint);
+  color: var(--brawo-light);
   border-radius: var(--brawo-radius-xs);
   padding: 0.45rem 0.75rem;
 }
 
 .brawo-admin-sidebar .nav-link:hover {
   color: var(--brawo-accent-on-dark);
-  background-color: color-mix(in oklch, var(--brawo-accent-on-dark) 10%, transparent);
+  /* background-color: var(--brawo-chrome-faint); */
 }
 
 .brawo-admin-sidebar .nav-link.active,

@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   perspective: var(--brawo-stage-perspective);
-  background-color: var(--brawo-light-strong);
+  background-color: var(--brawo-light);
   color: var(--brawo-dark);
   border-radius: var(--brawo-radius) 0 0 0;
 }

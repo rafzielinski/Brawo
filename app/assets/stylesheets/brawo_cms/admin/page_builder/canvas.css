@@ -48,6 +48,11 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+.page-builder-block:has(.dropdown-menu.show) {
+  position: relative;
+  z-index: 10;
+}
+
 .page-builder-block.is-focused {
   border-color: var(--brawo-border);
   outline: none;
@@ -73,9 +78,9 @@
   color: var(--brawo-dark);
 }
 
-.page-builder-block-menu .dropdown-menu,
-.item-actions-menu .dropdown-menu {
+.page-builder-block .item-actions-menu .dropdown-menu {
   min-width: 10rem;
+  background-color: var(--brawo-white);
 }
 
 .block-insert-zone {
@@ -85,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 1;
 }
 
 .block-insert-zone-btn {

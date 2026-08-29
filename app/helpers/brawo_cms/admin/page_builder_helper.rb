@@ -239,9 +239,7 @@ module BrawoCms
           remove_action: 'page-builder#removeBlock',
           extra_before_remove: [
             { label: t('brawo.page_builder.add_block_above'), action: 'page-builder#openPickerRelative', data: { insert_offset: 0, panel_section: 'add' } },
-            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1, panel_section: 'add' } },
-            { label: t('brawo.collapsible.collapse'), action: 'collapsible#collapse' },
-            { label: t('brawo.collapsible.expand'), action: 'collapsible#expand' }
+            { label: t('brawo.page_builder.add_block_below'), action: 'page-builder#openPickerRelative', data: { insert_offset: 1, panel_section: 'add' } }
           ]
         )
       end
