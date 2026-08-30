@@ -2,9 +2,19 @@ PATH
   remote: .
   specs:
     brawo_cms (0.1.0)
+      after_commit_everywhere (~> 1.1)
+      bcrypt (~> 3.1)
       image_processing (~> 1.2)
+      omniauth-github (~> 2.0)
+      omniauth-google-oauth2 (~> 1.2)
       pg (~> 1.5)
       rails (>= 7.1.0)
+      rodauth-omniauth (~> 0.6)
+      rodauth-rails (~> 2.2)
+      rotp (~> 6.3)
+      rqrcode (~> 3.2)
+      sequel-activerecord_connection (~> 2.0)
+      tilt (~> 2.4)
 
 GEM
   remote: https://rubygems.org/
@@ -90,11 +100,20 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
+    after_commit_everywhere (1.6.0)
+      activerecord (>= 4.2)
+      activesupport
+    anonymous_loader (0.1.3)
+      version_gem (~> 1.1, >= 1.1.14)
+    auth-sanitizer (0.2.3)
+      version_gem (~> 1.1, >= 1.1.14)
     base64 (0.3.0)
+    bcrypt (3.1.22)
     benchmark (0.5.0)
     bigdecimal (3.3.1)
     builder (3.3.0)
     cgi (0.5.0)
+    chunky_png (1.4.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     crass (1.0.6)
@@ -103,9 +122,17 @@ GEM
     drb (2.2.3)
     erb (5.1.3)
     erubi (1.13.1)
+    faraday (2.14.3)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-net_http (3.4.4)
+      net-http (~> 0.5)
     ffi (1.17.4-aarch64-linux-gnu)
     globalid (1.3.0)
       activesupport (>= 6.1)
+    hashie (5.1.0)
+      logger
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -120,9 +147,12 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    json (2.21.2)
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
+    jwt (3.2.0)
+      base64
     language_server-protocol (3.17.0.6)
     logger (1.7.0)
     loofah (2.24.1)
@@ -139,7 +169,11 @@ GEM
       logger
     mini_mime (1.1.5)
     minitest (5.26.0)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     mutex_m (0.3.0)
+    net-http (0.9.1)
+      uri (>= 0.11.1)
     net-imap (0.5.12)
       date
       net-protocol
@@ -152,6 +186,32 @@ GEM
     nio4r (2.7.5)
     nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
+    oauth2 (2.0.25)
+      anonymous_loader (~> 0.1, >= 0.1.3)
+      auth-sanitizer (~> 0.2, >= 0.2.3)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0, >= 2.0.7)
+      version_gem (~> 1.1, >= 1.1.14)
+    omniauth (2.1.4)
+      hashie (>= 3.4.6)
+      logger
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-github (2.0.1)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
+    omniauth-google-oauth2 (1.2.2)
+      jwt (>= 2.9.2)
+      oauth2 (~> 2.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
+    omniauth-oauth2 (1.9.0)
+      oauth2 (>= 2.0.2, < 3)
+      omniauth (~> 2.0)
     pg (1.6.2-aarch64-linux)
     pp (0.6.3)
       prettyprint
@@ -165,6 +225,10 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
+    rack-protection (4.2.1)
+      base64 (>= 0.1.0)
+      logger (>= 1.6.0)
+      rack (>= 3.0.0, < 4)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -214,6 +278,26 @@ GEM
       tsort
     reline (0.6.2)
       io-console (~> 0.5)
+    roda (3.107.0)
+      rack
+    rodauth (2.47.0)
+      roda (>= 2.6.0)
+      sequel (>= 4)
+    rodauth-model (0.5.0)
+      rodauth (~> 2.28)
+    rodauth-omniauth (0.6.2)
+      omniauth (~> 2.0)
+      rodauth (~> 2.36)
+    rodauth-rails (2.2.2)
+      railties (>= 5.2)
+      roda (~> 3.76)
+      rodauth (~> 2.36)
+      rodauth-model (~> 0.2)
+    rotp (6.3.0)
+    rqrcode (3.2.0)
+      chunky_png (~> 1.0)
+      rqrcode_core (~> 2.0)
+    rqrcode_core (2.1.0)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -250,6 +334,14 @@ GEM
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
+    sequel (5.107.0)
+      bigdecimal
+    sequel-activerecord_connection (2.0.1)
+      activerecord (>= 5.1)
+      sequel (~> 5.38)
+    snaky_hash (2.0.7)
+      hashie (>= 0.1.0, < 6)
+      version_gem (~> 1.1, >= 1.1.14)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -262,6 +354,7 @@ GEM
       railties (>= 6.0.0)
     stringio (3.1.7)
     thor (1.4.0)
+    tilt (2.9.0)
     timeout (0.4.4)
     tsort (0.2.0)
     turbo-rails (2.0.20)
@@ -269,6 +362,8 @@ GEM
       railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    uri (1.1.1)
+    version_gem (1.1.15)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -279,16 +374,22 @@ PLATFORMS
   aarch64-linux-gnu
 
 DEPENDENCIES
+  bcrypt (~> 3.1)
   brawo_cms!
   importmap-rails
   pg (~> 1.5)
   puma (~> 6.0)
   rails (~> 7.1.0)
+  rodauth-omniauth (~> 0.6.2)
+  rodauth-rails (~> 2.2)
+  rotp (~> 6.3)
+  rqrcode (~> 3.2)
   rspec-rails (~> 6.0)
   rswag-api (~> 2.16)
   rswag-specs (~> 2.16)
   rswag-ui (~> 2.16)
   ruby-lsp (~> 0.26)
+  sequel-activerecord_connection (~> 2.0)
   sprockets-rails
   stimulus-rails
   turbo-rails

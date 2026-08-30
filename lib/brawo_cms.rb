@@ -2,6 +2,7 @@ require "brawo_cms/version"
 require "brawo_cms/blocks"
 require "brawo_cms/content_type_tabs"
 require "brawo_cms/routing"
+require "rodauth-rails"
 require "brawo_cms/engine"
 
 module BrawoCms
@@ -15,6 +16,14 @@ module BrawoCms
   self.block_types = {}
 
   mattr_accessor :api_token
+
+  mattr_accessor :admin_path
+  self.admin_path = "/admin"
+
+  mattr_accessor :omniauth_google_client_id
+  mattr_accessor :omniauth_google_client_secret
+  mattr_accessor :omniauth_github_client_id
+  mattr_accessor :omniauth_github_client_secret
 
   mattr_accessor :root_content_types
   self.root_content_types = [:page]

@@ -78,6 +78,13 @@ en:
       custom_fields: Custom Fields
     formats:
       date: "%B %d, %Y"
+    auth:
+      title: Brawo Admin Sign In
+      heading: Sign in
+      subtitle: Admin access requires two-factor authentication.
+      or_continue_with: or continue with
+      google: Continue with Google
+      github: Continue with GitHub
       datetime: "%B %d, %Y at %I:%M %p"
     timestamps:
       created: "Created: %{datetime}"

@@ -21,6 +21,7 @@
  *= require brawo_cms/admin/fields/media
  *= require brawo_cms/admin/fields/repeater
  *= require brawo_cms/admin/shell/navbar
+ *= require brawo_cms/admin/auth
  *= require brawo_cms/admin/page_builder/canvas
  *= require brawo_cms/admin/page_builder/side_panel
  */

@@ -1,0 +1,35 @@
+<% if BrawoCms.omniauth_google_client_id.present? || BrawoCms.omniauth_github_client_id.present? %>
+  <div class="brawo-admin-auth-divider"><%= t("brawo.auth.or_continue_with") %></div>
+
+  <ul class="brawo-admin-auth-oauth">
+    <% if BrawoCms.omniauth_google_client_id.present? %>
+      <li>
+        <%= button_to t("brawo.auth.google"),
+          rodauth.omniauth_request_path(:google),
+          method: :post,
+          data: { turbo: false },
+          class: "btn btn-outline-secondary" %>
+      </li>
+    <% end %>
+
+    <% if BrawoCms.omniauth_github_client_id.present? %>
+      <li>
+        <%= button_to t("brawo.auth.github"),
+          rodauth.omniauth_request_path(:github),
+          method: :post,
+          data: { turbo: false },
+          class: "btn btn-outline-secondary" %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% unless rodauth.login_form_footer_links.empty? %>
+  <%== rodauth.login_form_footer_links_heading %>
+
+  <ul>
+    <% rodauth.login_form_footer_links.sort.each do |_, link, text| %>
+      <li><%= link_to text, link %></li>
+    <% end %>
+  </ul>
+<% end %>

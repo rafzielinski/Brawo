@@ -2,6 +2,17 @@
 
 puts "Seeding BrawoCMS demo data..."
 
+require "bcrypt"
+
+unless BrawoCms::Account.exists?(email: "admin@example.com")
+  BrawoCms::Account.create!(
+    email: "admin@example.com",
+    status: :verified,
+    password_hash: BCrypt::Password.create("changeme")
+  )
+  puts "Created admin account admin@example.com (password: changeme) — complete TOTP setup on first sign in."
+end
+
 # ---------------------------------------------------------------------------
 # Taxonomies: Category
 # ---------------------------------------------------------------------------

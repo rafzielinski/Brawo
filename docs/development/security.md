@@ -9,9 +9,40 @@
 
 ## Admin UI
 
-- Mounted as a Rails engine; uses standard **CSRF** protection (`csrf_meta_tags` in admin layout).
-- **No built-in admin authentication** — anyone who can reach `/admin` can use the UI unless the host app adds authentication (e.g. route constraint, `before_action` in a host wrapper, or reverse-proxy auth).
-- Treat admin mount path as sensitive in production; place behind VPN, SSO, or Devise as appropriate.
+- Admin routes require a signed-in `BrawoCms::Account` with **mandatory TOTP 2FA** (Rodauth).
+- Login: `/admin/login` (email/password). OAuth optional: Google, GitHub when configured.
+- No self-registration — provision accounts via `rails brawo_cms:admin:create[email,password]` or seeds.
+- OAuth only links to existing accounts (`omniauth_create_account? false`).
+- CSRF protection on admin forms (`csrf_meta_tags` in admin layout).
+
+### Bootstrap first admin
+
+```bash
+rails db:migrate
+rails brawo_cms:admin:create[you@example.com,changeme]
+```
+
+First sign-in forces TOTP setup at `/admin/otp-setup`, then recovery codes.
+
+### OAuth (optional)
+
+In host `config/initializers/brawo_cms.rb`:
+
+```ruby
+BrawoCms.configure do |config|
+  config.omniauth_google_client_id = ENV["GOOGLE_CLIENT_ID"]
+  config.omniauth_google_client_secret = ENV["GOOGLE_CLIENT_SECRET"]
+  config.omniauth_github_client_id = ENV["GITHUB_CLIENT_ID"]
+  config.omniauth_github_client_secret = ENV["GITHUB_CLIENT_SECRET"]
+end
+```
+
+Register redirect URIs with each provider:
+
+- `https://yourapp.com/admin/auth/google/callback`
+- `https://yourapp.com/admin/auth/github/callback`
+
+If the engine is mounted at a path other than `/admin`, set `BrawoCms.admin_path` to match before boot.
 
 ## Host app
 
