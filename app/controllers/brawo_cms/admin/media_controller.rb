@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     class MediaController < BaseController
+      require_capability :manage_media
       before_action :set_media, only: [:show, :edit, :update, :destroy]
 
       def index

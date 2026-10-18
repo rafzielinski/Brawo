@@ -43,3 +43,123 @@
 .brawo-admin-sidebar .text-muted {
   color: var(--brawo-chrome-faint) !important;
 }
+
+.brawo-sidebar-footer {
+  margin-top: auto;
+  padding: 0.75rem 0.5rem 0.25rem;
+  border-top: 1px solid var(--brawo-chrome-border);
+}
+
+.brawo-sidebar-avatars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brawo-sidebar-avatar-menu {
+  position: relative;
+}
+
+.brawo-sidebar-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 2px solid var(--brawo-chrome-border);
+  border-radius: 50%;
+  background: var(--brawo-chrome-soft);
+  color: var(--brawo-accent-on-dark);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.brawo-sidebar-avatar:hover,
+.brawo-sidebar-avatar-menu:hover .brawo-sidebar-avatar,
+.brawo-sidebar-avatar-menu:focus-within .brawo-sidebar-avatar {
+  border-color: var(--brawo-accent);
+  background: color-mix(in oklch, var(--brawo-accent) 20%, var(--brawo-chrome-soft));
+}
+
+.brawo-sidebar-avatar__initials {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.brawo-sidebar-avatar-dropdown {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 0.5rem);
+  min-width: 12rem;
+  padding: 0.5rem 0;
+  border: 1px solid var(--brawo-chrome-border);
+  border-radius: var(--brawo-radius-sm);
+  background: var(--brawo-chrome);
+  box-shadow: 0 0.5rem 1rem color-mix(in oklch, var(--brawo-dark) 25%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.25rem);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  z-index: 30;
+}
+
+.brawo-sidebar-avatar-menu:hover .brawo-sidebar-avatar-dropdown,
+.brawo-sidebar-avatar-menu:focus-within .brawo-sidebar-avatar-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.brawo-sidebar-avatar-dropdown__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.35rem 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--brawo-chrome-border);
+}
+
+.brawo-sidebar-avatar-dropdown__email {
+  font-size: 0.8rem;
+  color: var(--brawo-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brawo-sidebar-avatar-dropdown__role {
+  font-size: 0.7rem;
+  color: var(--brawo-chrome-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.brawo-sidebar-avatar-dropdown__actions {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+}
+
+.brawo-sidebar-avatar-dropdown__link {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--brawo-light);
+  font-size: 0.85rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.brawo-sidebar-avatar-dropdown__link:hover {
+  background: color-mix(in oklch, var(--brawo-light) 8%, transparent);
+  color: var(--brawo-accent-on-dark);
+}
+
+.brawo-sidebar-avatar-dropdown__button {
+  font: inherit;
+}

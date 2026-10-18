@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     class TaxonomiesController < BaseController
+      require_capability :manage_taxonomies
       before_action :set_taxonomy_type
       before_action :set_taxonomy, only: [:show, :edit, :update, :destroy]
 

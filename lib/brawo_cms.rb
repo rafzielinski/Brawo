@@ -2,6 +2,7 @@ require "brawo_cms/version"
 require "brawo_cms/blocks"
 require "brawo_cms/content_type_tabs"
 require "brawo_cms/routing"
+require "brawo_cms/authorization"
 require "rodauth-rails"
 require "brawo_cms/engine"
 

@@ -52,6 +52,14 @@ module BrawoCms
         controller_name == 'media'
       end
 
+      def users_sidebar_active?
+        controller_name == 'users'
+      end
+
+      def profile_sidebar_active?
+        controller_name == 'profiles'
+      end
+
       def previewable_content_edit?
         controller_name == 'contents' && action_name == 'edit' && @content&.persisted?
       end

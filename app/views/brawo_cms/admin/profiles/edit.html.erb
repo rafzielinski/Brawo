@@ -1,0 +1,29 @@
+<%= render 'brawo_cms/admin/shared/page_header', title: t('brawo.profile.edit_title') %>
+
+<%= form_with(model: @profile,
+              url: admin_profile_path,
+              scope: :profile,
+              method: :patch,
+              local: true) do |form| %>
+  <% if @profile.errors.any? %>
+    <%= render 'brawo_cms/admin/shared/form_errors',
+               record: @profile,
+               error_heading: t('brawo.profile.errors.prohibited', count: @profile.errors.count) %>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :email, t('brawo.attributes.email'), class: "form-label" %>
+    <%= form.email_field :email, class: "form-control", required: true, autocomplete: "email" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password, t('brawo.attributes.password'), class: "form-label" %>
+    <%= form.password_field :password, class: "form-control", autocomplete: "new-password" %>
+    <small class="form-text text-muted"><%= t('brawo.profile.hints.password_optional') %></small>
+  </div>
+
+  <div class="brawo-form-actions">
+    <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
+    <%= link_to t('brawo.actions.cancel'), admin_root_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

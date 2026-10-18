@@ -1,0 +1,46 @@
+<%= render 'brawo_cms/admin/shared/page_header',
+           title: t('brawo.users.index_title'),
+           toolbar: link_to(t('brawo.users.new_title'),
+                            new_admin_user_path,
+                            class: "btn btn-primary") %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th><%= t('brawo.attributes.email') %></th>
+        <th><%= t('brawo.attributes.role') %></th>
+        <th><%= t('brawo.tables.status') %></th>
+        <th><%= t('brawo.tables.created') %></th>
+        <th class="brawo-table__actions"><%= t('brawo.tables.actions') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= t("brawo.roles.#{user.role}") %></td>
+          <td><span class="<%= status_badge_class(user.status) %>"><%= t("brawo.account_status.#{user.status}") %></span></td>
+          <td><%= brawo_format_date(user.created_at) %></td>
+          <td class="brawo-table__actions">
+            <div class="table-actions">
+              <%= link_to t('brawo.actions.edit'), edit_admin_user_path(user), class: "btn btn-sm btn-outline-primary" %>
+              <% unless user.id == current_account.id %>
+                <%= link_to t('brawo.actions.delete'), admin_user_path(user),
+                            data: { turbo_method: :delete, turbo_confirm: t('brawo.actions.confirm_delete') },
+                            class: "btn btn-sm btn-outline-danger" %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @users.empty? %>
+  <p class="brawo-empty-state text-muted">
+    <%= t('brawo.users.empty') %>
+    <%= link_to t('brawo.users.create_first'), new_admin_user_path %>
+  </p>
+<% end %>

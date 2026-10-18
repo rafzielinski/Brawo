@@ -1,6 +1,7 @@
 module BrawoCms
   module Admin
     class ContentsController < BaseController
+      require_capability :manage_content
       helper BrawoCms::Admin::PageBuilderHelper
 
       before_action :set_content_type

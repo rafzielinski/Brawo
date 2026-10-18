@@ -15,6 +15,20 @@
 - OAuth only links to existing accounts (`omniauth_create_account? false`).
 - CSRF protection on admin forms (`csrf_meta_tags` in admin layout).
 
+### Roles and capabilities
+
+Accounts have a `role` column: `viewer`, `editor`, `admin`, `super_admin`. Capabilities gate admin features:
+
+| Capability | Roles |
+|------------|-------|
+| `view_dashboard` | all |
+| `manage_content` | editor, admin, super_admin |
+| `manage_taxonomies` | editor, admin, super_admin |
+| `manage_media` | editor, admin, super_admin |
+| `manage_users` | admin, super_admin |
+
+Users with `manage_users` can manage accounts at `/admin/admin/users`. All signed-in users can edit their own profile at `/admin/admin/profile/edit`.
+
 ### Bootstrap first admin
 
 ```bash

@@ -16,6 +16,11 @@ en:
       media: Media Library
       content_types: CONTENT TYPES
       taxonomies: TAXONOMIES
+      settings: SETTINGS
+      users: Users
+      edit_profile: Edit profile
+      sign_out: Sign out
+      account_menu: "Account menu for %{email}"
     dashboard:
       title: Dashboard
       welcome_heading: Welcome to BrawoCMS Admin!
@@ -59,6 +64,9 @@ en:
       status: Status
       published_at: Date published
       name: Name
+      email: Email
+      role: Role
+      password: Password
     hints:
       slug_from_title: Leave blank to auto-generate from title
       slug_from_name: Leave blank to auto-generate from name
@@ -72,6 +80,15 @@ en:
       draft: Draft
       published: Published
       archived: Archived
+    account_status:
+      unverified: Unverified
+      verified: Verified
+      closed: Closed
+    roles:
+      viewer: Viewer
+      editor: Editor
+      admin: Admin
+      super_admin: Super Admin
     sections:
       content: Content
       seo: SEO
@@ -137,12 +154,42 @@ en:
         prohibited:
           one: "%{count} error prohibited this media from being saved:"
           other: "%{count} errors prohibited this media from being saved:"
+    users:
+      index_title: Users
+      new_title: New user
+      edit_title: "Edit %{email}"
+      empty: No users found.
+      create_first: Create the first user
+      hints:
+        password_optional: Leave blank to keep the current password.
+      flash:
+        created: User was successfully created.
+        updated: User was successfully updated.
+        deleted: User was successfully deleted.
+      errors:
+        prohibited:
+          one: "%{count} error prohibited this user from being saved:"
+          other: "%{count} errors prohibited this user from being saved:"
+        cannot_delete_self: You cannot delete your own account.
+        last_super_admin: At least one super admin account must remain.
+    profile:
+      edit_title: Edit profile
+      hints:
+        password_optional: Leave blank to keep your current password.
+      flash:
+        updated: Profile was successfully updated.
+      errors:
+        prohibited:
+          one: "%{count} error prohibited your profile from being saved:"
+          other: "%{count} errors prohibited your profile from being saved:"
     errors:
       content_type_not_found: Content type not found
       content_not_found: Content not found
       taxonomy_type_not_found: Taxonomy type not found
       taxonomy_not_found: Taxonomy not found
       media_not_found: Media not found
+      user_not_found: User not found
+      forbidden: You do not have permission to perform this action.
     page_builder:
       default_label: Content
       panel_title: Blocks

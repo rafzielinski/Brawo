@@ -8,6 +8,7 @@ unless BrawoCms::Account.exists?(email: "admin@example.com")
   BrawoCms::Account.create!(
     email: "admin@example.com",
     status: :verified,
+    role: :super_admin,
     password_hash: BCrypt::Password.create("changeme")
   )
   puts "Created admin account admin@example.com (password: changeme) — complete TOTP setup on first sign in."

@@ -1,0 +1,29 @@
+<% if current_account %>
+  <div class="brawo-sidebar-footer">
+    <div class="brawo-sidebar-avatars">
+      <div class="brawo-sidebar-avatar-menu">
+        <button type="button"
+                class="brawo-sidebar-avatar"
+                aria-label="<%= t('brawo.sidebar.account_menu', email: current_account.email) %>"
+                title="<%= current_account.email %>">
+          <span class="brawo-sidebar-avatar__initials"><%= current_account.initials %></span>
+        </button>
+
+        <div class="brawo-sidebar-avatar-dropdown" role="menu">
+          <div class="brawo-sidebar-avatar-dropdown__header">
+            <span class="brawo-sidebar-avatar-dropdown__email"><%= current_account.email %></span>
+            <span class="brawo-sidebar-avatar-dropdown__role"><%= t("brawo.roles.#{current_account.role}") %></span>
+          </div>
+          <div class="brawo-sidebar-avatar-dropdown__actions">
+            <%= link_to t('brawo.sidebar.edit_profile'), edit_admin_profile_path, class: "brawo-sidebar-avatar-dropdown__link", role: "menuitem" %>
+            <%= button_to t('brawo.sidebar.sign_out'),
+                          rodauth.logout_path,
+                          method: :post,
+                          class: "brawo-sidebar-avatar-dropdown__link brawo-sidebar-avatar-dropdown__button",
+                          form: { data: { turbo: false } } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

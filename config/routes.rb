@@ -16,6 +16,8 @@ BrawoCms::Engine.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
+    resource :profile, only: [:edit, :update]
+    resources :users
     resources :media, only: [:index, :show, :edit, :create, :update, :destroy]
     resources :contents do
       member do

@@ -1,33 +1,48 @@
-<div class="d-flex flex-column flex-shrink-0 brawo-admin-sidebar">
+<div class="d-flex flex-column flex-shrink-0 brawo-admin-sidebar h-100">
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <%= link_to t('brawo.sidebar.dashboard'), admin_root_path, class: sidebar_link_class(dashboard_sidebar_active?) %>
     </li>
 
-    <li class="nav-item">
-      <%= link_to t('brawo.sidebar.media'), admin_media_path, class: sidebar_link_class(media_sidebar_active?) %>
-    </li>
-    
-    <li class="mt-3">
-      <strong class="text-muted small sidebar-section-label"><%= t('brawo.sidebar.content_types') %></strong>
-    </li>
-    
-    <% @content_types.each do |name, config| %>
+    <% if can?(:manage_media) %>
       <li class="nav-item">
-        <%= link_to config[:label], admin_contents_path(content_type: name), class: sidebar_link_class(content_type_sidebar_active?(name)) %>
+        <%= link_to t('brawo.sidebar.media'), admin_media_path, class: sidebar_link_class(media_sidebar_active?) %>
       </li>
     <% end %>
 
-    <% if @taxonomy_types.present? %>
+    <% if can?(:manage_content) && @content_types.present? %>
+      <li class="mt-3">
+        <strong class="text-muted small sidebar-section-label"><%= t('brawo.sidebar.content_types') %></strong>
+      </li>
+
+      <% @content_types.each do |name, config| %>
+        <li class="nav-item">
+          <%= link_to config[:label], admin_contents_path(content_type: name), class: sidebar_link_class(content_type_sidebar_active?(name)) %>
+        </li>
+      <% end %>
+    <% end %>
+
+    <% if can?(:manage_taxonomies) && @taxonomy_types.present? %>
       <li class="mt-3">
         <strong class="text-muted small sidebar-section-label"><%= t('brawo.sidebar.taxonomies') %></strong>
       </li>
-      
+
       <% @taxonomy_types.each do |name, config| %>
         <li class="nav-item">
           <%= link_to config[:label], admin_taxonomies_path(taxonomy_type: name), class: sidebar_link_class(taxonomy_type_sidebar_active?(name)) %>
         </li>
       <% end %>
     <% end %>
+
+    <% if can?(:manage_users) %>
+      <li class="mt-3">
+        <strong class="text-muted small sidebar-section-label"><%= t('brawo.sidebar.settings') %></strong>
+      </li>
+      <li class="nav-item">
+        <%= link_to t('brawo.sidebar.users'), admin_users_path, class: sidebar_link_class(users_sidebar_active?) %>
+      </li>
+    <% end %>
   </ul>
+
+  <%= render "brawo_cms/admin/shared/sidebar_user" %>
 </div>

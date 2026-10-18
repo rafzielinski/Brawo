@@ -26,6 +26,7 @@ class RodauthMain < Rodauth::Rails::Auth
     domain { Rails.application.config.action_mailer.default_url_options&.fetch(:host, "localhost") }
 
     rails_controller { BrawoCms::RodauthController }
+    rails_account_model { BrawoCms::Account }
     title_instance_variable :@page_title
 
     account_status_column :status

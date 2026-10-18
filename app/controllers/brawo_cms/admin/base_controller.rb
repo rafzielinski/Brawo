@@ -1,6 +1,8 @@
 module BrawoCms
   module Admin
     class BaseController < ActionController::Base
+      include BrawoCms::Admin::Authorization
+
       layout 'brawo_cms/admin/application'
 
       helper BrawoCms::Admin::ApplicationHelper

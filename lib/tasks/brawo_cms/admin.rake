@@ -20,6 +20,7 @@ namespace :brawo_cms do
       account = BrawoCms::Account.create!(
         email: email,
         status: :verified,
+        role: :super_admin,
         password_hash: BCrypt::Password.create(password)
       )
 

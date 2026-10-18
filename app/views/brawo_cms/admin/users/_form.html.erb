@@ -1,0 +1,41 @@
+<%= form_with(model: user,
+              url: user.persisted? ? admin_user_path(user) : admin_users_path,
+              scope: :user,
+              local: true) do |form| %>
+  <% if user.errors.any? %>
+    <%= render 'brawo_cms/admin/shared/form_errors',
+               record: user,
+               error_heading: t('brawo.users.errors.prohibited', count: user.errors.count) %>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :email, t('brawo.attributes.email'), class: "form-label" %>
+    <%= form.email_field :email, class: "form-control", required: true, autocomplete: "email" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :role, t('brawo.attributes.role'), class: "form-label" %>
+    <%= form.select :role, BrawoCms::Authorization.roles_for_select, {}, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, t('brawo.attributes.status'), class: "form-label" %>
+    <%= form.select :status,
+                    BrawoCms::Account.statuses.keys.map { |status| [t("brawo.account_status.#{status}"), status] },
+                    {},
+                    class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password, t('brawo.attributes.password'), class: "form-label" %>
+    <%= form.password_field :password, class: "form-control", autocomplete: "new-password", required: !user.persisted? %>
+    <% if user.persisted? %>
+      <small class="form-text text-muted"><%= t('brawo.users.hints.password_optional') %></small>
+    <% end %>
+  </div>
+
+  <div class="brawo-form-actions">
+    <%= form.submit t('brawo.actions.submit'), class: "btn btn-primary" %>
+    <%= link_to t('brawo.actions.cancel'), admin_users_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>
