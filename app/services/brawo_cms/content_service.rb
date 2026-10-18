@@ -77,7 +77,7 @@ module BrawoCms
       end
 
       def type_config(type)
-        BrawoCms.content_types[type.to_sym]
+        BrawoCms.content_types[type&.to_sym]
       end
 
       private

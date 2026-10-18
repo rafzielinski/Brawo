@@ -19,9 +19,6 @@ module BrawoCms
         if options[:fields].present?
           define_field_accessors(options[:fields])
         end
-
-        # Set default scope to filter by type
-        default_scope { where(type: self.name) }
       end
 
       def taxonomy_type_name

@@ -21,9 +21,6 @@ module BrawoCms
           fields: config[:top_level_fields]
         )
         define_field_accessors(custom_fields) if custom_fields.present?
-
-        # Set default scope to filter by type
-        default_scope { where(type: self.name) }
       end
 
       def content_type_name

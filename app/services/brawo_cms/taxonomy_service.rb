@@ -64,7 +64,7 @@ module BrawoCms
       end
 
       def type_config(type)
-        BrawoCms.taxonomy_types[type.to_sym]
+        BrawoCms.taxonomy_types[type&.to_sym]
       end
 
       private
